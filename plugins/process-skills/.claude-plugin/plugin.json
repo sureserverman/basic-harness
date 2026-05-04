@@ -1,0 +1,11 @@
+{
+  "name": "process-skills",
+  "version": "0.1.0",
+  "description": "Domain-agnostic process discipline for Claude Code: brainstorming, planning, execution, and evidence-first investigation. Useful for research, writing, project management, analysis — not just coding.",
+  "author": {
+    "name": "basic-harness",
+    "url": "https://github.com/"
+  },
+  "keywords": ["process", "planning", "brainstorming", "investigation", "execution", "research", "writing", "project-management"],
+  "license": "MIT"
+}

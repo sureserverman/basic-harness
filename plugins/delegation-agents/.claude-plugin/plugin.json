@@ -1,0 +1,11 @@
+{
+  "name": "delegation-agents",
+  "version": "0.1.0",
+  "description": "Three model-pinned worker subagents and a dispatching skill that lets a parent session on Opus offload bulk reading, document editing, and document drafting to cheaper, faster models. Domain-agnostic — works for research, writing, project management, analysis, not just coding.",
+  "author": {
+    "name": "basic-harness",
+    "url": "https://github.com/"
+  },
+  "keywords": ["delegation", "subagents", "haiku", "sonnet", "parallel", "dispatch", "non-coding"],
+  "license": "MIT"
+}
