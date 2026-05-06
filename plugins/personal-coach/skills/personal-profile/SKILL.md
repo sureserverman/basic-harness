@@ -171,6 +171,17 @@ Wrong reaction: silently writing a "the user seems stressed about co-founder" en
 
 Right reaction: do not add a Health or Conditions section to the profile. Reflect back what the user said as a self-described observation, and only add to **Sensitivities** if the user explicitly asks ("write that down"). Diagnostic labels are not profile-grade facts.
 
+## In Cowork (connector-aware enrichment)
+
+When this skill runs in Claude Cowork and the user has granted connectors, it can enrich profile capture without changing the core flow. Connectors are **optional** — never gate the skill on them.
+
+- **Google Calendar** — when the user mentions "I have a meeting with X tomorrow", verify the stakeholder's name against actual calendar events before adding to the **Stakeholders** section. Surfaces typos and disambiguates between people of the same first name.
+- **Gmail** — when the user references a recurring correspondent, the skill may consult inbox metadata (sender, frequency) to suggest a Stakeholders entry. Always confirm with the user before writing — Gmail content does not flow into the profile silently.
+- **Google Drive / Notion** — `Artifacts` section can link to canonical doc URLs the user names. Never index Drive at large; only the specific docs the user calls out.
+- **Slack** — out of scope for personal-profile. The profile is a long-lived document; Slack data ages out and would create false claims about the user.
+
+In Code (no connectors), all of the above happen via the user typing the answer. The output file is identical either way.
+
 ## Sources and rationale
 
 - **Confirm-before-write** — basic version-control discipline; analogous to `git add -p` over `git add .`. Prevents silent drift.

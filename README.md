@@ -159,22 +159,33 @@ The vault is most useful here for cross-engagement memory — patterns, gotchas,
 
 ### Personal user / fintech operator
 
-You're using Claude as a personal companion: you want it to remember who you are across sessions, help you reflect, spar on hard business calls, and flag fintech regulatory questions before they bite.
+You're using Claude as a personal companion: you want it to remember who you are across sessions, help you reflect, spar on hard business calls, flag fintech regulatory questions before they bite, and have a personalized news digest land every morning.
 
 ```text
 1. /vault-librarian:bootstrap-vault            → (optional but recommended) pick "personal" schema (D); vault at ~/dev/personal
 2. /plugin install personal-coach@basic-harness
 3. (first run) personal-profile                → bootstrap your profile in 4 questions; extends in real conversation, not a long form
-4. morning-briefing                            → daily five-field standup with yourself; surfaces decisions due for grading
-5. reflection-session                          → structured CBT-style journaling on whatever's stuck; safety-gated
-6. business-mentoring                          → frame a hard decision; pick a framework; record it for 90-day grading
-7. fintech-legal-triage                        → issue-list for any fintech feature/contract/partner change before counsel call
-8. (subagent) psychologist-listener            → reflective-listening-only worker; called automatically when reflection-session needs the listening seat
-9. (subagent) business-mentor                  → strategic-decision worker; called automatically when business-mentoring needs deep analysis
-10. (subagent) fintech-legal-analyst           → Opus-tier regulatory issue-spotter; called automatically when fintech-legal-triage hits the cell-matching phase
+4. news-preferences                            → set topics, sources, exclusions, language, format, cadence; the digest substrate
+5. /personal-coach:setup-morning-briefing      → wire daily briefing into Cowork's Scheduled Tasks (or cron in Code); optionally bundle news-digest
+6. /personal-coach:setup-news-digest           → wire the daily news digest separately, if not bundled with briefing
+7. /personal-coach:setup-decision-grading      → wire the weekly grading scan
+8. morning-briefing                            → daily five-field standup with yourself; surfaces decisions due for grading
+9. reflection-session                          → structured CBT-style journaling on whatever's stuck; safety-gated
+10. business-mentoring                         → frame a hard decision; pick a framework; record it for 90-day grading
+11. fintech-legal-triage                       → issue-list for any fintech feature/contract/partner change before counsel call
+12. news-digest                                → run the digest manually whenever, or let scheduled tasks fire it
+13. (subagent) psychologist-listener           → reflective-listening-only worker; called automatically when reflection-session needs the listening seat
+14. (subagent) business-mentor                 → strategic-decision worker; called automatically when business-mentoring needs deep analysis
+15. (subagent) fintech-legal-analyst           → Opus-tier regulatory issue-spotter; called automatically when fintech-legal-triage hits the cell-matching phase
 ```
 
-Without the vault, profile / journal / decisions / legal logs all live under `~/.claude/` instead — same skills, same flow, just less queryable later. **None of this leaves your machine.** Profile content is local-only and never enters commit messages, PR bodies, or external messages.
+Without the vault, profile / journal / decisions / legal logs / news digests all live under `~/.claude/` instead — same skills, same flow, just less queryable later. **None of this leaves your machine** — except where you explicitly enable Cowork Routines, which run in Anthropic's cloud (see `plugins/personal-coach/routines/README.md` for the privacy tradeoffs). Profile and reflection content are never routinable by design.
+
+In Cowork specifically, the personal-coach plugin gains:
+
+- **Calendar / Gmail / Drive / DocuSign connectors** that enrich the existing skills — never required, never silent. Each skill's `## In Cowork (connector-aware enrichment)` section documents the specifics.
+- **Scheduled Tasks** for the morning-briefing / news-digest / decision-grading rhythms, wired up by the three setup commands above.
+- **Routines** (cloud, optional) for the same rhythms when you want them to fire with the laptop closed — privacy-tradeoff documented per template.
 
 ## How the pieces connect
 

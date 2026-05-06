@@ -86,6 +86,20 @@ That's it. Don't extend the briefing into a full planning session — that's `bu
 - **Do not produce a generated to-do list.** The skill writes the entry, not the day.
 - **Honor "skip the briefing today".** Some days the user shouldn't be briefed — they should be left alone. The skill is for when it helps, not as a duty.
 
+## In Cowork (connector-aware enrichment)
+
+Morning-briefing is the skill most worth running as a **Scheduled Task** in Cowork — its whole reason for existing is daily cadence. Use the `/personal-coach:setup-morning-briefing` command to wire it up.
+
+When connectors are granted:
+
+- **Google Calendar** — Phase 2 field 3 ("the blocker most likely to derail #2") gains a real input: the meetings on today's calendar. The skill surfaces the most disruptive one rather than asking the user to remember.
+- **Gmail** — the skill may surface 1–3 unread threads marked urgent (starred, important-tagged, from a small allowlist of senders the user names). Strict cap: never more than three; never paste the email body into the briefing.
+- **News digest pairing** — if `news-digest` has fired earlier the same morning, surface the link to today's digest at the top of the briefing for context. Do not duplicate the digest content into the briefing.
+
+If running as a Scheduled Task without an interactive user:
+
+- The skill writes the briefing entry with whatever it can ground (calendar, news-digest path, decisions due) and leaves Phase 2 fields 1–5 as **prompts** rather than answered fields. The user fills them in when they sit down at their desk. The scheduled task produces the scaffold, not the content.
+
 ## Sources and rationale
 
 - **One-outcome forcing function** — Greg McKeown, *Essentialism* (2014), and the journalism "lede" discipline.

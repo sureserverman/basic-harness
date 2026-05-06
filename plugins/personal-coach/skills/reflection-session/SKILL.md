@@ -193,6 +193,16 @@ If "no", say so explicitly: "Not saved. The reflection still happened — that's
 - Not a venting session that ends in "you're so right, that person was awful." The skill is structured precisely because unstructured venting strengthens the loop instead of dissolving it (Bushman 2002 on catharsis as counterproductive).
 - Not a productivity hack. It does not promise to make the user "feel better." Sometimes the reflection clarifies that the situation is actually bad and the action is to address it. That's a successful session.
 
+## In Cowork (connector-aware enrichment)
+
+This skill is **deliberately offline-leaning**. Reflection content is the most sensitive material in the plugin; connectors create exfiltration surfaces.
+
+- **Calendar / Gmail / Slack / Drive** — explicitly **not consulted** during a reflection session, even if granted. The skill operates only on what the user types in this session and the user's own profile sensitivities.
+- **Routines (cloud)** — do **not** run reflection-session as a Cowork Routine. Routines execute in Anthropic's cloud; reflection content should not leave the local machine. This is enforced by convention in the routine templates shipped with the plugin (none target this skill).
+- **Scheduled Tasks (desktop)** — acceptable, but only if the user explicitly opts in. The `/personal-coach:setup-morning-briefing` command does not chain reflection-session for this reason.
+
+If the user asks why connectors aren't being consulted here, the answer is: privacy posture. Reflection is for the user, not for the assistant's situational awareness.
+
 ## Sources and rationale
 
 - **CBT thought record** — Aaron T. Beck, *Cognitive Therapy of Depression* (Guilford, 1979); Judith Beck, *Cognitive Behavior Therapy: Basics and Beyond* (3rd ed., Guilford, 2020).

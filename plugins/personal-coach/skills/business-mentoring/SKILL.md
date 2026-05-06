@@ -214,6 +214,19 @@ Calibration over time is the only durable benefit of writing decisions down. The
 - Not a database of best practices. The frameworks are tools, not answers.
 - Not a substitute for talking to people who've done the thing. Always ask the user: "Who's the closest person you know who's faced this before, and have you talked to them?"
 
+## In Cowork (connector-aware enrichment)
+
+Connectors materially improve framing quality because they replace user-typed claims with grounded data.
+
+- **Google Drive / Notion** — read the OKR doc, strategy memo, board deck, or pitch deck the user names. Quote it back so the framework works against actual numbers, not remembered numbers.
+- **Google Calendar** — when the decision touches meetings ("we're presenting this to the board on the 15th"), the skill can verify dates and identify scheduling conflicts that would change the deadline field in the journal entry.
+- **Gmail** — for partnership / customer / hiring decisions, the skill can ask whether to read the relevant email thread before opening the framework. Read-only and on user request — no inbox sweeps.
+- **Slack** — generally not useful for this skill; team chat is too noisy to ground a strategic decision against.
+
+Connectors do **not** change the framework choice or the journal-entry structure — those remain canonical. They only improve the inputs.
+
+In a cloud Routine: the **decision-grading** Routine (`routines/decision-grading-routine.md`) checks the Decisions/ folder weekly for files past `deadline` and surfaces them. That Routine does need read access to the local Decisions/ folder, which the user grants via Cowork's folder-permission flow.
+
 ## Sources and rationale
 
 - **Decision journals + prior-lean recording** — Annie Duke, *Thinking in Bets* (2018); Daniel Kahneman, *Thinking, Fast and Slow* (2011), Ch. 22-24 on planning fallacy and outside view.

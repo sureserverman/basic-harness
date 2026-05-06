@@ -208,6 +208,20 @@ Do not omit this block to be terse. Do not soften it. The block is the skill's s
 - Not a compliance management system. It does not track obligations over time, schedule renewals, or replace a GRC tool.
 - Not a sanctions screening tool. It can flag that screening is required; it does not perform it.
 
+## In Cowork (connector-aware enrichment)
+
+This is the skill that benefits most from Cowork's document-handling surface. A contract or T&Cs doc is a much better triage input than a verbal summary.
+
+- **Google Drive** — read the contract / T&Cs / partnership agreement / data processing agreement directly from Drive when the user names the file. The skill then walks the issue checklist against the actual clauses, not against a description of them. Confidence values rise accordingly.
+- **DocuSign** — if a contract is in flight, read the template / latest version. Surface the issue list **before** signing, not after.
+- **PDF / file uploads** — Cowork accepts PDF uploads natively. The user can drag a regulator's guidance PDF into the chat and the skill will cite specific paragraphs in the issue list.
+- **Web** — `WebFetch` works in both Code and Cowork. Useful for reading current text of named regulations (e.g., the latest consolidated MiCA text on EUR-Lex). Always cite the URL the user can verify.
+- **Gmail** — generally avoid. Lawyer–client correspondence in inbox is privileged and should not be consulted as routine context.
+
+The take-to-counsel block at the end is **non-negotiable regardless of how grounded the analysis is**. Reading the actual contract makes the issues higher-confidence; it does not turn the assistant into a lawyer.
+
+In a cloud Routine: a `legal-triage-on-drive-update.md` Routine watches a designated Drive folder; when a new contract lands, it produces the issue list automatically and pings the user to review with counsel before signing. **Privacy tradeoff: the document text passes through Anthropic's cloud during Routine execution.** If the contract is highly sensitive, run the triage as a desktop Scheduled Task or interactive session instead.
+
 ## Sources and rationale
 
 - **EU payments framework** — PSD2 (Directive (EU) 2015/2366); EMD2 (Directive 2009/110/EC); EBA Guidelines.
