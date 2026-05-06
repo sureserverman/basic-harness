@@ -74,21 +74,19 @@ Wait for the answer. Branches:
 
 ## Step 3 — The install flow (only if asked)
 
-If the user has not yet installed plugins beyond `welcome`, **and** asks about installation or seems unsure, give the canonical flow:
+If the user has not yet installed plugins beyond `welcome`, **and** asks about installation or seems unsure, give the canonical flow for Cowork:
 
-> ```
-> /plugin marketplace add sureserverman/basic-harness
-> /plugin install <plugin-name>@basic-harness
-> ```
+> 1. Open the [basic-harness releases page](https://github.com/sureserverman/basic-harness/releases) and download the latest release zips for the plugins you want.
+> 2. In Cowork, click **Customize** in the sidebar → **Browse plugins** → **upload custom plugin file** → select the zip.
+> 3. Repeat for each plugin you want.
+> 4. Restart Cowork (`Cmd+Q`, reopen) so skills register.
 >
-> The available plugin names are:
+> Available plugins:
 >
 > - `process-skills` — six process skills.
 > - `delegation-agents` — three subagents + a dispatching skill.
 > - `vault-librarian` — optional, for a Markdown notes vault.
 > - `personal-coach` — personal companion track (assistant / reflection / business mentor / fintech legal triage / news digest).
->
-> Restart Claude Code (`/exit` and reopen) after installing, so the new skills register.
 
 If the user hasn't asked, **don't volunteer this**. Step 3 is on-request.
 

@@ -1,5 +1,5 @@
 ---
-description: One-shot setup for a recurring news-digest scheduled task in Claude Cowork — checks that news-preferences exists (and runs that skill if not), then walks the user through scheduling a daily digest at their preferred time. In Claude Code (no scheduler), prints a shell-cron equivalent.
+description: One-shot setup for a recurring news-digest scheduled task in Claude Cowork — checks that news-preferences exists (and runs that skill if not), then walks the user through scheduling a daily digest at their preferred time.
 ---
 
 # Setup News Digest
@@ -19,13 +19,9 @@ If neither exists, tell the user:
 
 Hand off to `news-preferences`. Do not proceed with scheduling.
 
-If preferences exist, read them — especially the **Cadence** section. The user may have already specified time + days there, in which case Step 2 just confirms.
+If preferences exist, read them — especially the **Cadence** section. The user may have already specified time + days there, in which case Step 1 just confirms.
 
-## Step 1 — Detect host
-
-Cowork → `/schedule`. Code → shell cron. Same logic as `setup-morning-briefing`.
-
-## Step 2 — Confirm cadence
+## Step 1 — Confirm cadence
 
 Read the **Cadence** section of news-preferences. If `Default firing time` and `Days` are set, ask:
 
@@ -38,9 +34,7 @@ If no cadence is set, ask the two questions:
 
 If the answer differs from preferences, ask whether to update the preferences file too — the user may want one cadence here and a different one as the default.
 
-## Step 3a — Cowork path
-
-Present the scheduled-task prompt:
+## Step 2 — Present the scheduled-task prompt
 
 ```text
 Run my news digest for today.
@@ -61,7 +55,7 @@ Run my news digest for today.
 5. Stop. Do not auto-open or notify; I'll read it when I sit down.
 ```
 
-Then tell the user:
+## Step 3 — Walk the user through Cowork's UI
 
 > Cowork → **Scheduled** → **+ New task** → paste prompt → time `<HH:MM>`, days `<answer>` → save.
 >
@@ -69,20 +63,12 @@ Then tell the user:
 >
 > The digest runs even when you're not at the desk; it lands in `News/<date>-digest.md` and you read it whenever.
 
-## Step 3b — Code path
-
-```cron
-<minute> <hour> * * <day-pattern> /usr/local/bin/claude -p "Run the news-digest skill against my saved preferences and save to the standard path" >> ~/.claude/journal/cron.log 2>&1
-```
-
-Tell the user that the Code path uses `WebSearch` / `WebFetch` only — no Gmail or Drive connectors, so newsletter-derived items won't appear unless the digest URLs are listed directly in news-preferences `Preferred sources`.
-
 ## Step 4 — Save the choice
 
 Append to `~/.claude/personal-coach.local.md`:
 
 ```markdown
-- <YYYY-MM-DD> setup-news-digest — host: <Cowork | Code>, time: <HH:MM>, days: <pattern>, connectors: <gmail | drive | none>
+- <YYYY-MM-DD> setup-news-digest — time: <HH:MM>, days: <pattern>, connectors: <gmail | drive | none>
 ```
 
 ## Step 5 — Hand off

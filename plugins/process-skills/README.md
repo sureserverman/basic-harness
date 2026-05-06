@@ -14,10 +14,7 @@ Useful for research, writing, project management, analysis — not just coding.
 
 ## Install
 
-```text
-/plugin marketplace add sureserverman/basic-harness
-/plugin install process-skills@basic-harness
-```
+See the [top-level basic-harness README](../../README.md#install) for the canonical install flow (Cowork → Customize → upload zip from this repo's GitHub releases).
 
 ## Tour
 

@@ -1,8 +1,10 @@
 # basic-harness
 
-Starter scaffolding for Claude Code and Claude Cowork. Process discipline, knowledge management, delegation patterns, and a personal-companion track — all of it works for any kind of structured work, not only coding.
+[![Latest release](https://img.shields.io/github/v/release/sureserverman/basic-harness?label=latest&color=blue)](https://github.com/sureserverman/basic-harness/releases/latest)
 
-**Claude Code or Cowork.** Works on the Claude Code CLI, the desktop app (macOS / Windows), and inside Claude Cowork on the same desktop app. The `personal-coach` plugin in particular fits Cowork especially well — same plugin format, same skills + subagents, but the chat-oriented UX matches reflection / mentoring / legal-triage better than a terminal does. No external infrastructure required.
+Starter scaffolding for **Claude Cowork**. Process discipline, knowledge management, delegation patterns, and a personal-companion track — for any kind of structured work, not only coding.
+
+**Cowork-first.** The plugins target Cowork on macOS / Windows desktop. Distributed as zips attached to GitHub releases, installed via Cowork's Customize → Browse plugins → upload custom plugin file UI. No external infrastructure required.
 
 ## Who it's for
 
@@ -17,40 +19,15 @@ If you write software all day, the parent project [`coder-plugins`](https://gith
 
 ## Install
 
-From any Claude Code session (CLI or desktop):
-
-```text
-/plugin marketplace add sureserverman/basic-harness
-/plugin install welcome@basic-harness
-/plugin install process-skills@basic-harness
-/plugin install delegation-agents@basic-harness
-```
-
-Then run:
-
-```text
-/welcome:tour
-```
-
-The `welcome` plugin is the orientation entry point. Two minutes, read-only, points you at the right specialized tour for your work. **Recommended first command for any new user** — works in any language you write to it in.
-
-If you want the personal-companion side (assistant / mentor / reflection / fintech legal triage / personalized news digest), also install:
-
-```text
-/plugin install personal-coach@basic-harness
-```
-
-Restart Claude Code (or `/exit` and reopen) to register the skills. **That's the minimum viable install** — process discipline + delegation patterns. No vault, no notes, no extra dependencies.
+1. Open the [latest release](https://github.com/sureserverman/basic-harness/releases/latest) on GitHub. Each release attaches one zip per plugin.
+2. Download the zips you want — at minimum `welcome-vX.Y.Z.zip`. For the personal-companion side, also `personal-coach-vX.Y.Z.zip`. For the research / writing / project track, add `process-skills-vX.Y.Z.zip`, `delegation-agents-vX.Y.Z.zip`, and (optionally) `vault-librarian-vX.Y.Z.zip`.
+3. In Cowork: click **Customize** in the sidebar → **Browse plugins** → **upload custom plugin file** → select a zip → repeat for each.
+4. Restart Cowork (`Cmd+Q` and reopen) so the skills register.
+5. In any Cowork chat, ask "show me what you do" — or type `/welcome:tour` — and the orientation flow starts.
 
 ### Optional: notes vault
 
-If you want a local notes vault to ingest sources into and query from inside Claude Code, also install:
-
-```text
-/plugin install vault-librarian@basic-harness
-/plugin marketplace add sureserverman/obsidian-wiki-plugin
-/plugin install obsidian-wiki@obsidian-wiki
-```
+If you want a local Markdown notes vault to ingest sources into and query from inside Cowork, also install `vault-librarian` (zip from this repo's release) **and** the upstream `obsidian-wiki` plugin (zip from [sureserverman/obsidian-wiki-plugin releases](https://github.com/sureserverman/obsidian-wiki-plugin/releases)) — same upload-zip flow.
 
 Then run `/vault-librarian:bootstrap-vault`. The vault is **purely local** — a directory of Markdown files at a path you pick (default `~/dev/knowledge`). No network, no cloud, no account. If you want sync across machines later, layer on Obsidian Sync, Syncthing, iCloud Drive, or whatever you already use — none of it is built into basic-harness.
 
@@ -189,10 +166,10 @@ You're using Claude as a personal companion: you want it to remember who you are
 ```text
 0. /welcome:tour                               → (optional, ~2 min) marketplace map. Helps you confirm personal-coach is the right track.
 1. /vault-librarian:bootstrap-vault            → (optional but recommended) pick "personal" schema (D); vault at ~/dev/personal
-2. /plugin install personal-coach@basic-harness
+2. (install personal-coach zip)                → download from releases, upload via Cowork's Customize → Browse plugins
 3. /personal-coach:onboard                     → ★ start here. Five short phases, ~5 minutes, in your preferred language. Bootstraps profile, produces one tangible artifact, leaves you with a calm map of what's next.
 4. news-preferences                            → (if onboarding didn't set them) topics, sources, exclusions, cadence
-5. /personal-coach:setup-morning-briefing      → wire daily briefing into Cowork's Scheduled Tasks (or cron in Code); optionally bundles news-digest
+5. /personal-coach:setup-morning-briefing      → wire daily briefing into Cowork's Scheduled Tasks; optionally bundles news-digest
 6. /personal-coach:setup-news-digest           → wire the daily news digest separately, if not bundled with briefing
 7. /personal-coach:setup-decision-grading      → wire the weekly grading scan
 8. morning-briefing                            → daily five-field standup with yourself; surfaces decisions due for grading

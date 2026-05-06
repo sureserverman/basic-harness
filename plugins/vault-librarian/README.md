@@ -18,11 +18,7 @@ That blocks Windows desktop users and forces non-coders to copy-paste shell comm
 
 ## Install
 
-```text
-/plugin marketplace add sureserverman/basic-harness
-/plugin install vault-librarian@basic-harness
-/plugin install obsidian-wiki@obsidian-wiki        # the upstream plugin this complements
-```
+See the [top-level basic-harness README](../../README.md#install) for the canonical install flow (Cowork → Customize → upload zip from this repo's GitHub releases). You also need the upstream `obsidian-wiki` plugin — install its zip from the [obsidian-wiki-plugin releases](https://github.com/sureserverman/obsidian-wiki-plugin/releases) the same way.
 
 ## Use
 

@@ -62,7 +62,7 @@ Equivalent of:
 
 ## Step 5 — Optional vault stack (one paragraph)
 
-> If you want a local Markdown notes vault that ingests sources and is queryable from inside Claude Code, run `/vault-librarian:bootstrap-vault`. It picks one of four schemas:
+> If you want a local Markdown notes vault that ingests sources and is queryable from inside Cowork, run `/vault-librarian:bootstrap-vault`. It picks one of four schemas:
 >
 > - **researcher / analyst** — Sources / Findings / Briefs / People / Methods / Questions.
 > - **writer / journalist** — Pieces / Sources / People / Places / Topics / Pitches.

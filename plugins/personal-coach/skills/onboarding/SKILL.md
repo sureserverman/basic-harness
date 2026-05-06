@@ -5,7 +5,7 @@ description: Use to onboard a new user to the personal-coach plugin in a calm, p
 
 # Onboarding
 
-The first five minutes. Designed for someone who has never used `personal-coach` (or maybe never used Claude Code / Cowork in this configuration before), arriving with a vague sense that "this might help me think" but no concrete idea what to do first.
+The first five minutes. Designed for someone who has never used `personal-coach` before, arriving with a vague sense that "this might help me think" but no concrete idea what to do first.
 
 The job of this skill is to deliver one tangible piece of value before minute five, and to leave the user with a clear, calm picture of what's now available — without overwhelming them with the seven other skills, three subagents, four routines, and three setup commands the plugin actually contains.
 
@@ -225,7 +225,7 @@ Only ask if Tracks A, B, or C ran and produced a save. If Track D ran, skip Phas
 
 > Some of this works best on a daily rhythm. Want to set up a morning routine that runs every day? It can include the news digest if you set that up. (yes / not now)
 
-If yes → invoke `/personal-coach:setup-morning-briefing` and let that command handle the cadence question. The setup command knows whether the user is in Cowork or Code and adapts.
+If yes → invoke `/personal-coach:setup-morning-briefing` and let that command handle the cadence question.
 
 If not now → fine. Tell the user the command is `/personal-coach:setup-morning-briefing` whenever they want it.
 

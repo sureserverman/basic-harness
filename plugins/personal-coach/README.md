@@ -11,11 +11,9 @@ This plugin is opinionated about scope. It will refuse to play "diagnose me" or 
 
 ## Install
 
-```text
-/plugin install personal-coach@basic-harness
-```
+See the [top-level basic-harness README](../../README.md#install) for the canonical install flow (Cowork → Customize → upload zip from this repo's GitHub releases).
 
-Pairs especially well with the optional vault stack — see the top-level basic-harness README — because the **personal** vault schema gives Profile/Journal/Goals/Business/Legal/People/Decisions a real home on disk.
+Pairs especially well with the optional vault stack — install `vault-librarian` from the same release page — because the **personal** vault schema gives Profile/Journal/Goals/Business/Legal/People/Decisions a real home on disk.
 
 ## Start here (new users)
 
@@ -42,7 +40,7 @@ All eight skills follow the same shape as `process-skills`: a checklist, phased 
 | `news-preferences` | Capture the user's news interests — topics, sources, exclusions, language, length, style, cadence, open-questions watchlist. The substrate `news-digest` reads from. |
 | `news-digest` | Personalized daily news digest against the saved preferences. Filters strictly, never fabricates, cites every item. Refuses to run without preferences — generic headlines aren't the point. |
 
-Every existing skill also has a **`## In Cowork (connector-aware enrichment)`** section documenting what it gains when Calendar / Gmail / Drive / DocuSign connectors are granted. Connectors are always optional — the skills work the same in Code or in Cowork-without-connectors.
+Every existing skill also has a **`## In Cowork (connector-aware enrichment)`** section documenting what it gains when Calendar / Gmail / Drive / DocuSign connectors are granted. Connectors are always optional — the skills work the same with or without them.
 
 The plugin is **language-agnostic**. Every skill that produces user-facing prompts honors the language preference set during onboarding (or detected from your first message). The reference text in each `SKILL.md` is in English — that's what Claude reads — but your conversation runs in whatever language you write in.
 
@@ -68,7 +66,7 @@ Five commands cover the plugin's onboarding, depth tour, and recurring rhythms:
 | `/personal-coach:setup-decision-grading` | Schedule a weekly scan that surfaces decisions whose 90-day grading deadline has landed. Surfaces only — never auto-grades. |
 | `/personal-coach:setup-news-digest` | Schedule the daily news digest. Gates on `news-preferences` existing first (refuses to schedule a digest with no preferences). |
 
-The setup commands detect whether you're in Cowork (uses `/schedule`) or Code (prints a `crontab -e` snippet) and adapt.
+The setup commands walk you through Cowork's `/schedule` UI (or sidebar → Scheduled → + New task) with a pre-filled prompt.
 
 ## Cowork Routines (cloud-tier automation)
 

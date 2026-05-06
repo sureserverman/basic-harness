@@ -46,18 +46,16 @@ Equivalent of:
 
 ## Step 4 — Setup commands (one paragraph)
 
-> Four slash commands. The first is the entry point you may already know; the other three wire the recurring rhythms into Cowork's Scheduled Tasks (or shell cron in Code):
+> Four slash commands. The first is the entry point you may already know; the other three wire the recurring rhythms into Cowork's Scheduled Tasks:
 >
 > - `/personal-coach:onboard` — start (or resume / re-run) the five-minute onboarding.
 > - `/personal-coach:setup-morning-briefing` — daily briefing rhythm.
 > - `/personal-coach:setup-news-digest` — daily news digest rhythm.
 > - `/personal-coach:setup-decision-grading` — weekly grading scan for past-deadline decisions.
 
-## Step 5 — Cowork Routines (one paragraph, only if user is on Cowork or asks)
+## Step 5 — Cowork Routines (one paragraph)
 
-> If you're on Claude Cowork, four optional Routine templates ship with the plugin (in `routines/`). Routines run in Anthropic's cloud with the laptop closed — useful for the news digest and decision-grading scan. **Reflection and profile edits are deliberately not routinable** because reflection content is the most sensitive material in the plugin and shouldn't transit cloud. Read `routines/README.md` before installing any of them — the privacy posture matters.
-
-Skip this step if the user is on Code only.
+> Four optional Routine templates ship with the plugin (in `routines/`). Routines run in Anthropic's cloud with the laptop closed — useful for the news digest and decision-grading scan. **Reflection and profile edits are deliberately not routinable** because reflection content is the most sensitive material in the plugin and shouldn't transit cloud. Read `routines/README.md` before installing any of them — the privacy posture matters.
 
 ## Step 6 — Where files live
 

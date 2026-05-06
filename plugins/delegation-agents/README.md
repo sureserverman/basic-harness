@@ -18,10 +18,7 @@ Most workflows have phases that are cheaper than their caller needs to be. These
 
 ## Install
 
-```text
-/plugin marketplace add sureserverman/basic-harness
-/plugin install delegation-agents@basic-harness
-```
+See the [top-level basic-harness README](../../README.md#install) for the canonical install flow (Cowork → Customize → upload zip from this repo's GitHub releases).
 
 ## What's inside
 

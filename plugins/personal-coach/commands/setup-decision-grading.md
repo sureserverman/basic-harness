@@ -1,25 +1,19 @@
 ---
-description: One-shot setup for a recurring decision-grading scheduled task in Claude Cowork — every week, surfaces decision-journal entries whose 90-day grading deadline has landed and walks the user through grading them. In Claude Code (no scheduler), prints a shell-cron equivalent.
+description: One-shot setup for a recurring decision-grading scheduled task in Claude Cowork — every week, surfaces decision-journal entries whose 90-day grading deadline has landed and walks the user through grading them.
 ---
 
 # Setup Decision Grading
 
 Wire a weekly check that scans `Decisions/` for entries whose `deadline` has passed and surfaces them for grading. Without grading, the decision journal is a diary; with it, the user actually calibrates over time.
 
-## Step 1 — Detect host
-
-Same logic as `setup-morning-briefing`. Cowork supports `/schedule`; Code uses shell cron.
-
-## Step 2 — Ask the user two questions
+## Step 1 — Ask the user two questions
 
 1. "Which day of the week should the grading check fire? (`monday` is conventional — fresh week, no urgency.)"
 2. "What time? (24-hour, e.g., `09:30`. Pick a slot you'll actually have 5 minutes for.)"
 
 Resolve to user's timezone. If timezone is in their profile, mention it.
 
-## Step 3a — Cowork path
-
-Present the scheduled-task prompt:
+## Step 2 — Present the scheduled-task prompt
 
 ```text
 Run a weekly decision-grading check.
@@ -44,28 +38,18 @@ Run a weekly decision-grading check.
 5. Stop. Do not auto-grade — the call is mine, not the assistant's.
 ```
 
-Then tell the user:
+## Step 3 — Walk the user through Cowork's UI
 
 > Open Cowork → **Scheduled** in sidebar → **+ New task** → paste the prompt → set time `<HH:MM>` on `<day>` → save.
 >
 > Or in any Cowork chat: `/schedule`, paste the prompt, same result.
-
-## Step 3b — Code path
-
-```cron
-<minute> <hour> * * <day-num> /usr/local/bin/claude -p "Scan ~/.claude/decisions and any vault Decisions/ folder for entries with status pending/committed and deadline in the past; print the list" >> ~/.claude/journal/cron.log 2>&1
-```
-
-Day numbers: `1` = Monday, `7` = Sunday. Tell the user this fires the check non-interactively; they'll need to open Code interactively to actually grade.
-
-For Code, recommend pairing the cron entry with a desktop reminder so the user opens Code and runs the grading walk-through manually after the cron fires.
 
 ## Step 4 — Save the choice
 
 Append to `~/.claude/personal-coach.local.md`:
 
 ```markdown
-- <YYYY-MM-DD> setup-decision-grading — host: <Cowork | Code>, day: <day>, time: <HH:MM>
+- <YYYY-MM-DD> setup-decision-grading — day: <day>, time: <HH:MM>
 ```
 
 ## Step 5 — Hand off

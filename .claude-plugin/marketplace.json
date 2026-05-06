@@ -5,8 +5,8 @@
     "email": "holyfiremin@gmail.com"
   },
   "metadata": {
-    "description": "Starter scaffolding for Claude Code and Claude Cowork: process discipline, knowledge management, delegation patterns, and a personal-companion track. Works for any kind of structured work — not just coding.",
-    "version": "0.2.0"
+    "description": "Cowork-first starter scaffolding: process discipline, knowledge management, delegation patterns, and a personal-companion track. Distributed as zips attached to GitHub releases — install via Cowork's Customize → Browse plugins → upload custom plugin file. Works for any kind of structured work, not just coding.",
+    "version": "0.3.0"
   },
   "plugins": [
     {

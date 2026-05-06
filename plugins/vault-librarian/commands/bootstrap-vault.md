@@ -115,10 +115,7 @@ Tell the user:
 >
 > If you haven't installed the upstream plugin yet:
 >
-> ```
-> /plugin marketplace add sureserverman/obsidian-wiki-plugin
-> /plugin install obsidian-wiki@obsidian-wiki
-> ```
+> Download the latest `obsidian-wiki` plugin zip from the [obsidian-wiki-plugin releases page](https://github.com/sureserverman/obsidian-wiki-plugin/releases), then in Cowork: **Customize** → **Browse plugins** → **upload custom plugin file** → select the zip → restart Cowork.
 
 Do not invoke any obsidian-wiki command from here — the user runs them when they're ready.
 
@@ -134,4 +131,4 @@ Do not invoke any obsidian-wiki command from here — the user runs them when th
 - Run shell commands (`mkdir`, `curl`, `cp`) — every file goes through `Write` so the user can audit.
 - Reach the network. All assets ship inside the plugin.
 - Modify an existing vault's schema in place. Use the upstream `vault-schema-maintain` skill for that.
-- Install the upstream `obsidian-wiki` plugin. The user does that with `/plugin install`.
+- Install the upstream `obsidian-wiki` plugin. The user does that by uploading its zip via Cowork's Customize → Browse plugins → upload custom plugin file.

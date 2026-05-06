@@ -6,10 +6,7 @@ This plugin does not bootstrap anything, write anything to disk, or run skills o
 
 ## Install
 
-```text
-/plugin marketplace add sureserverman/basic-harness
-/plugin install welcome@basic-harness
-```
+See the [top-level basic-harness README](../../README.md#install) for the canonical install flow (Cowork → Customize → upload zip from this repo's GitHub releases).
 
 ## How to start the tour
 
