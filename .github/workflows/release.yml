@@ -1,11 +1,14 @@
 name: Release plugins
 
-# Build per-plugin zips and attach them to a GitHub release
-# whenever a tag matching v* is pushed (v0.3.0, v1.0.0, etc.).
+# Build a single all-in-one release zip whenever a tag matching v* is pushed
+# (v0.3.0, v1.0.0, etc.).
 #
-# Each plugin under plugins/* becomes one zip named <plugin>-<version>.zip
-# (e.g., welcome-v0.3.0.zip). Users download the zips they want and upload
-# them via Cowork's Customize → Browse plugins → upload custom plugin file UI.
+# Each plugin under plugins/* is packaged as an inner zip named
+# <plugin>-<version>.zip. All inner zips are then wrapped in one outer zip
+# named basic-harness-<version>.zip, which is the only asset attached to the
+# release. Users download the outer zip once, unzip locally, and upload each
+# inner zip via Cowork's Customize → Browse plugins → upload custom plugin
+# file UI.
 
 on:
   push:
@@ -34,15 +37,15 @@ jobs:
           echo "version=${GITHUB_REF_NAME}" >> "$GITHUB_OUTPUT"
           echo "Building release for ${GITHUB_REF_NAME}"
 
-      - name: Build per-plugin zips
+      - name: Build per-plugin inner zips
         run: |
           set -euo pipefail
-          mkdir -p dist
+          mkdir -p inner
           shopt -s nullglob
           for plugin_dir in plugins/*/; do
             name=$(basename "$plugin_dir")
             zip_name="${name}-${{ steps.version.outputs.version }}.zip"
-            zip_path="$GITHUB_WORKSPACE/dist/${zip_name}"
+            zip_path="$GITHUB_WORKSPACE/inner/${zip_name}"
             echo "Packaging ${name} -> ${zip_name}"
             (
               cd "$plugin_dir"
@@ -51,18 +54,35 @@ jobs:
             )
           done
           echo
-          echo "Built artifacts:"
-          ls -la dist/
+          echo "Inner zips:"
+          ls -la inner/
 
-      - name: Verify at least one zip was built
+      - name: Verify at least one inner zip was built
         run: |
           set -euo pipefail
-          count=$(ls dist/*.zip 2>/dev/null | wc -l)
+          count=$(ls inner/*.zip 2>/dev/null | wc -l)
           if [ "$count" -eq 0 ]; then
             echo "ERROR: No plugin zips were built. Check that plugins/*/ contains at least one plugin." >&2
             exit 1
           fi
           echo "Verified ${count} plugin zip(s) built."
+
+      - name: Wrap inner zips in one outer release zip
+        run: |
+          set -euo pipefail
+          mkdir -p dist
+          outer_name="basic-harness-${{ steps.version.outputs.version }}.zip"
+          outer_path="$GITHUB_WORKSPACE/dist/${outer_name}"
+          (
+            cd inner
+            zip -j "$outer_path" *.zip
+          )
+          echo
+          echo "Outer release artifact:"
+          ls -la dist/
+          echo
+          echo "Contents of ${outer_name}:"
+          unzip -l "$outer_path"
 
       - name: Create GitHub release
         uses: softprops/action-gh-release@v2
@@ -73,10 +93,11 @@ jobs:
           body: |
             **Cowork install:**
 
-            1. Download the zip(s) for the plugins you want from the assets below.
-            2. In Cowork, click **Customize** in the sidebar → **Browse plugins** → **upload custom plugin file** → select the zip.
-            3. Repeat for each plugin.
-            4. Restart Cowork (`Cmd+Q` and reopen) so the skills register.
-            5. Ask "show me what you do" or type `/welcome:tour` to start.
+            1. Download `basic-harness-${{ steps.version.outputs.version }}.zip` from the assets below.
+            2. Unzip it on your machine — you'll get one inner zip per plugin (`welcome-${{ steps.version.outputs.version }}.zip`, `personal-coach-${{ steps.version.outputs.version }}.zip`, etc.).
+            3. In Cowork, click **Customize** in the sidebar → **Browse plugins** → **upload custom plugin file** → select an inner zip.
+            4. Repeat step 3 for each plugin you want. Recommended starter set: `welcome` + `personal-coach`.
+            5. Restart Cowork (`Cmd+Q` and reopen) so the skills register.
+            6. Ask "show me what you do" or type `/welcome:tour` to start.
 
             See the [README](https://github.com/${{ github.repository }}#install) for the full install flow and the four-persona orientation.

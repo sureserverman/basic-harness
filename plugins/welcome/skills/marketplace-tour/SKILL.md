@@ -76,13 +76,14 @@ Wait for the answer. Branches:
 
 If the user has not yet installed plugins beyond `welcome`, **and** asks about installation or seems unsure, give the canonical flow for Cowork:
 
-> 1. Open the [basic-harness releases page](https://github.com/sureserverman/basic-harness/releases) and download the latest release zips for the plugins you want.
-> 2. In Cowork, click **Customize** in the sidebar → **Browse plugins** → **upload custom plugin file** → select the zip.
-> 3. Repeat for each plugin you want.
-> 4. Restart Cowork (`Cmd+Q`, reopen) so skills register.
+> 1. Open the [basic-harness latest release](https://github.com/sureserverman/basic-harness/releases/latest) and download `basic-harness-vX.Y.Z.zip` (one zip per release).
+> 2. Unzip it on your machine. You'll get five inner zips, one per plugin.
+> 3. In Cowork, click **Customize** in the sidebar → **Browse plugins** → **upload custom plugin file** → select an inner zip → repeat for each plugin you want.
+> 4. Restart Cowork (`Cmd+Q`, reopen) so the skills register.
 >
-> Available plugins:
+> Available plugins (the inner zips you'll find):
 >
+> - `welcome` — this orientation plugin (you already have it if you're reading this).
 > - `process-skills` — six process skills.
 > - `delegation-agents` — three subagents + a dispatching skill.
 > - `vault-librarian` — optional, for a Markdown notes vault.

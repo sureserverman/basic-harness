@@ -19,11 +19,13 @@ If you write software all day, the parent project [`coder-plugins`](https://gith
 
 ## Install
 
-1. Open the [latest release](https://github.com/sureserverman/basic-harness/releases/latest) on GitHub. Each release attaches one zip per plugin.
-2. Download the zips you want — at minimum `welcome-vX.Y.Z.zip`. For the personal-companion side, also `personal-coach-vX.Y.Z.zip`. For the research / writing / project track, add `process-skills-vX.Y.Z.zip`, `delegation-agents-vX.Y.Z.zip`, and (optionally) `vault-librarian-vX.Y.Z.zip`.
-3. In Cowork: click **Customize** in the sidebar → **Browse plugins** → **upload custom plugin file** → select a zip → repeat for each.
+1. Open the [latest release](https://github.com/sureserverman/basic-harness/releases/latest) on GitHub. Each release attaches **one** zip — `basic-harness-vX.Y.Z.zip` — which contains one inner zip per plugin.
+2. Download `basic-harness-vX.Y.Z.zip` and unzip it on your machine. You'll get five inner zips: `welcome-vX.Y.Z.zip`, `personal-coach-vX.Y.Z.zip`, `process-skills-vX.Y.Z.zip`, `delegation-agents-vX.Y.Z.zip`, `vault-librarian-vX.Y.Z.zip`.
+3. In Cowork: click **Customize** in the sidebar → **Browse plugins** → **upload custom plugin file** → select an inner zip → repeat for each plugin you want. Recommended starter set: `welcome` + `personal-coach`.
 4. Restart Cowork (`Cmd+Q` and reopen) so the skills register.
 5. In any Cowork chat, ask "show me what you do" — or type `/welcome:tour` — and the orientation flow starts.
+
+The `welcome` plugin is the orientation entry point. Two minutes, read-only, points you at the right specialized tour for your work. **Recommended first install for any new user** — works in any language you write to it in.
 
 ### Optional: notes vault
 
