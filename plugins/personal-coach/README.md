@@ -17,12 +17,23 @@ This plugin is opinionated about scope. It will refuse to play "diagnose me" or 
 
 Pairs especially well with the optional vault stack — see the top-level basic-harness README — because the **personal** vault schema gives Profile/Journal/Goals/Business/Legal/People/Decisions a real home on disk.
 
+## Start here (new users)
+
+After installing, run:
+
+```text
+/personal-coach:onboard
+```
+
+Five short phases, about five minutes total, in whatever language you write to it in (English / Russian / Spanish / German / French / Mandarin / Hindi / Arabic / etc. — the first message tells the skill which to use). You can skip anything, and your place is saved between phases so you can stop and resume later. By the end you'll have a saved profile, one tangible artifact (a reflection, a decision frame, news preferences, or a fintech regulatory cell), and a clear picture of what's available without being shown all of it at once.
+
 ## Skills
 
-All seven skills follow the same shape as `process-skills`: a checklist, phased prompts, a hard handoff at the end, and primary-source citations for the methodology.
+All eight skills follow the same shape as `process-skills`: a checklist, phased prompts, a hard handoff at the end, and primary-source citations for the methodology.
 
 | Skill | Purpose |
 |---|---|
+| `onboarding` | Calm five-minute first-run flow: language detection → profile bootstrap → one tangible artifact → optional automation → wrap-up. Skip-friendly, save-and-resume between phases. Recommended starting point. |
 | `personal-profile` | Build and maintain a persistent profile of the user — values, goals, voice, history, recurring stakeholders. The substrate the other skills read from. |
 | `reflection-session` | Structured journaling and CBT-style reflection. Emotion labelling → thought record → cognitive reframe → committed action. |
 | `business-mentoring` | Frame a strategic decision: pick a framework, work it, write a decision-journal entry that you can grade later. |
@@ -32,6 +43,8 @@ All seven skills follow the same shape as `process-skills`: a checklist, phased 
 | `news-digest` | Personalized daily news digest against the saved preferences. Filters strictly, never fabricates, cites every item. Refuses to run without preferences — generic headlines aren't the point. |
 
 Every existing skill also has a **`## In Cowork (connector-aware enrichment)`** section documenting what it gains when Calendar / Gmail / Drive / DocuSign connectors are granted. Connectors are always optional — the skills work the same in Code or in Cowork-without-connectors.
+
+The plugin is **language-agnostic**. Every skill that produces user-facing prompts honors the language preference set during onboarding (or detected from your first message). The reference text in each `SKILL.md` is in English — that's what Claude reads — but your conversation runs in whatever language you write in.
 
 ## Subagents
 
@@ -45,15 +58,16 @@ Model-pinned worker agents you can dispatch directly when the corresponding skil
 
 ## Slash commands
 
-Three setup commands wire the recurring skills into Cowork's Scheduled Tasks (or shell cron in Code):
+Four commands wire the plugin's recurring rhythms and onboarding flow:
 
 | Command | What it does |
 |---|---|
+| `/personal-coach:onboard` | Start (or resume / re-run) the five-minute onboarding flow. Detects whether you're a first-time, partial, or returning user and routes accordingly. |
 | `/personal-coach:setup-morning-briefing` | Schedule a daily morning briefing. Optionally bundles `news-digest` ahead of the briefing in the same scheduled task. |
 | `/personal-coach:setup-decision-grading` | Schedule a weekly scan that surfaces decisions whose 90-day grading deadline has landed. Surfaces only — never auto-grades. |
 | `/personal-coach:setup-news-digest` | Schedule the daily news digest. Gates on `news-preferences` existing first (refuses to schedule a digest with no preferences). |
 
-Each command detects whether you're in Cowork (uses `/schedule`) or Code (prints a `crontab -e` snippet) and adapts.
+The setup commands detect whether you're in Cowork (uses `/schedule`) or Code (prints a `crontab -e` snippet) and adapt.
 
 ## Cowork Routines (cloud-tier automation)
 

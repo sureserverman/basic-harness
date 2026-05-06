@@ -164,9 +164,9 @@ You're using Claude as a personal companion: you want it to remember who you are
 ```text
 1. /vault-librarian:bootstrap-vault            → (optional but recommended) pick "personal" schema (D); vault at ~/dev/personal
 2. /plugin install personal-coach@basic-harness
-3. (first run) personal-profile                → bootstrap your profile in 4 questions; extends in real conversation, not a long form
-4. news-preferences                            → set topics, sources, exclusions, language, format, cadence; the digest substrate
-5. /personal-coach:setup-morning-briefing      → wire daily briefing into Cowork's Scheduled Tasks (or cron in Code); optionally bundle news-digest
+3. /personal-coach:onboard                     → ★ start here. Five short phases, ~5 minutes, in your preferred language. Bootstraps profile, produces one tangible artifact, leaves you with a calm map of what's next.
+4. news-preferences                            → (if onboarding didn't set them) topics, sources, exclusions, cadence
+5. /personal-coach:setup-morning-briefing      → wire daily briefing into Cowork's Scheduled Tasks (or cron in Code); optionally bundles news-digest
 6. /personal-coach:setup-news-digest           → wire the daily news digest separately, if not bundled with briefing
 7. /personal-coach:setup-decision-grading      → wire the weekly grading scan
 8. morning-briefing                            → daily five-field standup with yourself; surfaces decisions due for grading
@@ -178,6 +178,8 @@ You're using Claude as a personal companion: you want it to remember who you are
 14. (subagent) business-mentor                 → strategic-decision worker; called automatically when business-mentoring needs deep analysis
 15. (subagent) fintech-legal-analyst           → Opus-tier regulatory issue-spotter; called automatically when fintech-legal-triage hits the cell-matching phase
 ```
+
+The onboarding flow is **language-aware**: write to it in Russian / English / Spanish / German / French / Mandarin / Hindi / Arabic / etc. and the entire flow runs in that language. The plugin's reference text is in English (read by Claude); the user-facing conversation is yours.
 
 Without the vault, profile / journal / decisions / legal logs / news digests all live under `~/.claude/` instead — same skills, same flow, just less queryable later. **None of this leaves your machine** — except where you explicitly enable Cowork Routines, which run in Anthropic's cloud (see `plugins/personal-coach/routines/README.md` for the privacy tradeoffs). Profile and reflection content are never routinable by design.
 
