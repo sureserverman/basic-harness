@@ -28,14 +28,17 @@ Ask the user (multiple choice, one question):
 > **B — writer / journalist.** Categories: `Pieces/`, `Sources/`, `People/`, `Places/`, `Topics/`, `Pitches/`. Frontmatter includes `status` (draft / filed / published), `outlet`, `embargo`. For long-form work with sources you'll come back to.
 >
 > **C — generic.** Categories: `Architecture/`, `Patterns/`, `Gotchas/`, `Platforms/`, `Projects/`, `Technologies/`. The upstream default. For mixed-purpose knowledge management.
+>
+> **D — personal companion.** Categories: `Profile/`, `Journal/`, `Goals/`, `Business/`, `Decisions/`, `Legal/`, `People/`, `Reading/`. The substrate the `personal-coach` plugin reads from. For a long-running personal use of Claude as assistant / mentor / reflective listener / fintech legal-issue spotter.
 
-Persona maps to one of the three template files in `${CLAUDE_PLUGIN_ROOT}/assets/`:
+Persona maps to one of the four template files in `${CLAUDE_PLUGIN_ROOT}/assets/`:
 
 - A → `vault-CLAUDE-researcher.md`
 - B → `vault-CLAUDE-writer.md`
 - C → `vault-CLAUDE-generic.md`
+- D → `vault-CLAUDE-personal.md`
 
-If the user picks something else (e.g. "a hybrid"), recommend C as the starting point and tell them the schema is editable in place — they can switch later via the upstream `vault-schema-maintain` skill.
+If the user picks something else (e.g. "a hybrid"), recommend C as the starting point and tell them the schema is editable in place — they can switch later via the upstream `vault-schema-maintain` skill. If the user is installing `personal-coach` from `basic-harness`, recommend D — the personal schema is purpose-built for that plugin's skills.
 
 ## Step 2 — Vault location
 
