@@ -252,6 +252,18 @@ Three things you can try next, whenever you want:
   2. <Track-specific suggestion based on which Track they ran>.
   3. Say "show me what else is here" and I'll list everything.
 
+If you want a wider map: this plugin (`personal-coach`) is part of `basic-harness`,
+which also includes `process-skills` (brainstorm/plan/execute discipline),
+`delegation-agents` (parallel workers), and `vault-librarian` (notes vault).
+For a calm two-minute tour:
+
+  • `/personal-coach:tour` — depth tour of this plugin
+  • `/welcome:tour` — the marketplace-wide map (points at the right tour for what
+    you're doing)
+  • `/process-skills:tour` — the research / writing / project track
+
+No need to look at any of these now — they're just here when you're curious.
+
 We can stop here. Whenever you come back, just start talking — I'll have all of this loaded.
 ```
 

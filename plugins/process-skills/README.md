@@ -19,6 +19,16 @@ Useful for research, writing, project management, analysis — not just coding.
 /plugin install process-skills@basic-harness
 ```
 
+## Tour
+
+For a calm two-minute read-only walkthrough of this plugin together with `delegation-agents` and `vault-librarian` — the brainstorm-plan-execute pipeline, the parallel-worker model, and the optional vault stack — run:
+
+```text
+/process-skills:tour
+```
+
+For the marketplace-wide map (where this plugin sits in `basic-harness` overall), run `/welcome:tour` from the `welcome` plugin.
+
 ## Skills
 
 | Skill | When it fires | Hands off to |

@@ -1,0 +1,11 @@
+{
+  "name": "welcome",
+  "version": "0.1.0",
+  "description": "Top-level orientation for the basic-harness marketplace: explains what's here in two minutes, points to the right plugin for your work, and points at the per-plugin tours for depth. No real work happens here — it's a friendly map, not a tutorial.",
+  "author": {
+    "name": "basic-harness",
+    "url": "https://github.com/"
+  },
+  "keywords": ["welcome", "onboarding", "tour", "marketplace", "orientation"],
+  "license": "MIT"
+}

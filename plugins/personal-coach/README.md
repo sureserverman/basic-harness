@@ -58,11 +58,12 @@ Model-pinned worker agents you can dispatch directly when the corresponding skil
 
 ## Slash commands
 
-Four commands wire the plugin's recurring rhythms and onboarding flow:
+Five commands cover the plugin's onboarding, depth tour, and recurring rhythms:
 
 | Command | What it does |
 |---|---|
 | `/personal-coach:onboard` | Start (or resume / re-run) the five-minute onboarding flow. Detects whether you're a first-time, partial, or returning user and routes accordingly. |
+| `/personal-coach:tour` | Two-minute read-only walkthrough of the personal-coach ecosystem — skills, subagents, setup commands, routines, hard limits. For when you want the wider map without bootstrapping anything. |
 | `/personal-coach:setup-morning-briefing` | Schedule a daily morning briefing. Optionally bundles `news-digest` ahead of the briefing in the same scheduled task. |
 | `/personal-coach:setup-decision-grading` | Schedule a weekly scan that surfaces decisions whose 90-day grading deadline has landed. Surfaces only — never auto-grades. |
 | `/personal-coach:setup-news-digest` | Schedule the daily news digest. Gates on `news-preferences` existing first (refuses to schedule a digest with no preferences). |

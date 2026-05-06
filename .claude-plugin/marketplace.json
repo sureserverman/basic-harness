@@ -5,15 +5,24 @@
     "email": "holyfiremin@gmail.com"
   },
   "metadata": {
-    "description": "Starter scaffolding for Claude Code: process discipline, knowledge management, and delegation patterns that work for any kind of structured work — not just coding. Claude Code only (CLI + desktop app).",
-    "version": "0.1.0"
+    "description": "Starter scaffolding for Claude Code and Claude Cowork: process discipline, knowledge management, delegation patterns, and a personal-companion track. Works for any kind of structured work — not just coding.",
+    "version": "0.2.0"
   },
   "plugins": [
     {
+      "name": "welcome",
+      "source": "./plugins/welcome",
+      "description": "Top-level marketplace orientation. One slash command (/welcome:tour) that explains in two minutes what basic-harness is, the four personas it's built for, the install flow, and points at the two specialized tours (/personal-coach:tour and /process-skills:tour). Read-only — writes nothing, invokes nothing. Recommended first install for new users.",
+      "version": "0.1.0",
+      "category": "onboarding",
+      "tags": ["welcome", "onboarding", "tour", "orientation", "marketplace"],
+      "strict": false
+    },
+    {
       "name": "process-skills",
       "source": "./plugins/process-skills",
-      "description": "Six domain-agnostic process skills: brainstorming (idea → validated design), planning-projects (staged plan with gates), executing-plans (drive a plan to done with evidence-of-done), evidence-first-investigation (figure out why before proposing what), review-document (holistic 30-second-rule review), peer-review-deliverable (review what's new against a baseline).",
-      "version": "0.1.0",
+      "description": "Six domain-agnostic process skills: brainstorming (idea → validated design), planning-projects (staged plan with gates), executing-plans (drive a plan to done with evidence-of-done), evidence-first-investigation (figure out why before proposing what), review-document (holistic 30-second-rule review), peer-review-deliverable (review what's new against a baseline). Plus /process-skills:tour for the read-only walkthrough.",
+      "version": "0.2.0",
       "category": "process",
       "tags": ["process", "planning", "brainstorming", "investigation", "execution", "non-coding"],
       "strict": false
@@ -21,10 +30,10 @@
     {
       "name": "vault-librarian",
       "source": "./plugins/vault-librarian",
-      "description": "Companion to the upstream obsidian-wiki plugin. One cross-platform slash command (/vault-librarian:bootstrap-vault) that sets up a Markdown notes vault from inside Claude Code, with persona-tuned schema templates for researchers, writers, and generalists. No shell snippets — works on Claude Code Desktop on macOS and Windows.",
-      "version": "0.1.0",
+      "description": "Companion to the upstream obsidian-wiki plugin. One cross-platform slash command (/vault-librarian:bootstrap-vault) that sets up a Markdown notes vault from inside Claude Code, with persona-tuned schema templates for researchers, writers, generalists, and personal users. No shell snippets — works on Claude Code Desktop and Claude Cowork on macOS and Windows.",
+      "version": "0.2.0",
       "category": "knowledge-management",
-      "tags": ["obsidian", "vault", "notes", "bootstrap", "research", "writing", "knowledge-management"],
+      "tags": ["obsidian", "vault", "notes", "bootstrap", "research", "writing", "personal", "knowledge-management"],
       "strict": false
     },
     {
@@ -34,6 +43,15 @@
       "version": "0.1.0",
       "category": "infrastructure",
       "tags": ["delegation", "subagents", "haiku", "sonnet", "parallel", "dispatch", "non-coding"],
+      "strict": false
+    },
+    {
+      "name": "personal-coach",
+      "source": "./plugins/personal-coach",
+      "description": "Personal-use companion. Eight skills + three model-pinned subagents + four slash commands + four Cowork Routine templates. Roles: personal assistant with a persistent profile, reflective listener for journaling and CBT-style reframing (not therapy), business mentor with decision-journal grading, fintech legal-issue spotter for KYC/AML/PSD2/MiCA/GDPR (not legal advice), plus a personalized daily news digest tailored to user-defined topics. Multilingual — runs in whatever language you write in. Hard limits enforced everywhere: no medical/psychological diagnosis, no legal advice, no silent profile edits, no surrogate decisions, nothing leaves the machine unless you explicitly enable a Cowork Routine.",
+      "version": "0.1.0",
+      "category": "personal",
+      "tags": ["personal-assistant", "coaching", "reflection", "journaling", "business-mentor", "fintech", "legal-triage", "decision-journal", "news-digest", "multilingual", "cowork"],
       "strict": false
     }
   ]

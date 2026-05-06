@@ -21,11 +21,20 @@ From any Claude Code session (CLI or desktop):
 
 ```text
 /plugin marketplace add sureserverman/basic-harness
+/plugin install welcome@basic-harness
 /plugin install process-skills@basic-harness
 /plugin install delegation-agents@basic-harness
 ```
 
-If you want the personal-companion side (assistant / mentor / reflection / fintech legal triage), also install:
+Then run:
+
+```text
+/welcome:tour
+```
+
+The `welcome` plugin is the orientation entry point. Two minutes, read-only, points you at the right specialized tour for your work. **Recommended first command for any new user** — works in any language you write to it in.
+
+If you want the personal-companion side (assistant / mentor / reflection / fintech legal triage / personalized news digest), also install:
 
 ```text
 /plugin install personal-coach@basic-harness
@@ -47,7 +56,23 @@ Then run `/vault-librarian:bootstrap-vault`. The vault is **purely local** — a
 
 If you don't want a notes vault at all, skip this section. Everything else still works.
 
+## Tours
+
+Three calm read-only tour commands. None write to disk; none invoke other skills.
+
+| Command | Length | What it covers |
+|---|---|---|
+| `/welcome:tour` | ~2 min | The marketplace map. What basic-harness is, the four personas, the install flow. Points at the right specialized tour. |
+| `/personal-coach:tour` | ~2 min | The personal-companion track in depth. Skills, subagents, setup commands, Cowork routines, where files live, hard limits. |
+| `/process-skills:tour` | ~2 min | The research / writing / project track in depth. The brainstorm-plan-execute pipeline, delegation agents, optional vault stack. |
+
+All three run in whatever language you write to them in. None of them push a follow-up tour without your explicit "yes". You can stop after the marketplace map and dive in, or read both specialized tours, or skip the tours entirely if you already know what you want.
+
 ## What's inside
+
+### `welcome` plugin
+
+The marketplace orientation. One read-only slash command, `/welcome:tour`, which gives a calm two-minute map of basic-harness and points at the right specialized tour for your work. Doesn't bootstrap anything, doesn't invoke skills. Recommended first install for any new user.
 
 ### `process-skills` plugin
 
@@ -162,6 +187,7 @@ The vault is most useful here for cross-engagement memory — patterns, gotchas,
 You're using Claude as a personal companion: you want it to remember who you are across sessions, help you reflect, spar on hard business calls, flag fintech regulatory questions before they bite, and have a personalized news digest land every morning.
 
 ```text
+0. /welcome:tour                               → (optional, ~2 min) marketplace map. Helps you confirm personal-coach is the right track.
 1. /vault-librarian:bootstrap-vault            → (optional but recommended) pick "personal" schema (D); vault at ~/dev/personal
 2. /plugin install personal-coach@basic-harness
 3. /personal-coach:onboard                     → ★ start here. Five short phases, ~5 minutes, in your preferred language. Bootstraps profile, produces one tangible artifact, leaves you with a calm map of what's next.
