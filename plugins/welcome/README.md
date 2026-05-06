@@ -1,6 +1,6 @@
 # welcome
 
-The orientation plugin. One slash command, `/welcome:tour`, which gives a calm two-minute map of the basic-harness marketplace and points you at the right specialized tour for your work.
+The orientation plugin. One skill plus one slash command, both pointing to the same calm two-minute map of the basic-harness marketplace.
 
 This plugin does not bootstrap anything, write anything to disk, or run skills on your behalf. It's a map — read once, then move on to the plugin you actually want.
 
@@ -11,17 +11,20 @@ This plugin does not bootstrap anything, write anything to disk, or run skills o
 /plugin install welcome@basic-harness
 ```
 
-Then run:
+## How to start the tour
 
-```text
-/welcome:tour
-```
+**Three equivalent entry points** — all hit the same `marketplace-tour` skill:
+
+1. **Natural language, in any language** — "show me what you do", "what can you do", "what is this", "introduce yourself", "что ты умеешь", "qué haces", "was kannst du", "qu'est-ce que tu fais", "你能做什么". The skill auto-fires.
+2. **Slash command** — `/welcome:tour`. Explicit and stable.
+3. **Phrasing the persona question directly** — "I'm a researcher / writer / project lead / personal user, where do I start?". The skill picks up and routes you to the relevant specialized tour.
 
 ## What's inside
 
-| Command | What it does |
+| Component | What it does |
 |---|---|
-| `/welcome:tour` | Two-minute marketplace map. What basic-harness is, the four personas, the install flow, and pointers to `/personal-coach:tour` (personal companion track) and `/process-skills:tour` (research / writing / project-management track). |
+| `marketplace-tour` skill | Two-minute marketplace map. Auto-fires on natural-language questions ("show me what you do" and equivalents in any language). Same flow as the slash command. |
+| `/welcome:tour` slash command | Thin wrapper around the same skill. Use when you want to invoke the tour explicitly without phrasing a question. |
 
 ## When to use it
 
