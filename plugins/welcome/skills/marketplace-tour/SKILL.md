@@ -1,6 +1,6 @@
 ---
 name: marketplace-tour
-description: Use to give a calm two-minute read-only map of the basic-harness marketplace — what it is, the four personas it's built for, the install flow, and pointers to the two specialized tours. Triggers on natural-language phrasings the user might use without knowing any specific command, in any language. Examples (use these as trigger semantics, not literal matching) — English "show me what you do", "what can you do", "what is this", "what's around", "what's available", "introduce yourself", "show me around", "give me a tour", "where do I start", "how do I use this", "what's basic-harness". Russian "что ты умеешь", "что ты можешь делать", "покажи что у тебя есть", "проведи экскурсию", "что это вообще", "с чего начать", "расскажи о себе". Spanish "qué haces", "qué puedes hacer", "muéstrame qué tienes", "preséntate", "por dónde empiezo". German "was kannst du", "zeig mir was du machst", "stell dich vor". French "qu'est-ce que tu fais", "montre-moi", "présente-toi", "par où commencer". Mandarin "你能做什么", "介绍一下". Hindi "तुम क्या कर सकते हो". Arabic "ماذا تستطيع أن تفعل". Read-only — never writes files, never invokes other skills, never auto-chains into a specialized tour without explicit user "yes". Same skill fires from /welcome:tour.
+description: Use to give a calm two-minute read-only map of the basic-harness marketplace — what it is, the four personas it's built for, the install flow, pointers to the two specialized tours. Triggers on first-time-user-style natural language in any language — "show me what you do", "what can you do", "what is this", "introduce yourself", "give me a tour", "where do I start", "что ты умеешь", "с чего начать", "qué haces", "preséntate", "was kannst du", "qu'est-ce que tu fais", and equivalents in any language not listed. Treat these as trigger semantics, not literal matching — the full trigger list is in the body. Read-only; never writes files; never auto-chains into a specialized tour without explicit user "yes". Same skill fires when the user types /welcome:tour.
 ---
 
 # Marketplace Tour
@@ -16,6 +16,23 @@ This is the marketplace-level orientation, not a plugin-specific one. If the use
 <HARD-GATE>
 This skill never auto-chains into a specialized tour. After Step 2 the user picks a persona, and you offer the relevant specialized tour — but invocation happens only on explicit "yes". A skill that auto-runs another skill at the end of itself is the antipattern this hard-gate exists to prevent.
 </HARD-GATE>
+
+## Triggers (full list, for language detection)
+
+The skill fires on first-time-user-style questions in any language. Below is a non-exhaustive list — Claude generalizes to phrasings not on it. Use these as **trigger semantics**, not literal matching.
+
+| Language | Phrases |
+|---|---|
+| English | show me what you do · what can you do · what do you do · what is this · what's around · what's available · introduce yourself · show me around · give me a tour · where do I start · how do I use this · what's basic-harness |
+| Russian | что ты умеешь · что ты можешь делать · покажи что у тебя есть · проведи экскурсию · что это вообще · с чего начать · расскажи о себе |
+| Spanish | qué haces · qué puedes hacer · muéstrame qué tienes · preséntate · por dónde empiezo |
+| German | was kannst du · zeig mir was du machst · stell dich vor |
+| French | qu'est-ce que tu fais · montre-moi · présente-toi · par où commencer |
+| Mandarin | 你能做什么 · 介绍一下 |
+| Hindi | तुम क्या कर सकते हो |
+| Arabic | ماذا تستطيع أن تفعل |
+
+If the user writes in a language not on this list, the skill still fires — the description's trigger semantics are language-agnostic for "first-time-user orientation question". Run the flow in whatever language the user wrote in.
 
 ## Step 0 — Detect language
 
