@@ -1,6 +1,6 @@
 ---
 name: business-mentoring
-description: Use to think through a business decision before you commit — pricing, hiring, fundraising, market entry, partner choice, layoffs, pivots, fintech-product scope. Picks an appropriate framework (OKR, Jobs-to-be-Done, Cynefin, 2x2, ICE/RICE, decision journal), works the framework with the user one step at a time, surfaces premises and pre-mortems, and writes a decision-journal entry that can be graded later. Triggers on "should I", "help me think through", "I'm trying to decide", "we're considering", "how do I prioritize", "how should I approach this hire / round / launch", "give me a strategy framework". Does not make the decision for the user — sharpens the call.
+description: Use to think through a business decision before committing — pricing, hiring, fundraising, market entry, partner choice, layoffs, pivots, fintech-product scope. Picks a framework (OKR, JTBD, Cynefin, 2x2, ICE/RICE, decision journal), works it one step at a time, surfaces premises and pre-mortems, and writes a decision-journal entry that can be graded later. Triggers on "should I", "help me think through", "I'm trying to decide", "we're considering", "how do I prioritize", "give me a strategy framework". Sharpens the call; does not make it.
 ---
 
 # Business Mentoring
@@ -225,7 +225,7 @@ Connectors materially improve framing quality because they replace user-typed cl
 
 Connectors do **not** change the framework choice or the journal-entry structure — those remain canonical. They only improve the inputs.
 
-In a cloud Routine: the **decision-grading** Routine (`routines/decision-grading-routine.md`) checks the Decisions/ folder weekly for files past `deadline` and surfaces them. That Routine does need read access to the local Decisions/ folder, which the user grants via Cowork's folder-permission flow.
+In a cloud Routine: the **decision-grading** Routine template (in `docs/personal-coach-routines/decision-grading-routine.md` in the basic-harness repo) checks the Decisions/ folder weekly for files past `deadline` and surfaces them. That Routine does need read access to the local Decisions/ folder, which the user grants via Cowork's folder-permission flow.
 
 ## Sources and rationale
 

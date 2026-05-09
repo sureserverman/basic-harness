@@ -1,6 +1,6 @@
 ---
 name: reflection-session
-description: Use when the user wants to think through something difficult — frustration, regret, anxiety, indecision, conflict, a hard conversation, end-of-day rumination. Runs a structured CBT-style session: ground → label the emotion → describe the situation → surface the automatic thought → check for cognitive distortions → reframe → name a small committed action. Triggers on "I want to reflect", "let's journal this", "I can't stop thinking about", "help me process", "I'm stuck on this", "I feel <emotion> about", "let's debrief", or any user opener that's emotional rather than tactical. Not therapy — explicit limits.
+description: Use when the user wants to think through something difficult — frustration, regret, anxiety, indecision, conflict, a hard conversation, end-of-day rumination. Runs a structured CBT-style session: ground → label the emotion → surface the automatic thought → check for cognitive distortions → reframe → name a small committed action. Triggers on "I want to reflect", "let's journal this", "I can't stop thinking about", "help me process", "I feel <emotion> about", "let's debrief", or any opener that's emotional rather than tactical. Not therapy — explicit limits.
 ---
 
 # Reflection Session
@@ -15,7 +15,7 @@ Before any other phase, run the **safety check** (Phase 0). If anything in the u
 
 ## Where the session goes
 
-If a personal vault is configured (`vault-librarian` `personal` schema), reflections are saved to `<vault>/Journal/YYYY-MM-DD-<slug>.md`. Otherwise, they're saved to `~/.claude/journal/YYYY-MM-DD-<slug>.md`. The user can opt out — "don't save this one" is honored without question.
+If a personal vault is configured (whether by personal-coach's onboarding Step 3 or by `vault-librarian:bootstrap-vault` — both write the same `obsidian-wiki/config.json`), reflections are saved to `<vault>/Journal/YYYY-MM-DD-<slug>.md`. If no vault is configured and the user has not explicitly declined one, invoke onboarding's Step 3 vault-setup sub-step inline. Otherwise, save to `~/.claude/journal/YYYY-MM-DD-<slug>.md`. The user can opt out — "don't save this one" is honored without question.
 
 ## Phase 0 — Safety check (always)
 

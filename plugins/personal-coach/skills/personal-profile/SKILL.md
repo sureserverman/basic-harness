@@ -17,11 +17,11 @@ Never write or modify profile fields without showing the exact change to the use
 
 Resolution order (use the first that exists):
 
-1. **Vault path** — if a personal vault is bootstrapped (see `vault-librarian`'s `personal` schema), the file is `<vault>/Profile/profile.md`.
+1. **Vault path** — if a personal vault is bootstrapped, the file is `<vault>/Profile/profile.md`. The vault path is read from `~/.config/obsidian-wiki/config.json` (Linux/macOS) or `%APPDATA%\obsidian-wiki\config.json` (Windows). The vault may have been bootstrapped by personal-coach's own onboarding (`onboarding` skill, Step 3) or by `vault-librarian`'s `bootstrap-vault` command — both write the same config file.
 2. **Project path** — `.claude/personal-profile.md` at the project root, when the user wants the profile scoped to one engagement.
 3. **Home path** — `~/.claude/personal-profile.md`, the cross-project default.
 
-If none exists yet, ask the user which scope fits and create it there. Default to (3) for new users.
+If none exists yet, **invoke onboarding's Step 3 vault-setup sub-step** rather than asking from scratch — that gives the user the recommended-vault / custom-path / no-vault choice in one place. If the user has already declined a vault during onboarding, default to (3).
 
 The file is **not committed to git automatically**. If the user keeps the profile in a project directory, remind them to add `.claude/personal-profile.md` to `.gitignore` unless they explicitly want it shared.
 

@@ -6,14 +6,14 @@
   },
   "metadata": {
     "description": "Cowork-first starter scaffolding: process discipline, knowledge management, delegation patterns, and a personal-companion track. Distributed as zips attached to GitHub releases — install via Cowork's Customize → Browse plugins → upload custom plugin file. Works for any kind of structured work, not just coding.",
-    "version": "0.3.0"
+    "version": "0.4.0"
   },
   "plugins": [
     {
       "name": "welcome",
       "source": "./plugins/welcome",
-      "description": "Top-level marketplace orientation. One slash command (/welcome:tour) that explains in two minutes what basic-harness is, the four personas it's built for, the install flow, and points at the two specialized tours (/personal-coach:tour and /process-skills:tour). Read-only — writes nothing, invokes nothing. Recommended first install for new users.",
-      "version": "0.1.0",
+      "description": "Top-level marketplace orientation. One slash command (/welcome:tour) plus a value-first opening that names three concrete user moments (decide / reflect / fintech triage) and invites the user into theirs, in any language. No upfront feature list; catalog only on request. Read-only — writes nothing, invokes nothing without consent. Recommended first install for new users.",
+      "version": "0.2.0",
       "category": "onboarding",
       "tags": ["welcome", "onboarding", "tour", "orientation", "marketplace"],
       "strict": false
@@ -48,8 +48,8 @@
     {
       "name": "personal-coach",
       "source": "./plugins/personal-coach",
-      "description": "Personal-use companion. Eight skills + three model-pinned subagents + four slash commands + four Cowork Routine templates. Roles: personal assistant with a persistent profile, reflective listener for journaling and CBT-style reframing (not therapy), business mentor with decision-journal grading, fintech legal-issue spotter for KYC/AML/PSD2/MiCA/GDPR (not legal advice), plus a personalized daily news digest tailored to user-defined topics. Multilingual — runs in whatever language you write in. Hard limits enforced everywhere: no medical/psychological diagnosis, no legal advice, no silent profile edits, no surrogate decisions, nothing leaves the machine unless you explicitly enable a Cowork Routine.",
-      "version": "0.1.0",
+      "description": "Personal-use companion: persistent profile across sessions, CBT-style reflection (not therapy), business-decision frames with grading, fintech legal-issue spotter for KYC/AML/MiCA/GDPR (not legal advice), and a personalized daily news digest. Value-first onboarding — one short opening, then engages a real situation. Auto-bootstraps its own notes vault on first save (no separate command needed). Multilingual. Hard limits enforced.",
+      "version": "0.2.0",
       "category": "personal",
       "tags": ["personal-assistant", "coaching", "reflection", "journaling", "business-mentor", "fintech", "legal-triage", "decision-journal", "news-digest", "multilingual", "cowork"],
       "strict": false

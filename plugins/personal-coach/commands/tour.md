@@ -27,7 +27,7 @@ Equivalent of:
 
 > Eight skills. You don't memorize these — they pick themselves up from what you say. Just so you know what's around:
 >
-> - **`onboarding`** — the five-minute first-run flow you may already have done.
+> - **`onboarding`** — the value-first first-run flow you may already have done.
 > - **`personal-profile`** — your persistent profile (name, role, values, goals, sensitivities). Edited only with your confirmation.
 > - **`reflection-session`** — structured CBT-style reflection. Safety-gated.
 > - **`business-mentoring`** — strategic-decision sparring with a decision journal.
@@ -48,14 +48,14 @@ Equivalent of:
 
 > Four slash commands. The first is the entry point you may already know; the other three wire the recurring rhythms into Cowork's Scheduled Tasks:
 >
-> - `/personal-coach:onboard` — start (or resume / re-run) the five-minute onboarding.
+> - `/personal-coach:onboard` — start (or resume / re-run) the onboarding.
 > - `/personal-coach:setup-morning-briefing` — daily briefing rhythm.
 > - `/personal-coach:setup-news-digest` — daily news digest rhythm.
 > - `/personal-coach:setup-decision-grading` — weekly grading scan for past-deadline decisions.
 
 ## Step 5 — Cowork Routines (one paragraph)
 
-> Four optional Routine templates ship with the plugin (in `routines/`). Routines run in Anthropic's cloud with the laptop closed — useful for the news digest and decision-grading scan. **Reflection and profile edits are deliberately not routinable** because reflection content is the most sensitive material in the plugin and shouldn't transit cloud. Read `routines/README.md` before installing any of them — the privacy posture matters.
+> Four optional Routine templates live at `docs/personal-coach-routines/` in the basic-harness repo (not inside the plugin). Routines run in Anthropic's cloud with the laptop closed — useful for the news digest and decision-grading scan. **Reflection and profile edits are deliberately not routinable** because reflection content is the most sensitive material in the plugin and shouldn't transit cloud. Read `docs/personal-coach-routines/README.md` before installing any of them — the privacy posture matters.
 
 ## Step 6 — Where files live
 

@@ -1,5 +1,5 @@
 ---
-description: Start (or restart) the personal-coach onboarding — a calm, paced, language-aware five-minute flow that bootstraps the profile, lets the user try one thing for real, and leaves them with a clear picture of what's now available. Detects whether the user has been onboarded before and offers resume / re-run / cancel.
+description: Start (or restart) the personal-coach onboarding — a value-first, language-aware opening that asks what's on the user's mind right now and engages it directly (decision frame / reflection / fintech triage / news digest), with one tangible artifact in turn 2-3. Detects whether the user has been onboarded before and offers resume / re-run / cancel.
 ---
 
 # Onboard
@@ -8,7 +8,7 @@ Explicit entry point for the onboarding skill. Invoked when the user types `/per
 
 ## Step 0 — Detect language
 
-The user's invocation message is the first signal. If the user typed `/personal-coach:onboard` with no other context, the language is unclear; ask in three languages briefly (see the onboarding skill's Phase 0 for the exact pattern). If the user wrote a sentence around the command ("онбордни меня", "set me up", "comencemos"), the language is detected.
+The user's invocation message is the first signal. If the user typed `/personal-coach:onboard` with no other context, the language is unclear; ask in three languages briefly (see the onboarding skill's Step 0 for the exact pattern). If the user wrote a sentence around the command ("онбордни меня", "set me up", "comencemos"), the language is detected.
 
 Hold the language preference in working memory; the onboarding skill picks it up from there.
 
@@ -20,13 +20,9 @@ Branches:
 
 ### A — File missing or no onboarding entry → first-time user
 
-Tell the user (in their language):
+Invoke the **onboarding** skill directly. The skill's Step 1 is the value-first opening message — no preamble, no "five steps" framing. The user's first response sets the track; engagement happens in turn 2.
 
-> Welcome. I'll walk you through this in five short steps. Total time about five minutes. You can skip anything, and we save your place between steps.
->
-> Ready when you are.
-
-Wait for any acknowledgment ("yes", "ok", "let's go", "поехали", "vale", silence-then-anything). Then invoke the **onboarding** skill (Phase 1 onward — Phase 0 language detection is already done).
+(Skill Step 0 is language detection, already done at the command level — pass the detected language through.)
 
 ### B — Prior complete onboarding entry exists → returning user
 
@@ -44,7 +40,7 @@ Tell the user:
 Branches per answer:
 
 - **(1)** → invoke the `personal-profile` skill in update mode.
-- **(2)** → confirm explicitly: "Re-running onboarding will create a new profile draft and may overwrite parts of the existing one. Sure? (yes / no)". On yes, invoke the **onboarding** skill from Phase 1.
+- **(2)** → confirm explicitly: "Re-running onboarding will create a new profile draft and may overwrite parts of the existing one. Sure? (yes / no)". On yes, invoke the **onboarding** skill from Step 1.
 - **(3)** → ask which of the three setup commands they want; invoke that command.
 - **(4)** → exit cleanly with a one-line "ok, just say what's on your mind whenever."
 
@@ -60,7 +56,7 @@ Tell the user:
 
 Branches per answer:
 
-- **(1)** → read the partial state from disk (whatever was saved up to that point — profile draft, news preferences draft, etc.) and invoke **onboarding** at the appropriate phase.
+- **(1)** → read the partial state from disk (whatever was saved up to that point — profile draft, news preferences draft, etc.) and invoke **onboarding** at the appropriate step.
 - **(2)** → invoke **onboarding** at Phase 1.
 - **(3)** → exit cleanly.
 

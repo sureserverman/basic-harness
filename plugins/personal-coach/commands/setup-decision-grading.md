@@ -60,4 +60,4 @@ Append to `~/.claude/personal-coach.local.md`:
 
 - **The assistant never grades a decision on the user's behalf.** Surfacing is automated; grading is manual. Auto-grading would corrupt the calibration data the journal exists to build.
 - **No backfill.** If the user has a hundred ungraded historical decisions, the skill does not propose a grading marathon — it surfaces them in order of deadline and lets the user grade at a sustainable pace.
-- **Privacy:** decision-journal content stays on disk. The scheduled task reads from local folders only. If running as a cloud Routine instead (see `routines/decision-grading-routine.md`), the file contents transit Anthropic's cloud — flag the tradeoff.
+- **Privacy:** decision-journal content stays on disk. The scheduled task reads from local folders only. If running as a cloud Routine instead (see `docs/personal-coach-routines/decision-grading-routine.md` in the basic-harness repo), the file contents transit Anthropic's cloud — flag the tradeoff.

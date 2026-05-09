@@ -1,6 +1,6 @@
 ---
 name: fintech-legal-triage
-description: Use when working on a fintech feature, contract, partnership, or operational change that may have regulatory exposure — KYC/AML onboarding, payment licensing, lending limits, crypto/MiCA, data localisation, customer T&Cs, marketing claims, complaints handling, sanctions screening. Asks for jurisdiction first, then walks the relevant issue checklist, and produces an issue list with named regulations to take to a real licensed lawyer in that jurisdiction. Triggers on "is this legal", "what regs apply", "do we need a license", "draft me terms for X", "review this contract clause", "what about KYC", "is this GDPR-compliant", "fintech compliance check". Issue-spotter, not legal advice — every output ends with the take-to-counsel reminder.
+description: Use when a fintech feature, contract, partnership, or operational change may have regulatory exposure — KYC/AML, payment licensing, lending limits, crypto/MiCA, data localisation, customer T&Cs, marketing claims, sanctions screening. Asks jurisdiction first, walks the issue checklist, and produces a list of named regulations and questions to take to a real licensed lawyer. Triggers on "is this legal", "what regs apply", "do we need a license", "review this contract", "what about KYC", "is this GDPR-compliant". Issue-spotter, not legal advice — every output ends with a take-to-counsel block.
 ---
 
 # Fintech Legal Triage

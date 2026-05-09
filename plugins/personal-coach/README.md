@@ -13,7 +13,9 @@ This plugin is opinionated about scope. It will refuse to play "diagnose me" or 
 
 See the [top-level basic-harness README](../../README.md#install) for the canonical install flow (Cowork → Customize → upload zip from this repo's GitHub releases).
 
-Pairs especially well with the optional vault stack — install `vault-librarian` from the same release page — because the **personal** vault schema gives Profile/Journal/Goals/Business/Legal/People/Decisions a real home on disk.
+**No separate vault setup required.** The first time onboarding (or any skill) needs to save something durable, personal-coach asks once where to put it: a recommended folder at `~/Notes/personal-coach`, a custom path, or fall back to `~/.claude/personal-coach/` for users who don't want a vault. The required CLAUDE.md schema, `log.md`, `Home.md`, and the `obsidian-wiki` config file are all written by personal-coach itself — `vault-librarian` is **no longer a prerequisite**.
+
+`vault-librarian` is still useful for users who want to set up a richer vault (writer / researcher schemas, or a vault to share with other plugins) before personal-coach asks. Install it from the same release page if that fits.
 
 ## Start here (new users)
 
@@ -23,7 +25,7 @@ After installing, run:
 /personal-coach:onboard
 ```
 
-Five short phases, about five minutes total, in whatever language you write to it in (English / Russian / Spanish / German / French / Mandarin / Hindi / Arabic / etc. — the first message tells the skill which to use). You can skip anything, and your place is saved between phases so you can stop and resume later. By the end you'll have a saved profile, one tangible artifact (a reflection, a decision frame, news preferences, or a fintech regulatory cell), and a clear picture of what's available without being shown all of it at once.
+One short opening — three sentences plus one open question ("what's on your mind right now?") — in whatever language you write to it in (English / Russian / Spanish / German / French / Mandarin / Hindi / Arabic / etc.; the first message picks the language). Whatever you say next gets engaged directly, on a real situation of yours: a decision you're stuck on, something on your mind to reflect on, a fintech regulatory question to triage, or daily news preferences. One tangible artifact lands on disk in turn 2 or 3. No persona quiz, no five-step walkthrough, no feature list. If you'd rather just look around first, ask — `/welcome:tour` and `/personal-coach:tour` exist for that.
 
 ## Skills
 
@@ -31,7 +33,7 @@ All eight skills follow the same shape as `process-skills`: a checklist, phased 
 
 | Skill | Purpose |
 |---|---|
-| `onboarding` | Calm five-minute first-run flow: language detection → profile bootstrap → one tangible artifact → optional automation → wrap-up. Skip-friendly, save-and-resume between phases. Recommended starting point. |
+| `onboarding` | Value-first first-run flow. One short opening, then engages the real situation the user names — decision frame / reflection / fintech triage / news digest — producing one tangible artifact in turn 2-3. No phases, no feature list, no persona quiz. Recommended starting point. |
 | `personal-profile` | Build and maintain a persistent profile of the user — values, goals, voice, history, recurring stakeholders. The substrate the other skills read from. |
 | `reflection-session` | Structured journaling and CBT-style reflection. Emotion labelling → thought record → cognitive reframe → committed action. |
 | `business-mentoring` | Frame a strategic decision: pick a framework, work it, write a decision-journal entry that you can grade later. |
@@ -60,7 +62,7 @@ Five commands cover the plugin's onboarding, depth tour, and recurring rhythms:
 
 | Command | What it does |
 |---|---|
-| `/personal-coach:onboard` | Start (or resume / re-run) the five-minute onboarding flow. Detects whether you're a first-time, partial, or returning user and routes accordingly. |
+| `/personal-coach:onboard` | Start (or resume / re-run) the value-first onboarding. Detects whether you're a first-time, partial, or returning user and routes accordingly. |
 | `/personal-coach:tour` | Two-minute read-only walkthrough of the personal-coach ecosystem — skills, subagents, setup commands, routines, hard limits. For when you want the wider map without bootstrapping anything. |
 | `/personal-coach:setup-morning-briefing` | Schedule a daily morning briefing. Optionally bundles `news-digest` ahead of the briefing in the same scheduled task. |
 | `/personal-coach:setup-decision-grading` | Schedule a weekly scan that surfaces decisions whose 90-day grading deadline has landed. Surfaces only — never auto-grades. |
@@ -70,7 +72,7 @@ The setup commands walk you through Cowork's `/schedule` UI (or sidebar → Sche
 
 ## Cowork Routines (cloud-tier automation)
 
-Optional. The `routines/` directory ships four copy-paste templates for Anthropic Cowork **Routines** — cloud-hosted automations that run with the laptop closed. **Read `routines/README.md` first** — Routines execute in Anthropic's cloud, which changes the privacy posture vs the desktop Scheduled Task path.
+Optional. Four copy-paste templates for Anthropic Cowork **Routines** — cloud-hosted automations that run with the laptop closed — live at `docs/personal-coach-routines/` in the basic-harness repo (not inside the plugin). **Read `docs/personal-coach-routines/README.md` first** — Routines execute in Anthropic's cloud, which changes the privacy posture vs the desktop Scheduled Task path.
 
 | Template | Trigger |
 |---|---|

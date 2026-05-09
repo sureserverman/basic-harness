@@ -2,7 +2,7 @@
 
 **Trigger:** schedule, daily at user's preferred time.
 **Connectors recommended:** Gmail (for newsletter folder), Google Drive (only if curated reading list).
-**Privacy:** acceptable — search queries hit the public web; digest is synthesis of public info. See `routines/README.md` for the full posture.
+**Privacy:** acceptable — search queries hit the public web; digest is synthesis of public info. See `README.md` in this directory for the full posture.
 
 ## Prompt
 

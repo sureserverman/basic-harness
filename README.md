@@ -186,7 +186,7 @@ You're using Claude as a personal companion: you want it to remember who you are
 
 The onboarding flow is **language-aware**: write to it in Russian / English / Spanish / German / French / Mandarin / Hindi / Arabic / etc. and the entire flow runs in that language. The plugin's reference text is in English (read by Claude); the user-facing conversation is yours.
 
-Without the vault, profile / journal / decisions / legal logs / news digests all live under `~/.claude/` instead — same skills, same flow, just less queryable later. **None of this leaves your machine** — except where you explicitly enable Cowork Routines, which run in Anthropic's cloud (see `plugins/personal-coach/routines/README.md` for the privacy tradeoffs). Profile and reflection content are never routinable by design.
+Without the vault, profile / journal / decisions / legal logs / news digests all live under `~/.claude/` instead — same skills, same flow, just less queryable later. **None of this leaves your machine** — except where you explicitly enable Cowork Routines, which run in Anthropic's cloud (see `docs/personal-coach-routines/README.md` for the privacy tradeoffs). Profile and reflection content are never routinable by design.
 
 In Cowork specifically, the personal-coach plugin gains:
 

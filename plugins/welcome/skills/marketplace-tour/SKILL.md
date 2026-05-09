@@ -1,129 +1,106 @@
 ---
 name: marketplace-tour
-description: Use to give a calm two-minute read-only map of the basic-harness marketplace — what it is, the four personas it's built for, the install flow, pointers to the two specialized tours. Triggers on first-time-user-style natural language in any language — "show me what you do", "what can you do", "what is this", "introduce yourself", "give me a tour", "where do I start", "что ты умеешь", "с чего начать", "qué haces", "preséntate", "was kannst du", "qu'est-ce que tu fais", and equivalents in any language not listed. Treat these as trigger semantics, not literal matching — the full trigger list is in the body. Read-only; never writes files; never auto-chains into a specialized tour without explicit user "yes". Same skill fires when the user types /welcome:tour.
+description: Use to give a calm, value-first opening for the basic-harness marketplace — one short message that names three concrete user moments (decide / reflect / fintech triage) and invites the user into theirs, in any language. Triggers on first-time-user-style natural language — "show me what you do", "what can you do", "what is this", "introduce yourself", "give me a tour", "where do I start", "что ты умеешь", "с чего начать", "qué haces", "preséntate", "was kannst du", "qu'est-ce que tu fais", and equivalents in any language. Read-only; never writes; never auto-chains.
 ---
 
-# Marketplace Tour
+# Marketplace Tour (value-first opening)
 
-A two-minute orientation. Same flow whether the user typed `/welcome:tour` or said something like "show me what you do" in any language. **Read-only.** Do not write any files. Do not invoke any other skills. Do not auto-run another tour at the end.
+A short opening for someone arriving cold. Same flow whether the user typed `/welcome:tour` or said something equivalent in any language. **Read-only.** Do not write any files. Do not invoke any other skills. Do not auto-run another tour at the end.
 
-**Announce at start, in the user's language:** something equivalent to "Sure — let me give you a quick map. About two minutes, no setup required."
+The job of this skill is to invite the user into a real use case — not to enumerate the marketplace. If the user genuinely wants the wider catalog, the depth tours (`/personal-coach:tour`, `/process-skills:tour`) exist for that.
 
 <HARD-GATE>
-This is the marketplace-level orientation, not a plugin-specific one. If the user is clearly asking about a specific plugin ("show me what personal-coach does", "что умеет personal-coach"), prefer that plugin's tour or onboarding skill. Use this skill when the question is at the basic-harness level.
+This is the marketplace-level opening, not a plugin-specific one. If the user is clearly asking about a specific plugin ("show me what personal-coach does", "что умеет personal-coach"), prefer that plugin's tour or onboarding skill.
 </HARD-GATE>
 
 <HARD-GATE>
-This skill never auto-chains into a specialized tour. After Step 2 the user picks a persona, and you offer the relevant specialized tour — but invocation happens only on explicit "yes". A skill that auto-runs another skill at the end of itself is the antipattern this hard-gate exists to prevent.
+This skill never auto-chains into another skill. After the opening, the user picks a thing to try; invocation of the next skill happens only on explicit "yes" or on a real situation the user describes.
 </HARD-GATE>
 
-## Triggers (full list, for language detection)
+## Step 0 — Detect language (silent if clear)
 
-The skill fires on first-time-user-style questions in any language. Below is a non-exhaustive list — Claude generalizes to phrasings not on it. Use these as **trigger semantics**, not literal matching.
+Read the user's invocation message.
 
-| Language | Phrases |
+- **Clear language** (Russian / Spanish / German / French / Mandarin / Hindi / Arabic / Portuguese / Italian / Japanese / Korean / etc.) — proceed in that language. Do not ask.
+- **Ambiguous** (English-only, mixed-script, single short phrase) — ask in three languages briefly:
+
+  > English: What language would you like to work in?
+  > Русский: На каком языке вам удобнее общаться?
+  > Español: ¿En qué idioma prefieres que hablemos?
+
+Add other languages if the system context suggests one.
+
+## Step 1 — One opening message
+
+In the user's language, send something equivalent to:
+
+> Hi. I'm here as a thinking partner. People usually bring me one of three things: a decision they're stuck on, something on their mind they want to think through, or a fintech regulatory question they need triaged before talking to a lawyer. There's also a daily news digest tailored to topics you actually care about, and a small set of process skills (brainstorm, plan, execute, investigate) for research and project work.
+>
+> **What's on your mind right now?**
+
+Three sentences plus one open question. No bullet list, no persona menu, no slash commands, no skill names. The point is to get the user talking about *their* situation in turn 2, not to brief them on the catalog.
+
+## Step 2 — Branch on what the user says
+
+Do not present a menu. React to what the user actually says.
+
+| User says something like... | Do this |
 |---|---|
-| English | show me what you do · what can you do · what do you do · what is this · what's around · what's available · introduce yourself · show me around · give me a tour · where do I start · how do I use this · what's basic-harness |
-| Russian | что ты умеешь · что ты можешь делать · покажи что у тебя есть · проведи экскурсию · что это вообще · с чего начать · расскажи о себе |
-| Spanish | qué haces · qué puedes hacer · muéstrame qué tienes · preséntate · por dónde empiezo |
-| German | was kannst du · zeig mir was du machst · stell dich vor |
-| French | qu'est-ce que tu fais · montre-moi · présente-toi · par où commencer |
-| Mandarin | 你能做什么 · 介绍一下 |
-| Hindi | तुम क्या कर सकते हो |
-| Arabic | ماذا تستطيع أن تفعل |
+| A real decision ("I'm trying to decide whether to...") | "That sounds like a `personal-coach:business-mentoring` thing — I can frame it with you. Want to start? (yes / not now)". Hand off only on yes. |
+| Something emotional or "on my mind" | "We can reflect on that together — `personal-coach:reflection-session` runs a CBT-style flow with a hard limit at therapy. Want to start? (yes / not now)" |
+| A fintech regulatory question | "That's `personal-coach:fintech-legal-triage`. Issue-spotter, not legal advice — every output ends with a take-to-counsel block. Need to start with jurisdiction. Ready? (yes / not now)" |
+| A research / writing / project-management ask | "That's the process-skills track — `/process-skills:tour` walks through it in two minutes. Want me to point you at the right skill, or run the tour?" |
+| "I'm just looking" / "show me what's around" | Step 3 below — the calm one-line catalog, on request only. |
+| Ambiguous / not clear which | One disambiguating question: "Are you mostly trying to **produce something** (report, article, deliverable), or mostly trying to **think through something** (decision, reflection, daily rhythm)?" The first answer points to process-skills; the second to personal-coach. |
 
-If the user writes in a language not on this list, the skill still fires — the description's trigger semantics are language-agnostic for "first-time-user orientation question". Run the flow in whatever language the user wrote in.
+**Do not start the next skill without an explicit "yes".** The user might just want to know the option exists.
 
-## Step 0 — Detect language
+## Step 3 — On-request: a one-line catalog
 
-Read the user's invocation message. If the language is clear, run in that language. If ambiguous (English-only message; mixed-script; single short phrase), ask in three languages:
+Only if the user asks "what else", "show me everything", "list what's around" — and only then. Equivalent of:
 
-> English: What language would you like to work in?
-> Русский: На каком языке вам удобнее общаться?
-> Español: ¿En qué idioma prefieres que hablemos?
+> The marketplace has five plugins:
+>
+> - **personal-coach** — decisions, reflection, fintech triage, daily news, profile that compounds across sessions.
+> - **process-skills** — brainstorm, plan, execute, investigate, review (research / writing / project work).
+> - **delegation-agents** — parallel workers (Haiku/Sonnet) for bulk reading, editing, drafting.
+> - **vault-librarian** — set up a Markdown notes vault (one command).
+> - **welcome** — this orientation, which is the map you're reading.
+>
+> The depth tours are `/personal-coach:tour` and `/process-skills:tour` — about two minutes each.
 
-Add other languages if the system context suggests one. Persist the preference in working memory for the rest of the tour.
+Stop. Don't push.
 
-## Step 1 — One paragraph: what basic-harness is
+## Step 4 — Closing (always, calm)
 
 Equivalent of:
 
-> `basic-harness` is a small marketplace of plugins for Claude Code and Claude Cowork. It's process discipline, knowledge management, and delegation patterns for structured work — not just coding. The plugins are designed to compose: you can use one in isolation, or stack them. Everything runs locally; nothing leaves your machine unless you explicitly enable a Cowork Routine, which you'd be told about up front.
+> Whenever something comes up, just say it — the right plugin will pick up. No commands to memorize.
 
-Three sentences max. No feature list yet.
-
-## Step 2 — Who it's for (the four personas)
-
-> The marketplace is shaped around four personas. Pick the one that's closest:
->
-> 1. **Researcher / analyst** — read sources, take notes, run multi-week investigations, write briefs.
-> 2. **Writer / journalist** — long-form work with sources, drafting, editing, on-record discipline.
-> 3. **Project lead / consultant** — engagements with deliverables, planning, weekly status updates.
-> 4. **Personal user / fintech operator** — Claude as personal assistant, business mentor, reflective listener, and fintech legal-issue spotter.
->
-> Which is closest? (1 / 2 / 3 / 4 / "I'm not sure" / "more than one")
-
-Wait for the answer. Branches:
-
-- **1, 2, or 3** → "The right tour for you is `/process-skills:tour` — covers process-skills, delegation-agents, and the optional vault stack. About two minutes. Want me to start it now? (yes / not now)"
-- **4** → "The right tour is `/personal-coach:tour`. Want me to start it now? (yes / not now)" — and also mention `/personal-coach:onboard` if the user wants to actually start using personal-coach today.
-- **"More than one"** → run a 60-second summary of `process-skills` purpose followed by a 60-second summary of `personal-coach` purpose, then ask which to dive into first.
-- **"I'm not sure"** → ask one disambiguating question: "Are you mostly trying to **produce something** (a report, an article, a project deliverable), or mostly trying to **think with someone** (a decision, a reflection, a daily rhythm)?". The first answer points to process-skills; the second to personal-coach.
-
-**Do not start the specialized tour without an explicit "yes".** The user might want to read this map and stop here.
-
-## Step 3 — The install flow (only if asked)
-
-If the user has not yet installed plugins beyond `welcome`, **and** asks about installation or seems unsure, give the canonical flow for Cowork:
-
-> 1. Open the [basic-harness latest release](https://github.com/sureserverman/basic-harness/releases/latest) and download `basic-harness-vX.Y.Z.zip` (one zip per release).
-> 2. Unzip it on your machine. You'll get five inner zips, one per plugin.
-> 3. In Cowork, click **Customize** in the sidebar → **Browse plugins** → **upload custom plugin file** → select an inner zip → repeat for each plugin you want.
-> 4. Restart Cowork (`Cmd+Q`, reopen) so the skills register.
->
-> Available plugins (the inner zips you'll find):
->
-> - `welcome` — this orientation plugin (you already have it if you're reading this).
-> - `process-skills` — six process skills.
-> - `delegation-agents` — three subagents + a dispatching skill.
-> - `vault-librarian` — optional, for a Markdown notes vault.
-> - `personal-coach` — personal companion track (assistant / reflection / business mentor / fintech legal triage / news digest).
-
-If the user hasn't asked, **don't volunteer this**. Step 3 is on-request.
-
-## Step 4 — Closing (always)
-
-Equivalent of:
-
-> That's the map. Whenever you want to go deeper:
->
-> - `/personal-coach:tour` — the personal companion track.
-> - `/process-skills:tour` — the research / writing / project track.
-> - `/personal-coach:onboard` — if you're personal-track and want to actually start using it (5 minutes, produces a real artifact).
->
-> No need to remember commands — say what you want and the right one will come up.
-
-End. Do not chain. The user comes back when they're ready.
+End. Do not chain.
 
 ## What this skill will NOT do
 
-- **Will not write to disk.** No profile bootstrap, no journal entry, no preferences file. Other tours and `/personal-coach:onboard` do that.
-- **Will not auto-invoke a specialized tour.** The user must say yes.
-- **Will not enumerate every skill in every plugin.** That's the specialized tours' job. Two disclosure levels max — same NNG principle as the onboarding skill.
-- **Will not promote `personal-coach` over `process-skills` or vice versa.** Persona-driven branching, neutral framing.
-- **Will not run more than ~2 minutes.** If the user asks lots of questions, answer them, but don't expand the tour into a deep tutorial. Point them at the specialized tour for depth.
-- **Will not fire repeatedly in the same session.** If the user has already been through this skill (the language is set, they've picked a persona, they've heard Step 4), and they ask again, give a one-line "we already did the tour earlier — want me to run it again from the top?". Don't loop.
+- **Will not write to disk.** No profile bootstrap, no journal entry, no preferences file.
+- **Will not auto-invoke another skill.** The user must say yes — or describe a real situation that warrants the handoff.
+- **Will not enumerate the catalog upfront.** The catalog appears only on Step 3, only on explicit request.
+- **Will not promote one track over another.** Persona-relevant routing, neutral framing.
+- **Will not run more than ~90 seconds.** If the user wants depth, point them at the depth tour.
+- **Will not fire repeatedly in the same session.** If the user has already seen this opening, give a one-line "we covered this earlier — what's most useful right now?". Don't loop.
 
 ## Failure modes
 
-- **User picks a persona that isn't installed yet.** The persona is fine; the tour they're being pointed to may not exist as an installed command. Tell them: "That tour lives in the `<plugin-name>` plugin, which isn't installed yet. Want the install line?". Do not auto-install.
-- **User picks `welcome` itself ("tell me about welcome plugin")** — answer in one sentence: "This plugin is just the map you're reading. There isn't more to it." Loop back to Step 2.
-- **Multilingual mid-flow switch** — match the new language; don't force consistency the user didn't ask for.
-- **Skill fires on a question that was actually about a specific plugin** — e.g., user asks "what does personal-coach do" and this skill fires anyway because the question matched the description. Recognize the specificity, hand off: "That's specifically about personal-coach — want the personal-coach tour? `/personal-coach:tour`."
+- **User picks a track whose plugin isn't installed.** Tell them: "That track lives in `<plugin-name>` — not installed yet. Want the install line?". Do not auto-install.
+- **User asks about `welcome` itself.** One sentence: "This plugin is just the opening you're reading — there isn't more to it." Loop back to the open question.
+- **Multilingual mid-flow switch.** Match the new language; don't force consistency the user didn't ask for.
+- **Skill fires on a question that was actually about a specific plugin.** Recognize and hand off: "That's specifically about personal-coach — want the personal-coach tour? `/personal-coach:tour`."
 
 ## Sources
 
-- **Two disclosure levels max** — Nielsen Norman Group, *Progressive Disclosure* (2006, updated 2024). Same principle as the personal-coach onboarding skill.
-- **Persona-driven branching** — Cooper, *About Face* (2014). Personas are decision-architecture; not every user is the same and the tour acknowledges that.
-- **Neutral framing** — Yifrah, *Microcopy: The Complete Guide* (2017). No "you'll love this", no "this is amazing" — just what's there.
-- **No auto-chain** — Nielsen, *10 Usability Heuristics* (1994), heuristic 3 (User control and freedom). Auto-running another tour at the end traps the user; explicit "yes" preserves agency.
+- **Value-first opening** — Nielsen Norman Group, [*Mobile App Onboarding*](https://www.nngroup.com/articles/mobile-app-onboarding/) (Pernice & Budiu): "Avoid feature-promotion onboarding at first launch. Users rarely download an app for no reason; therefore, lengthy promotional onboarding will likely be skipped."
+- **Three example moments instead of a feature list** — pattern observed in ChatGPT and Perplexity first-run UX (empty composer + three example prompts as invitation), summarized in [DemoKraft's *Conversational Onboarding* guide](https://demokraft.ai/conversational-onboarding-beginners-guide/): "What would you like to do today?" as the canonical opener.
+- **Catalog on request, not upfront** — Nielsen Norman Group, [*Onboarding Tutorials vs. Contextual Help*](https://www.nngroup.com/articles/onboarding-tutorials/): "Highlight features while the user is in the app, through contextual help" — pull-revelation, not push-walkthrough.
+- **Two disclosure levels max** — Nielsen, [*Progressive Disclosure*](https://www.nngroup.com/articles/progressive-disclosure/) (NN/g, 2006, updated 2024).
+- **Benefit copy beats feature copy** — Yifrah, *Microcopy: The Complete Guide* (2nd ed., 2019): "Upgrade your productivity" beats "Upgrade plan."
+- **No auto-chain** — Nielsen, *10 Usability Heuristics* (1994), heuristic 3 (User control and freedom).
+- **Activation = first useful turn** — Sean Ellis, *Hacking Growth* (2017); summarized in [Amplitude's *aha moment*](https://amplitude.com/blog/aha-moment): "the moment that the utility of the product really clicks for the users."
