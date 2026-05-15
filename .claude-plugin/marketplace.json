@@ -5,8 +5,8 @@
     "email": "holyfiremin@gmail.com"
   },
   "metadata": {
-    "description": "Cowork-first starter scaffolding: process discipline, knowledge management, delegation patterns, a personal-companion track, a personalized daily news digest, and a fintech regulatory issue-spotter. Distributed as zips attached to GitHub releases — install via Cowork's Customize → Browse plugins → upload custom plugin file. Works for any kind of structured work, not just coding.",
-    "version": "0.6.0"
+    "description": "Cowork-first starter scaffolding: process discipline, knowledge management, delegation patterns, a personal-companion track, a personalized daily news digest, and a fintech regulatory issue-spotter — all sitting on top of a shared notes-vault substrate that auto-bootstraps on first need and grows from every conversation. Distributed as zips attached to GitHub releases — install via Cowork's Customize → Browse plugins → upload custom plugin file. Works for any kind of structured work, not just coding.",
+    "version": "0.7.0"
   },
   "allowCrossMarketplaceDependenciesOn": ["claude-for-legal"],
   "plugins": [
@@ -49,8 +49,8 @@
     {
       "name": "personal-coach",
       "source": "./plugins/personal-coach",
-      "description": "Personal-use companion: persistent profile across sessions, CBT-style reflection (not therapy), business-decision frames with grading, morning briefing. Value-first onboarding — one short opening, then engages a real situation. Auto-bootstraps its own notes vault on first save (no separate command needed). Multilingual. Hard limits enforced. News digest and fintech legal triage now live in their own companion plugins (news-digest, fintech-legal-advisor) — install those alongside if you want either.",
-      "version": "0.3.0",
+      "description": "Personal-use companion: persistent profile across sessions, CBT-style reflection (not therapy), business-decision frames with grading, morning briefing. Value-first onboarding — one short opening, then engages a real situation. Vault auto-bootstraps on first save via vault-librarian's vault-companion-ensure sub-skill (shared with news-digest and fintech-legal-advisor). Reflection and decision-journaling now recall prior entries (Phase 0.5) before each session, so the journal compounds — graded prior decisions feed pattern context into new ones. Multilingual. Hard limits enforced.",
+      "version": "0.4.0",
       "category": "personal",
       "tags": ["personal-assistant", "coaching", "reflection", "journaling", "business-mentor", "decision-journal", "morning-briefing", "multilingual", "cowork"],
       "strict": false
@@ -58,8 +58,8 @@
     {
       "name": "news-digest",
       "source": "./plugins/news-digest",
-      "description": "Personalized daily news digest for Claude Cowork. Two skills (news-preferences + news-digest) and one setup command. Captures topics, sources, exclusions, language, format, cadence, and an open-questions watchlist; produces a dated digest filtered strictly against those preferences. Refuses generic headlines — without preferences, the digest does not run. Cites every item; never fabricates. Works standalone; integrates softly with personal-coach (morning-briefing pairing) and vault-librarian (vault path) when installed.",
-      "version": "0.1.0",
+      "description": "Personalized daily news digest for Claude Cowork. Two skills (news-preferences + news-digest) and one setup command. Captures topics, sources, exclusions, language, format, cadence, and an open-questions watchlist; produces a dated digest filtered strictly against those preferences. Refuses generic headlines — without preferences, the digest does not run. Cites every item; never fabricates. Phase 1.5 vault recall surfaces prior digests on each open-question watchlist item so today's framing reads as a continuity update ('since the last digest, ...') rather than a cold start. Saves to <vault>/News/ via vault-companion-append; falls back to ~/.claude/news/ if no vault.",
+      "version": "0.2.0",
       "category": "personal",
       "tags": ["news", "digest", "daily", "rss", "personalization", "watchlist", "cowork"],
       "strict": false
@@ -67,8 +67,8 @@
     {
       "name": "fintech-legal-advisor",
       "source": "./plugins/fintech-legal-advisor",
-      "description": "Fintech regulatory issue-spotter for Claude Cowork — KYC/AML, payment licensing, MiCA / crypto, GDPR, customer contracts, marketing claims, sanctions exposure. A fintech-specific complement to Anthropic's Claude for Legal (whose practice-area plugins cover general commercial / corporate / privacy / IP / litigation, but not fintech regulation). Strongly recommends installing Claude for Legal alongside (Cowork → Customize → Browse plugins → Legal) and declares regulatory-legal as a soft dependency. With Claude for Legal MCP connectors granted, the plugin prefers them: Westlaw / Practical Law for live primary-law verification; Box / iManage / NetDocuments / Docusign as contract sources; Microsoft Word for tracked-change output. Citation grounding is a hard rule — every named regulation is verified against a live source or flagged confidence:low. Setup command wires a Cowork Routine on the chosen source for high-volume non-sensitive triage. Issue lists, never verdicts. Take-to-counsel block on every output. Not legal advice.",
-      "version": "0.3.0",
+      "description": "Fintech regulatory issue-spotter for Claude Cowork — KYC/AML, payment licensing, MiCA / crypto, GDPR, customer contracts, marketing claims, sanctions exposure. A fintech-specific complement to Anthropic's Claude for Legal (whose practice-area plugins cover general commercial / corporate / privacy / IP / litigation, but not fintech regulation). Strongly recommends installing Claude for Legal alongside (Cowork → Customize → Browse plugins → Legal) and declares regulatory-legal as a soft dependency. With Claude for Legal MCP connectors granted, the plugin prefers them: Westlaw / Practical Law for live primary-law verification; Box / iManage / NetDocuments / Docusign as contract sources; Microsoft Word for tracked-change output. Phase 0.5 vault recall surfaces prior triages on the same (jurisdiction × activity) cell, so a recurring EU/payments triage builds up [[MiCA]] / [[PSD2]] / [[GDPR]] backlinks across <vault>/Legal/ over time. Citation grounding is a hard rule. Setup command wires a Cowork Routine on the chosen source for high-volume non-sensitive triage. Issue lists, never verdicts. Take-to-counsel block on every output. Not legal advice.",
+      "version": "0.4.0",
       "category": "personal",
       "tags": ["fintech", "legal", "regulatory", "kyc", "aml", "mica", "gdpr", "psd2", "issue-spotting", "cowork", "claude-for-legal", "westlaw", "box", "imanage", "docusign", "drive", "routine"],
       "strict": false

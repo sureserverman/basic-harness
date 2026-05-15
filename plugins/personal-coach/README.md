@@ -33,6 +33,15 @@ After installing, run:
 
 One short opening — two sentences plus one open question ("what's on your mind right now?") — in whatever language you write to it in (English / Russian / Spanish / German / French / Mandarin / Hindi / Arabic / etc.; the first message picks the language). Whatever you say next gets engaged directly, on a real situation of yours: a decision you're stuck on, or something on your mind to reflect on. If you mention news or fintech regulation, onboarding hands you off to the companion plugin that handles it. One tangible artifact lands on disk in turn 2 or 3. No persona quiz, no five-step walkthrough, no feature list. If you'd rather just look around first, ask — `/welcome:tour` and `/personal-coach:tour` exist for that.
 
+## Vault integration (v0.4.0)
+
+As of basic-harness v0.7.0, `reflection-session` and `business-mentoring` are **vault-citizens** — they use the shared `vault-companion` surface from `vault-librarian`:
+
+- **Phase 0.5 — Vault Recall** scans the vault for prior entries on the same theme before each session. Reflection-session asks before surfacing on tender topics ("Want me to bring forward what you wrote then, or start fresh?"). Business-mentoring surfaces the **grade** of related prior decisions when available — the only feedback loop the decision journal has.
+- **Save** delegates to `vault-companion-append` with `category=Journal` (reflection) or `category=Decisions` (business-mentoring). Stakeholder / company names are wrapped in `[[wikilink]]` form so `[[Marcus]]` / `[[Project Athena]]` accumulate backlinks across the vault.
+- **Bootstrap** happens once, on the first save of the first session. Onboarding Step 3 delegates to `vault-companion-ensure`, which asks one question and writes the personal-schema vault skeleton. The v0.4.0 "auto-bootstrap on first save" promise is preserved; the implementation now lives in vault-librarian so all four substantive vault-citizen skills (this plugin's two, plus `news-digest`, plus `fintech-legal-triage`) share one surface.
+- **Fallback.** If you've declined a vault, reflection saves to `~/.claude/journal/`, decisions to `~/.claude/decisions/`. Same skill quality, no cross-linking.
+
 ## Skills
 
 All five skills follow the same shape as `process-skills`: a checklist, phased prompts, a hard handoff at the end, and primary-source citations for the methodology.

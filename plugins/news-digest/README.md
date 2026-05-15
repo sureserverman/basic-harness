@@ -20,12 +20,20 @@ It will gate on `news-preferences` existing first — if you haven't captured yo
 
 If you'd rather just produce one digest interactively without scheduling, ask in plain language ("give me my news", "news digest for today") — the `news-digest` skill fires directly. The same preferences gate applies.
 
+## Vault integration (v0.2.0)
+
+As of basic-harness v0.7.0, `news-digest` is a **vault-citizen** — it uses the shared `vault-companion` surface from `vault-librarian`:
+
+- **Phase 1.5 — Vault Recall** runs after reading preferences. For **each open-question watchlist item**, the skill calls `vault-companion-recall` to find prior digests that covered the same question. Those matches feed a continuity map into digest assembly so each watchlist item's section reads as an update ("Following your tracking of `<question>` — since the 2026-05-10 digest, …") rather than a cold start.
+- **Phase 7 — Save** delegates to `vault-companion-append` with `category=News`. Output writes to `<vault>/News/YYYY-MM-DD-digest.md`, with topic names wrapped in `[[wikilink]]` form so recurring topics build up backlinks across the News/ folder. Frontmatter carries `type: digest, topics, sources, watchlist_items_touched, item_count`.
+- **Fallback.** If you've declined a vault, the digest writes to `~/.claude/news/YYYY-MM-DD-digest.md` via plain file write — no continuity threading, same digest content.
+
 ## Skills
 
 | Skill | Purpose |
 |---|---|
 | `news-preferences` | Capture, update, and read the user's news preferences — topics of interest with weights, topics to exclude, hard exclusions, preferred sources, sources to avoid, language, length, style, cadence, and an open-questions watchlist. Never edits silently — every write is proposed and confirmed. |
-| `news-digest` | Produce a personalized daily digest against the saved preferences. Plans queries from topic weights, fetches via WebSearch / WebFetch (and Gmail / Drive connectors when granted), filters strictly (hard exclusions are absolute), synthesizes per format prefs, checks the open-questions watchlist, and writes a dated digest to disk. |
+| `news-digest` | Produce a personalized daily digest against the saved preferences. Plans queries from topic weights, fetches via WebSearch / WebFetch (and Gmail / Drive connectors when granted), filters strictly (hard exclusions are absolute), synthesizes per format prefs, threads against the open-questions watchlist via vault recall (Phase 1.5), and writes a dated digest via vault-companion-append. |
 
 ## Slash command
 

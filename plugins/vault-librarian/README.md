@@ -1,8 +1,24 @@
 # vault-librarian
 
-Companion plugin to the upstream [`obsidian-wiki`](https://github.com/sureserverman/obsidian-wiki-plugin). Provides one cross-platform slash command that bootstraps a fresh **local** Markdown notes vault from inside Claude Code — no shell snippets, no remote storage, no cloud account, works on Claude Code Desktop on macOS and Windows.
+Substrate plugin for basic-harness. As of v0.2.0 (basic-harness v0.7.0), this is **the shared vault-companion surface** that `personal-coach`, `news-digest`, and `fintech-legal-advisor` call as sub-skills for every vault touch-point: bootstrap-on-first-need, recall before each substantive turn, append after.
 
-**Optional.** The rest of `basic-harness` (process-skills, delegation-agents) works without a vault. Install this only if you want to keep notes that the upstream `obsidian-wiki` plugin can ingest, query, and lint from inside Claude Code.
+Three internal sub-skills:
+
+| Sub-skill | What it does |
+|---|---|
+| `vault-companion-ensure` | Resolves an existing vault from the user's config, or asks one question and bootstraps a personal-schema vault if none. Returns a vault-handle JSON. Cowork branch creates a Drive folder; CLI branch creates a local folder. Never re-asks. |
+| `vault-companion-recall` | Takes a topic, returns up to 5 relevant pages with one-line excerpts. Delegates to `obsidian-wiki:ask` when installed; `grep` fallback otherwise. Read-only. Silent on empty. |
+| `vault-companion-append` | Writes a page to `<vault>/<category>/YYYY-MM-DD-<slug>.md`, appends `log.md`, optionally chains `obsidian-wiki:ingest` based on a session-persisted preference. Schema-validates against `CLAUDE.md`. |
+
+Plus one user-facing slash command:
+
+| Command | What it does |
+|---|---|
+| `/vault-librarian:bootstrap-vault` | The explicit-setup path. Asks the user which of four persona-tuned schemas to use (researcher / writer / generic / personal) and writes the vault skeleton. Use this before any substantive skill triggers the auto-path if you want a non-personal schema. |
+
+Companion plugin to the upstream [`obsidian-wiki`](https://github.com/sureserverman/obsidian-wiki-plugin). Without obsidian-wiki, recall falls back to grep and ingest chaining is skipped; the substantive vault writes still happen. Install obsidian-wiki for the full workflow.
+
+**Optional** — but the four substantive vault-citizen skills (reflection-session, business-mentoring, news-digest, fintech-legal-triage) all degrade to non-vault fallbacks when this plugin is absent. Install this to get the substrate.
 
 ## Why
 

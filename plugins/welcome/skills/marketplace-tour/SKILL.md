@@ -62,12 +62,12 @@ Only if the user asks "what else", "show me everything", "list what's around" �
 
 > The marketplace has seven plugins:
 >
-> - **personal-coach** — decisions, reflection, morning briefing, profile that compounds across sessions.
-> - **news-digest** — companion: personalized daily news digest filtered against your saved preferences.
-> - **fintech-legal-advisor** — companion: KYC/AML/MiCA/GDPR issue-spotter. Cowork Routine + Drive folder for high-volume non-sensitive triage; interactive skill for confidential docs.
+> - **personal-coach** — decisions, reflection, morning briefing, profile that compounds across sessions. Reflections and decisions land in a shared notes vault and recall prior entries before each session.
+> - **news-digest** — companion: personalized daily news digest filtered against your saved preferences. Each open-question on your watchlist gets continuity threading across digests via the shared vault.
+> - **fintech-legal-advisor** — companion: KYC/AML/MiCA/GDPR issue-spotter. Cowork Routine + Drive folder for high-volume non-sensitive triage; interactive skill for confidential docs. Builds up a regulation-backlink graph across triages in the shared vault.
 > - **process-skills** — brainstorm, plan, execute, investigate, review (research / writing / project work).
 > - **delegation-agents** — parallel workers (Haiku/Sonnet) for bulk reading, editing, drafting.
-> - **vault-librarian** — set up a Markdown notes vault (one command).
+> - **vault-librarian** — **the substrate.** Auto-bootstraps the shared notes vault on first need (one question, then silent), recalls relevant prior pages before each substantive skill runs, and appends new pages after. Three internal sub-skills (vault-companion-ensure / recall / append) called by personal-coach, news-digest, and fintech-legal-advisor. One user-facing command (`/vault-librarian:bootstrap-vault`) for explicit setup with persona-tuned schemas.
 > - **welcome** — this orientation, which is the map you're reading.
 >
 > The depth tours are `/personal-coach:tour` and `/process-skills:tour` — about two minutes each.

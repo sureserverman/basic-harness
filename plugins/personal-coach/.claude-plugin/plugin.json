@@ -1,6 +1,6 @@
 {
   "name": "personal-coach",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "Personal-use companion for basic-harness: a structured way for Claude to act as your personal assistant, business mentor, and reflective psychologist-style listener. Builds a persistent profile of you so the help compounds across sessions. Not a replacement for a real therapist. News digest and fintech legal triage have moved to their own plugins (news-digest, fintech-legal-advisor) — install those alongside if you want either feature.",
   "author": {
     "name": "basic-harness",

@@ -60,11 +60,21 @@ It walks you through the privacy gate (mandatory), the Drive folder pair, the ju
 
 If you don't have that kind of inflow — or the documents are confidential — invoke the analyst interactively. Just say "review this contract" or "what regs apply to this feature" in Cowork, and `fintech-legal-triage` fires. Grant the Drive connector when it asks, point at the file, get the issue list.
 
+## Vault integration (v0.4.0)
+
+As of basic-harness v0.7.0, `fintech-legal-triage` is a **vault-citizen** — it uses the shared `vault-companion` surface from `vault-librarian`:
+
+- **Phase 0.5 — Vault Recall** runs after jurisdiction is named. It calls `vault-companion-recall` with topic = `<jurisdiction> + <activity>`. If you've previously triaged the same (jurisdiction × activity) cell — e.g., another EU/payments contract — the prior issue list and regulation set surface as context before the new triage walks the checklist. Returns silently if the vault has no matches.
+- **Phase 4 — Save** delegates to `vault-companion-append` with `category=Legal`. Output writes to `<vault>/Legal/YYYY-MM-DD-<slug>.md`, with every named regulation wrapped in `[[wikilink]]` form so `[[MiCA]]` / `[[PSD2]]` / `[[GDPR]]` accumulate backlinks across your Legal/ folder over time. Frontmatter carries `type: legal-triage, jurisdictions, activity, issue_count, regulations`.
+- **Fallback.** If you've declined a vault (or `vault-librarian` isn't installed), the triage falls back to `~/.claude/legal-triage/YYYY-MM-DD-<slug>.md` via plain file write. Same triage quality, no cross-linking.
+
+Install `vault-librarian` alongside this plugin to get the vault-companion surface. It auto-bootstraps a personal-schema vault on first triage save — no separate command needed.
+
 ## Skill
 
 | Skill | Purpose |
 |---|---|
-| `fintech-legal-triage` | Issue-spotter walked through Phase 0 (jurisdiction) → Phase 1 (match the (jurisdiction × activity) cell) → Phase 2 (walk the issue checklist) → Phase 3 (output structured issue list) → Phase 5 (take-to-counsel block). Covers EU/EEA, UK, US (federal), Russia/EAEU, Singapore, UAE (DIFC / ADGM / Mainland). Categories: KYC/AML, payment licensing, crypto (MiCA/TFR), GDPR, customer T&Cs, marketing / financial promotions. |
+| `fintech-legal-triage` | Issue-spotter walked through Phase 0 (jurisdiction) → Phase 0.5 (vault recall, optional) → Phase 1 (match the (jurisdiction × activity) cell) → Phase 2 (walk the issue checklist) → Phase 3 (output structured issue list) → Phase 4 (save via vault-companion-append) → Phase 5 (take-to-counsel block). Covers EU/EEA, UK, US (federal), Russia/EAEU, Singapore, UAE (DIFC / ADGM / Mainland). Categories: KYC/AML, payment licensing, crypto (MiCA/TFR), GDPR, customer T&Cs, marketing / financial promotions. |
 
 ## Subagent
 
