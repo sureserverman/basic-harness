@@ -1,11 +1,11 @@
 {
   "name": "vault-librarian",
-  "version": "0.1.0",
-  "description": "Companion to the upstream obsidian-wiki plugin. Provides one cross-platform slash command — /vault-librarian:bootstrap-vault — that sets up a Markdown notes vault from inside Claude Code (no shell snippets), with persona-tuned schema templates for researchers, writers, and generalists. Works on Claude Code Desktop on macOS and Windows.",
+  "version": "0.2.0",
+  "description": "Substrate plugin for basic-harness — auto-bootstraps a notes vault on first need, recalls relevant prior pages before each substantive skill runs, and appends new pages after. Three internal skills (vault-companion-ensure / vault-companion-recall / vault-companion-append) that reflection-session, business-mentoring, news-digest, and fintech-legal-triage call as sub-skills. One user-facing command (/vault-librarian:bootstrap-vault) for explicit setup with persona-tuned schemas (researcher / writer / generic / personal). Cross-platform — Claude Code Desktop and Cowork, macOS and Windows. Companion to upstream obsidian-wiki plugin; uses obsidian-wiki:ask for recall when installed, grep fallback when not.",
   "author": {
     "name": "basic-harness",
     "url": "https://github.com/"
   },
-  "keywords": ["obsidian", "vault", "notes", "bootstrap", "research", "writing", "knowledge-management"],
+  "keywords": ["obsidian", "vault", "notes", "bootstrap", "vault-companion", "ensure", "recall", "append", "substrate", "knowledge-management", "research", "writing", "personal"],
   "license": "MIT"
 }
