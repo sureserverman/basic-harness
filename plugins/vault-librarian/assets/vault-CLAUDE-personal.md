@@ -18,6 +18,7 @@ This file is **read by every wiki operation** (ingest, query, lint) and is **edi
 | `Business/` | Per-company / per-engagement notes; one file per company or initiative. Where business-mentoring context lives between decisions. |
 | `Decisions/` | Decision-journal entries from the `business-mentoring` skill (`YYYY-MM-DD-<slug>.md`). Status field tracks `pending → committed → in_review → graded`. |
 | `Legal/` | Fintech-legal-triage outputs (`YYYY-MM-DD-<slug>.md`). One file per triage. Cumulative record of regulatory diligence over time. |
+| `News/` | Personalized daily news digests (`YYYY-MM-DD-digest.md`) from the `news-digest` plugin. Append-only — old digests are not edited. Watchlist topics that recur build up a backlinkable history. |
 | `People/` | One file per recurring stakeholder. Working relationship state, what was last discussed, what they're working on. **Not** a CRM — minimal. |
 | `Reading/` | Books, articles, podcasts that shaped the user's thinking. One file per source. |
 | `Home.md` | Hand-curated Map-of-Content. |
@@ -25,14 +26,14 @@ This file is **read by every wiki operation** (ingest, query, lint) and is **edi
 | `raw/` | Source inbox. Articles, PDFs, clipped pages, emails. **Immutable** — never edited. |
 | `raw/assets/` | Images and binary assets referenced from `raw/`. |
 
-The wiki layer is the eight category directories. Everything else is infrastructure.
+The wiki layer is the nine category directories. Everything else is infrastructure.
 
 ---
 
 ## Page naming
 
 - **Title Case with spaces** allowed and preferred for `Goals/`, `Business/`, `People/`, `Reading/`. Example: `Goal — Launch B2B Tier.md`.
-- **Date-prefixed files** (`YYYY-MM-DD-<slug>.md`) for `Journal/`, `Decisions/`, `Legal/` because they're chronological by nature.
+- **Date-prefixed files** (`YYYY-MM-DD-<slug>.md`) for `Journal/`, `Decisions/`, `Legal/`, `News/` because they're chronological by nature.
 - **`profile.md` is the only file in `Profile/`** — the singular form is intentional. If a second profile is ever needed (e.g., personal vs founder identity), open the question with the user; do not create silently.
 - **One topic per file.** If you find yourself wanting `X and Y.md`, you probably want two files plus cross-links.
 - **No subdirectories inside category dirs**, except `Goals/done/` for closed goals.
@@ -90,6 +91,19 @@ jurisdictions: [<list>]
 activity: <category>
 issue_count: <n>
 high_confidence_issues: <n>
+---
+```
+
+### News digest
+
+```yaml
+---
+date: <YYYY-MM-DD>
+type: digest
+topics: [<topic>, <subtopic>]
+sources: [<source-name>]
+watchlist_items_touched: [<question>]
+item_count: <n>
 ---
 ```
 

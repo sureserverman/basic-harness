@@ -1,21 +1,24 @@
 ---
-description: Set up a fresh Markdown notes vault for use with the obsidian-wiki plugin — picks a persona-tuned schema (researcher, writer, generic), writes CLAUDE.md / log.md / config.json into the right places, and works on Claude Code CLI and Desktop (macOS / Windows / Linux). No shell snippets to copy-paste.
+description: Set up a fresh Markdown notes vault for use with the obsidian-wiki plugin — picks a persona-tuned schema (researcher, writer, generic, personal), writes CLAUDE.md / log.md / config.json into the right places, and works on Claude Code CLI and Desktop (macOS / Windows / Linux). No shell snippets to copy-paste. This is the explicit-setup path; the auto-bootstrap path (invoked by basic-harness's substantive skills on first need) uses the personal schema by default and is handled by the vault-companion-ensure skill.
 ---
 
 # Bootstrap a notes vault
 
 Set up a Markdown notes vault and the small config file the upstream `obsidian-wiki` plugin needs to find it. Cross-platform: works on Claude Code CLI and Desktop on macOS, Windows, and Linux. **You will only use the `Read`, `Write`, `Edit`, and `Glob` tools** — no `bash` / `mkdir` / `curl` / `cp`. Every file write goes through `Write` so the user sees and approves it.
 
+This is the **explicit-setup path** — the user invoked the command directly because they want to choose a persona. The **auto-bootstrap path**, invoked transparently by basic-harness substantive skills (reflection-session, business-mentoring, news-digest, fintech-legal-triage) on their first save, is handled by the `vault-companion-ensure` skill and always uses the **personal** schema (the substrate basic-harness's skills are wired against). Users who want a different persona should run this command before any substantive skill triggers the auto-path.
+
 ## What this command does
 
 1. Asks the user three questions (persona → vault location → confirmation).
 2. Writes three files into the vault:
-   - `CLAUDE.md` — the schema (one of three persona-tuned templates).
+   - `CLAUDE.md` — the schema (one of four persona-tuned templates).
    - `log.md` — the append-only activity log.
    - `Home.md` — a starter map-of-content the upstream plugin's `rebuild-home` can later regenerate.
 3. Writes one config file the upstream plugin reads:
    - `~/.config/obsidian-wiki/config.json` (Linux/macOS) or `%APPDATA%\obsidian-wiki\config.json` (Windows).
-4. Reports what was written and gives the user the next two commands to run.
+4. Persists a vault-handle to `~/.claude/vault-companion.local.md` so the auto-bootstrap path doesn't re-ask later.
+5. Reports what was written and gives the user the next two commands to run.
 
 ## Step 1 — Persona
 
