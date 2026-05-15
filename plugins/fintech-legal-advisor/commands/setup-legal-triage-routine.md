@@ -26,6 +26,26 @@ Branches:
 - **no** or **not sure** → stop. Tell the user: "Then this Routine is the wrong tool. Use the interactive skill (`fintech-legal-triage` in Cowork with Drive connector) per-document instead. I won't set up a Routine you'll later regret installing."
 - Don't accept partial yes-es ("yes for now"). The Routine fires automatically; "for now" is not a posture.
 
+## Step 0.5 — Claude for Legal install nudge (one-shot)
+
+Before configuring the Routine, **check whether Claude for Legal is installed for this session** (probe for any Westlaw / Practical Law / CoCounsel / Box / iManage / NetDocuments / Docusign / Microsoft Word connector). If none is detected, print exactly once:
+
+> **Strongly recommended for this Routine.** Anthropic's **Claude for Legal** ships the primary-law connectors (Westlaw, Practical Law) and the document-source connectors (Box, iManage, NetDocuments, Docusign) the Routine prefers. Install it now in another tab:
+>
+> - Cowork → **Customize** → **Browse plugins** → **Legal** → **Install**.
+>
+> The Routine will still wire on Google Drive without Claude for Legal — but every named regulation in the issue list will fall back to `WebFetch` (lower confidence), and the source list shrinks to Drive only. **Install Claude for Legal first if you can; otherwise continue and the plugin will downgrade gracefully.**
+>
+> Continue with this Routine setup? (`continue` / `pause to install Claude for Legal first` / `cancel`)
+
+Branches:
+
+- **continue** → proceed to Step 1.
+- **pause to install Claude for Legal first** → stop. Tell the user: "Good call. After installing Legal in Cowork → Customize → Browse plugins → Legal, re-run `/fintech-legal-advisor:setup-legal-triage-routine`. The Westlaw / Practical Law / Box / iManage / NetDocuments / Docusign connector options will appear in Step 1."
+- **cancel** → stop, no follow-up.
+
+If a Claude for Legal connector **is** already detected, skip this step silently and continue to Step 1.
+
 ## Step 1 — Pick the source system and the folder pair
 
 The Routine needs an inbound source (where new contracts land) and an output destination (where the triage output is written, one file per contract).
@@ -180,7 +200,7 @@ Append to `~/.claude/fintech-legal-advisor.local.md` (create the file with an `#
 - Will not omit the take-to-counsel block from the Routine prompt.
 - Will not auto-accept tracked changes in the Word output. Every redline stays as a tracked change for attorney review.
 - Will not configure email notifications. Output is file-only — the user reads it when they look at the output folder.
-- Will not ask the user to install Claude for Legal mid-setup. The plugin works without it; Westlaw / Practical Law / Box / iManage / NetDocuments / Microsoft are *preferred when available*, not required.
+- Will not block on the Step 0.5 Claude for Legal install nudge. The nudge is a one-shot recommendation; the plugin works without it (Drive + `WebFetch` fallback) and the user can decline and continue.
 
 ## Hard rules
 

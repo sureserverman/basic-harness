@@ -23,6 +23,18 @@ The plugin runs fine without Claude for Legal — it falls back to `WebFetch` ag
 
 ## Install
 
+### Step 1 (strongly recommended) — install Claude for Legal first
+
+In Cowork: **Customize → Browse plugins → Legal → Install** (or visit [claude.com/plugins/legal](https://claude.com/plugins/legal)). That gives this plugin the Westlaw / Practical Law / CoCounsel primary-law connectors and the Box / iManage / NetDocuments / Docusign / Microsoft Word document connectors. The plugin's `plugin.json` declares `regulatory-legal` (a Claude for Legal practice-area plugin) as a soft dependency; if your Cowork build auto-installs declared cross-marketplace dependencies, it will handle this for you, but at the time of writing that path is undocumented for Cowork — so the safe move is to install Claude for Legal explicitly from the Browse plugins UI before installing this plugin.
+
+### Step 2 — install `fintech-legal-advisor`
+
+From the top-level basic-harness GitHub release: download `basic-harness-<version>.zip`, unzip, and upload `fintech-legal-advisor-<version>.zip` via Cowork → **Customize** → **Browse plugins** → **upload custom plugin file**. See the [top-level basic-harness README](../../README.md#install) for the canonical install flow.
+
+### Skipping Step 1 is OK, but lossy
+
+`fintech-legal-advisor` runs without Claude for Legal. It falls back to `WebFetch` against EUR-Lex / FCA / FinCEN / MAS / CBR / DFSA / FSRA / VARA / CBUAE, and the source connector shrinks to Google Drive only. The triage methodology is the same; the citation confidence and the source surface shrink. The first time you invoke the `fintech-legal-triage` skill (or run `/fintech-legal-advisor:setup-legal-triage-routine`), the plugin will print a one-shot install nudge pointing you back to this step.
+
 ## Two surfaces, same engine
 
 The same Opus-pinned `fintech-legal-analyst` subagent powers both surfaces. Pick the one that matches the document's privacy posture:

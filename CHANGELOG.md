@@ -1,5 +1,24 @@
 # Changelog
 
+## v0.6.0 — 2026-05-15
+
+Soft-dependency wiring between `fintech-legal-advisor` and Anthropic's Claude for Legal — the plugin now declares the relationship and guides the user to install Claude for Legal from Cowork's plugin browser at the right moments.
+
+### Added
+- **`fintech-legal-advisor` declares `regulatory-legal` from the `claude-for-legal` marketplace as a soft dependency** in `plugin.json` `dependencies`. Claude Code CLI v2.1.110+ auto-installs declared dependencies on `/plugin install`; Cowork's dependency-resolution behavior for cross-marketplace declarations is undocumented as of release, so the declaration is best-effort + future-proof, not a hard contract. The basic-harness root `marketplace.json` whitelists `claude-for-legal` in `allowCrossMarketplaceDependenciesOn`.
+- **Detect-and-guide install nudge in `fintech-legal-triage`** (new Phase -1, fires before Phase 0 jurisdiction). On first invocation, if no Claude for Legal connector is detected in the session, the skill prints a one-shot pointer to Cowork → Customize → Browse plugins → Legal, records the shown date to `~/.claude/fintech-legal-advisor.local.md`, and continues without blocking. The nudge does not repeat.
+- **Step 0.5 install nudge in `/fintech-legal-advisor:setup-legal-triage-routine`** (between the privacy gate and source selection). When wiring the Routine, if no Claude for Legal connector is detected, the user is offered `continue` / `pause to install Claude for Legal first` / `cancel`. Installing first unlocks the Westlaw / Practical Law / Box / iManage / NetDocuments / Docusign options in Step 1; skipping degrades gracefully to Drive + `WebFetch`.
+- **README install section** now lists Claude for Legal as recommended Step 1 with the explicit Cowork path, and `fintech-legal-advisor` as Step 2 — with a clear "skipping Step 1 is OK, but lossy" footnote.
+
+### Changed
+- **Plugin versions:** `fintech-legal-advisor` 0.2.0 → 0.3.0.
+- **Marketplace version:** 0.5.0 → 0.6.0; tightened the `fintech-legal-advisor` marketplace entry description to surface the Claude for Legal recommendation and the declared soft dependency.
+
+### Rationale
+The plugin always positioned as a fintech-specific complement to Claude for Legal, but the install relationship was buried in prose. With Cowork's UI-only plugin install and no documented cross-marketplace auto-install path, the only reliable way to land Claude for Legal alongside this plugin is to (a) declare the dependency for any future-Cowork or CLI-side auto-resolution, and (b) actively guide the user to the **Customize → Browse plugins → Legal** path at the two natural triggering moments (first triage, Routine setup). Citation grounding stops being optional for production fintech triage; the install nudges make that the default behavior.
+
+---
+
 ## v0.5.0 — 2026-05-14
 
 Split `personal-coach` into three plugins: a slimmer `personal-coach` plus two new companions.

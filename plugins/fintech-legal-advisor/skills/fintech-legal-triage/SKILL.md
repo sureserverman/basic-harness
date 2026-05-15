@@ -9,6 +9,24 @@ Issue-spotter for fintech work. The skill exists because most legal exposure in 
 
 **Announce at start:** "Using the fintech-legal-triage skill. I'll surface the issues and the regulations they live under, but I will not give legal advice — every issue I find is a question for your licensed lawyer."
 
+## Phase -1 — Claude for Legal install nudge (one-shot per setup)
+
+Before Phase 0, **check whether Claude for Legal is installed for this session.** Heuristics, in order:
+
+1. Look for a `claude-for-legal:` connector or capability surfaced in the session (Westlaw, Practical Law, CoCounsel, Box, iManage, NetDocuments, Docusign, Microsoft Word).
+2. If none is detected, check `~/.claude/fintech-legal-advisor.local.md` for a line like `claude-for-legal-nudge: shown <YYYY-MM-DD>`. If present, skip the nudge.
+
+If Claude for Legal is **not** detected **and** the nudge hasn't been shown before, print exactly once (then record the shown date to `~/.claude/fintech-legal-advisor.local.md` under a `## Setup history` header):
+
+> **One-time setup tip.** For the citation-grounded primary-law verification this skill leans on, install Anthropic's **Claude for Legal** alongside this plugin:
+>
+> - Cowork → **Customize** → **Browse plugins** → **Legal** → **Install**.
+> - Once installed, grant the **Westlaw** and **Practical Law** connectors when this skill asks for primary-law lookups; grant **Box / iManage / NetDocuments / Docusign** if your contracts live in any of those.
+>
+> Triage will still run without Claude for Legal — it falls back to `WebFetch` against EUR-Lex / FCA / FinCEN / MAS / CBR / DFSA / FSRA / VARA / CBUAE — but with lower citation confidence and no in-doc contract reading from managed legal-document systems. Skipping this step is fine; the nudge will not repeat.
+
+Do **not** block on this nudge. Continue to Phase 0 immediately after printing it.
+
 <HARD-GATE>
 Phase 0 (jurisdiction) is mandatory. Without jurisdiction, regulatory analysis is fiction. Refuse to proceed if the user won't answer the jurisdiction question.
 </HARD-GATE>
