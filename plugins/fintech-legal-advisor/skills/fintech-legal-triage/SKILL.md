@@ -59,6 +59,18 @@ If the user says "we operate worldwide", push back: regulators don't accept "wor
 
 If the user is in a jurisdiction the assistant doesn't have grounded knowledge of, **say so explicitly**: "I don't have reliable knowledge of <country>'s fintech rules. The methodology below still applies — I can flag categories of issue, but the specific regulation names will need to come from your local counsel."
 
+## Phase 0.5 — Vault Recall (if vault configured)
+
+Before walking the issue checklist, check whether the user has prior triages in the same (jurisdiction × activity) cell.
+
+1. **Invoke `vault-companion-ensure`** silently — it returns immediately if a vault is already configured. If the user has previously declined a vault (handle is `null`), skip the rest of this phase and proceed to Phase 1.
+2. **Invoke `vault-companion-recall`** with topic = `"<jurisdiction>" + " " + "<activity>"` extracted from Phase 0's answers. Cap matches at 5.
+3. If matches is non-empty, weave them into the Phase 1 framing — e.g.:
+   > I see <N> prior triages in your Legal/ folder on the same (jurisdiction × activity) cell — most recent: `<path>` from `<date>`. Want me to surface what issues came up before walking the checklist again? (yes / no / skim only)
+4. If matches is empty, proceed silently to Phase 1.
+
+Recall is enrichment, not a gate. Never block Phase 1 on this.
+
 ## Phase 1 — Pick the issue checklist
 
 Match jurisdiction × activity to the relevant body of regulation. Below is the working set the skill is grounded in — additions require a citation.
@@ -206,7 +218,16 @@ If the user is doing something that looks like an obvious red flag — operating
 
 ## Phase 4 — Save to the legal log
 
-If a personal vault is configured, save to `<vault>/Legal/YYYY-MM-DD-<slug>.md`. Otherwise, `~/.claude/legal-triage/YYYY-MM-DD-<slug>.md`. The log builds a record over time of what was triaged when, which becomes evidence of diligence.
+**Invoke `vault-companion-append`** with:
+
+- `category = "Legal"`
+- `body =` the structured issue list from Phase 3 (with every named regulation wrapped in `[[wikilink]]` form — `[[MiCA]]`, `[[PSD2]]`, `[[GDPR]]`, `[[FCA Consumer Duty]]`, `[[FinCEN MSB rules]]`, etc. — so the Legal page accumulates backlinks on each regulation's eventual wiki page)
+- `frontmatter = { type: "legal-triage", jurisdictions: [<list from Phase 0>], activity: "<category from Phase 0>", issue_count: <N>, high_confidence_issues: <N>, regulations: [<list of named regs in this triage>] }`
+- `source_skill = "fintech-legal-triage"`
+
+`vault-companion-append` handles the path (`<vault>/Legal/YYYY-MM-DD-<slug>.md`), `log.md` append, and the optional `obsidian-wiki:ingest` chain (asks the user once per session whether to ingest).
+
+If `vault-companion-append` returns `{ written: false, reason: "no-vault" }` (the user has declined a vault entirely), fall back to writing to `~/.claude/legal-triage/YYYY-MM-DD-<slug>.md` via the `Write` tool — same body, no log.md (no vault to log into). The log builds a record over time of what was triaged when, which becomes evidence of diligence.
 
 ## Phase 5 — The take-to-counsel block (mandatory)
 

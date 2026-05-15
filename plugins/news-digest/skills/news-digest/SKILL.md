@@ -19,7 +19,7 @@ Hard exclusions in the preferences file are absolute. The digest never includes 
 
 ## Where the digest lives
 
-If a personal vault is configured, save to `<vault>/News/YYYY-MM-DD-digest.md`. Otherwise, `~/.claude/news/YYYY-MM-DD-digest.md`. Append-only — old digests are kept so the user can re-read what they noticed before.
+Digests are saved via the `vault-companion-append` sub-skill (see Phase 7 — Save). The vault is resolved or bootstrapped by `vault-companion-ensure` (called silently in Phase 1.5). If the user has previously declined a vault (handle is `null`), digests fall back to `~/.claude/news/YYYY-MM-DD-digest.md` via the `Write` tool. Append-only — old digests are kept so the user can re-read what they noticed before, and so the recall step on subsequent digests can surface continuing threads.
 
 ## Phase 1 — Read preferences
 
@@ -35,6 +35,17 @@ Read the news preferences file (see `news-preferences` skill for path resolution
 - Open questions on watch.
 
 If the file is malformed (missing required sections), surface the issue to the user and offer to fix via `news-preferences`. Do not improvise.
+
+## Phase 1.5 — Vault Recall (open-question watchlist follow-up)
+
+Before assembling today's digest, scan the vault for prior digests that touched the same open-questions watchlist items. This is what makes a watchlist watchlist: today's digest can say "last week you were tracking X; here's the update" instead of starting from scratch.
+
+1. **Invoke `vault-companion-ensure`** silently — returns immediately if a vault is configured. If user has declined a vault, skip the rest of this phase.
+2. For **each open-question item** in the user's `news-preferences` watchlist, **invoke `vault-companion-recall`** with topic = that item's text. Bias `category_preference` toward `News`. Cap each per-item recall at 2 matches.
+3. Aggregate the matches into a "Watchlist continuity" map: `{ <question>: [<prior digest paths>] }`. Pass this map into Phase 2 of digest assembly so each watchlist item's section can reference the prior coverage and frame today's update as a delta, not a cold start.
+4. If a watchlist item has no prior digest matches, treat today as the first coverage — no "since last digest" framing for that item.
+
+This phase is silent — recall results are used internally to shape the digest, not surfaced to the user as a separate question. The continuity shows up in the digest's prose ("Following your tracking of `<question>` — since the 2026-05-10 digest, ...").
 
 ## Phase 2 — Plan the queries
 
@@ -107,9 +118,18 @@ Separate H2 at the bottom of the digest. For each open question the user is trac
 
 This section is what makes the digest a tracking tool, not just a summary.
 
-## Phase 7 — Save
+## Phase 7 — Save (via vault-companion-append)
 
-Write the digest to `<news-path>/YYYY-MM-DD-digest.md`:
+Invoke `vault-companion-append` with:
+
+- `category = "News"`
+- `body =` the assembled digest body (everything below the frontmatter block in the template that follows) — with topic names wrapped in `[[wikilink]]` form (e.g., `[[MiCA]]`, `[[OFAC]]`) where they appear in the body, so recurring topics build up backlinks across the News/ folder over time
+- `frontmatter = { type: "digest", topics: [<from preferences>], sources: [<sources cited today>], watchlist_items_touched: [<which open questions today's digest addressed>], item_count: <N> }`
+- `source_skill = "news-digest"`
+
+`vault-companion-append` handles `<vault>/News/YYYY-MM-DD-digest.md`, `log.md`, and the obsidian-wiki ingest chain.
+
+If `vault-companion-append` returns `{ written: false, reason: "no-vault" }`, fall back to writing the digest to `~/.claude/news/YYYY-MM-DD-digest.md` via the `Write` tool using the frontmatter template shape shown below:
 
 ```markdown
 ---

@@ -15,7 +15,7 @@ Before any other phase, run the **safety check** (Phase 0). If anything in the u
 
 ## Where the session goes
 
-If a personal vault is configured (whether by personal-coach's onboarding Step 3 or by `vault-librarian:bootstrap-vault` — both write the same `obsidian-wiki/config.json`), reflections are saved to `<vault>/Journal/YYYY-MM-DD-<slug>.md`. If no vault is configured and the user has not explicitly declined one, invoke onboarding's Step 3 vault-setup sub-step inline. Otherwise, save to `~/.claude/journal/YYYY-MM-DD-<slug>.md`. The user can opt out — "don't save this one" is honored without question.
+Reflections are saved via the `vault-companion-append` sub-skill (see Phase 7). The vault is resolved or bootstrapped by `vault-companion-ensure` (called silently in Phase 0.5). If the user has previously declined a vault entirely (handle is `null`), reflections fall back to `~/.claude/journal/YYYY-MM-DD-<slug>.md` via the `Write` tool. The user can opt out per-session — "don't save this one" is honored without question, vault or not.
 
 ## Phase 0 — Safety check (always)
 
@@ -32,6 +32,19 @@ If any of these are present:
 Then **stop the structured flow.** Offer to help locate a crisis line for the user's country if they ask. Do not "complete the reflection anyway" — the structured flow is designed for ordinary distress, not crisis.
 
 If the message is ordinary distress (frustration, regret, indecision, ruminative thought), proceed.
+
+## Phase 0.5 — Vault Recall (if vault configured)
+
+After safety check, before grounding, check whether the user has reflected on the same theme before.
+
+1. **Invoke `vault-companion-ensure`** silently — it returns immediately if a vault is already configured, asks once if not. If the user has previously declined a vault (handle is `null`), skip the rest of this phase and proceed to Phase 1.
+2. **Invoke `vault-companion-recall`** with topic = the user's opening one-sentence (extracted gently — pull noun phrases and emotion words; skip if the opener is purely procedural like "yes" or "continue"). Cap matches at 3 for this skill (reflections are personal — don't surface a wall of prior journal entries on a tender topic).
+3. If matches is non-empty, **ask before surfacing** — don't push prior entries on the user mid-distress:
+   > I see you've reflected on something similar before — most recent: `<path>` from `<date>`. Want me to bring forward what you wrote then, or start fresh today? (bring forward / start fresh)
+4. If `start fresh`, proceed to Phase 1 without referencing the prior entry. If `bring forward`, include one summary sentence from the prior entry in the Phase 1 acknowledgment.
+5. If matches is empty, proceed silently to Phase 1.
+
+Recall is enrichment, not a gate. Reflection-session always proceeds.
 
 ## Phase 1 — Ground
 
@@ -180,6 +193,19 @@ action: <Phase 8 action, or "none — reflection was the work">
 If "edited", let the user redact before save — they may not want a literal record of the situation.
 
 If "no", say so explicitly: "Not saved. The reflection still happened — that's the part that matters."
+
+## Phase 7 — Save (via vault-companion-append)
+
+When the reflection is complete (user has named the action and confirmed they're ready to close), invoke `vault-companion-append` with:
+
+- `category = "Journal"`
+- `body =` the structured reflection (emotion → automatic thought → distortions identified → reframe → committed action) — with stakeholder names wrapped in `[[wikilink]]` form if they appear (e.g., `[[Marcus]]` if Marcus is referenced and the user has a People/Marcus.md page)
+- `frontmatter = { type: "reflection", emotion: "<label>", distortions: [<list>], action: "<one-line>" }`
+- `source_skill = "reflection-session"`
+
+`vault-companion-append` handles `<vault>/Journal/YYYY-MM-DD-<slug>.md`, `log.md`, and the obsidian-wiki ingest chain.
+
+If `vault-companion-append` returns `{ written: false, reason: "no-vault" }`, fall back to `~/.claude/journal/YYYY-MM-DD-<slug>.md` via `Write`. Honor any "don't save this one" the user said at any point — skip Phase 7 entirely in that case, write nothing.
 
 ## Hard refusals
 

@@ -17,7 +17,20 @@ Do not produce a recommendation in Phase 1. The user almost always wants to skip
 
 ## Where the journal lives
 
-If a personal vault is configured, decisions go to `<vault>/Decisions/YYYY-MM-DD-<slug>.md`. Otherwise, `~/.claude/decisions/YYYY-MM-DD-<slug>.md`. The journal is an asset over time — its value compounds when re-read at quarter-end, not in the moment of writing.
+Decisions are saved via the `vault-companion-append` sub-skill (see Phase N — Save, near end of skill). The vault is resolved or bootstrapped by `vault-companion-ensure` (called silently in Phase 0.5). If the user has previously declined a vault (handle is `null`), decisions fall back to `~/.claude/decisions/YYYY-MM-DD-<slug>.md` via the `Write` tool. The journal is an asset over time — its value compounds when re-read at quarter-end, not in the moment of writing.
+
+## Phase 0.5 — Vault Recall (if vault configured)
+
+Before framing, check whether the user has decided something structurally similar before. Prior decisions are pattern fuel — same stakeholder mix, same reversibility profile, same framework choice often recur.
+
+1. **Invoke `vault-companion-ensure`** silently — returns immediately if a vault is configured. If user has declined a vault, skip the rest of this phase.
+2. **Invoke `vault-companion-recall`** with topic = the decision name / one-line description the user opened with. Cap matches at 5. Bias `category_preference` toward `Decisions` and `Business`.
+3. If matches is non-empty, surface them in Phase 1's framing:
+   > I see prior decisions that look related: `<path>` from `<date>` (status: `<graded|pending|...>`). Want me to pull the framework / lean / outcome forward as we frame this one? (yes / no / show me the list)
+4. For graded prior decisions, surfacing the grade is especially valuable — it's the only feedback loop the journal has.
+5. If matches is empty, proceed silently to Phase 1.
+
+Recall is enrichment, not a gate.
 
 ## Phase 1 — Frame the decision
 
@@ -200,6 +213,19 @@ Tell the user:
 > I'll add this to your decision journal with `status: pending` and `deadline: <90 days out>`. When that date arrives, the `morning-briefing` skill will surface it for grading. The grading is `right-call / wrong-call / right-call-wrong-reasons / wrong-call-right-reasons` — you'll know which one it was, and we'll learn from it.
 
 Calibration over time is the only durable benefit of writing decisions down. The journal is worthless if it isn't re-read. Make the re-read automatic by linking to `morning-briefing`.
+
+## Phase N — Save (via vault-companion-append)
+
+When the decision is fully framed and the user has named their committed choice (or explicitly chosen to defer), invoke `vault-companion-append` with:
+
+- `category = "Decisions"`
+- `body =` the structured decision (framing, frameworks applied, prior lean with confidence, alternatives considered, committed choice, what would change my mind, review date) — with company / stakeholder names wrapped in `[[wikilink]]` form if a matching `Business/` or `People/` page exists
+- `frontmatter = { type: "decision", status: "pending", reversibility: "<easy|hard|one-way>", deadline: "<YYYY-MM-DD>", framework: "<which one>", prior_lean: "<A or B and confidence%>" }`
+- `source_skill = "business-mentoring"`
+
+`vault-companion-append` handles `<vault>/Decisions/YYYY-MM-DD-<slug>.md`, `log.md`, and the obsidian-wiki ingest chain.
+
+If `vault-companion-append` returns `{ written: false, reason: "no-vault" }`, fall back to `~/.claude/decisions/YYYY-MM-DD-<slug>.md` via `Write`. The status field transitions (`pending → committed → in_review → graded`) are handled by re-invoking this skill at review time and updating the page in place — that lives outside this initial-creation phase.
 
 ## Hard refusals
 
