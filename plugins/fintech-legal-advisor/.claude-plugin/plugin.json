@@ -1,0 +1,11 @@
+{
+  "name": "fintech-legal-advisor",
+  "version": "0.2.0",
+  "description": "Fintech regulatory issue-spotter for Claude Cowork — KYC/AML, payment licensing, MiCA / crypto, GDPR, customer contracts, marketing claims. A fintech-specific complement to Anthropic's Claude for Legal (whose practice-area plugins cover general commercial / corporate / privacy / IP / litigation, but not fintech regulation). When Claude for Legal MCP connectors are granted, the plugin prefers them: Westlaw / Practical Law / CoCounsel for primary-law verification; Box / iManage / NetDocuments / Docusign as contract sources; Microsoft Word for tracked-change output. One Opus-pinned subagent, one skill, one setup command that wires Cowork Routine on Drive (or any of the supported document sources) to triage new contracts. Produces issue lists, never verdicts. Every output ends with a non-negotiable take-to-counsel block. Not legal advice.",
+  "author": {
+    "name": "basic-harness",
+    "url": "https://github.com/"
+  },
+  "keywords": ["fintech", "legal", "regulatory", "kyc", "aml", "mica", "gdpr", "psd2", "issue-spotting", "cowork", "claude-for-legal", "westlaw", "courtlistener", "box", "docusign", "imanage", "drive", "routine"],
+  "license": "MIT"
+}

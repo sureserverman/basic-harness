@@ -5,8 +5,8 @@
     "email": "holyfiremin@gmail.com"
   },
   "metadata": {
-    "description": "Cowork-first starter scaffolding: process discipline, knowledge management, delegation patterns, and a personal-companion track. Distributed as zips attached to GitHub releases — install via Cowork's Customize → Browse plugins → upload custom plugin file. Works for any kind of structured work, not just coding.",
-    "version": "0.4.0"
+    "description": "Cowork-first starter scaffolding: process discipline, knowledge management, delegation patterns, a personal-companion track, a personalized daily news digest, and a fintech regulatory issue-spotter. Distributed as zips attached to GitHub releases — install via Cowork's Customize → Browse plugins → upload custom plugin file. Works for any kind of structured work, not just coding.",
+    "version": "0.5.0"
   },
   "plugins": [
     {
@@ -48,10 +48,28 @@
     {
       "name": "personal-coach",
       "source": "./plugins/personal-coach",
-      "description": "Personal-use companion: persistent profile across sessions, CBT-style reflection (not therapy), business-decision frames with grading, fintech legal-issue spotter for KYC/AML/MiCA/GDPR (not legal advice), and a personalized daily news digest. Value-first onboarding — one short opening, then engages a real situation. Auto-bootstraps its own notes vault on first save (no separate command needed). Multilingual. Hard limits enforced.",
+      "description": "Personal-use companion: persistent profile across sessions, CBT-style reflection (not therapy), business-decision frames with grading, morning briefing. Value-first onboarding — one short opening, then engages a real situation. Auto-bootstraps its own notes vault on first save (no separate command needed). Multilingual. Hard limits enforced. News digest and fintech legal triage now live in their own companion plugins (news-digest, fintech-legal-advisor) — install those alongside if you want either.",
+      "version": "0.3.0",
+      "category": "personal",
+      "tags": ["personal-assistant", "coaching", "reflection", "journaling", "business-mentor", "decision-journal", "morning-briefing", "multilingual", "cowork"],
+      "strict": false
+    },
+    {
+      "name": "news-digest",
+      "source": "./plugins/news-digest",
+      "description": "Personalized daily news digest for Claude Cowork. Two skills (news-preferences + news-digest) and one setup command. Captures topics, sources, exclusions, language, format, cadence, and an open-questions watchlist; produces a dated digest filtered strictly against those preferences. Refuses generic headlines — without preferences, the digest does not run. Cites every item; never fabricates. Works standalone; integrates softly with personal-coach (morning-briefing pairing) and vault-librarian (vault path) when installed.",
+      "version": "0.1.0",
+      "category": "personal",
+      "tags": ["news", "digest", "daily", "rss", "personalization", "watchlist", "cowork"],
+      "strict": false
+    },
+    {
+      "name": "fintech-legal-advisor",
+      "source": "./plugins/fintech-legal-advisor",
+      "description": "Fintech regulatory issue-spotter for Claude Cowork — KYC/AML, payment licensing, MiCA / crypto, GDPR, customer contracts, marketing claims, sanctions exposure. A fintech-specific complement to Anthropic's Claude for Legal (whose practice-area plugins cover general commercial / corporate / privacy / IP / litigation, but not fintech regulation). When Claude for Legal MCP connectors are granted, the plugin prefers them: Westlaw / Practical Law for live primary-law verification; Box / iManage / NetDocuments / Docusign as contract sources; Microsoft Word for tracked-change output. Citation grounding is a hard rule — every named regulation is verified against a live source or flagged confidence:low. Setup command wires a Cowork Routine on the chosen source for high-volume non-sensitive triage. Issue lists, never verdicts. Take-to-counsel block on every output. Not legal advice.",
       "version": "0.2.0",
       "category": "personal",
-      "tags": ["personal-assistant", "coaching", "reflection", "journaling", "business-mentor", "fintech", "legal-triage", "decision-journal", "news-digest", "multilingual", "cowork"],
+      "tags": ["fintech", "legal", "regulatory", "kyc", "aml", "mica", "gdpr", "psd2", "issue-spotting", "cowork", "claude-for-legal", "westlaw", "box", "imanage", "docusign", "drive", "routine"],
       "strict": false
     }
   ]

@@ -5,7 +5,7 @@ description: Use to build, update, or read the user's persistent personal profil
 
 # Personal Profile
 
-The substrate. Every other skill in `personal-coach` (`reflection-session`, `business-mentoring`, `fintech-legal-triage`, `morning-briefing`) reads from this file. Without it, each new session is amnesiac and the assistant role collapses into generic chat.
+The substrate. Every other skill in `personal-coach` (`reflection-session`, `business-mentoring`, `morning-briefing`) reads from this file. The companion plugins (`news-digest`, `fintech-legal-advisor`) read from it too when they're installed — e.g., `fintech-legal-triage` consumes the Business-context section to pre-fill jurisdiction. Without this file, each new session is amnesiac and the assistant role collapses into generic chat.
 
 **Announce at start:** "Using the personal-profile skill to <read | update | initialize> your profile."
 
@@ -62,7 +62,7 @@ Updated: <YYYY-MM-DD>
 ## Business context
 - **Company:** <name, sector, stage>
 - **Domain:** <fintech sub-vertical — payments, lending, crypto, neobank, B2B SaaS for banks, etc.>
-- **Jurisdictions:** <where the company operates — the legal-triage skill needs this>
+- **Jurisdictions:** <where the company operates — the `fintech-legal-advisor` companion plugin needs this if installed>
 - **Recurring decisions:** <2-3 topics the user keeps wrestling with>
 
 ## Sensitivities

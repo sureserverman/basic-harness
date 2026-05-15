@@ -65,7 +65,7 @@ Run my news digest for today.
 
 ## Step 4 — Save the choice
 
-Append to `~/.claude/personal-coach.local.md`:
+Append to `~/.claude/news-digest.local.md` (create the file with an `## Setup history` header if it doesn't exist):
 
 ```markdown
 - <YYYY-MM-DD> setup-news-digest — time: <HH:MM>, days: <pattern>, connectors: <gmail | drive | none>
@@ -75,7 +75,7 @@ Append to `~/.claude/personal-coach.local.md`:
 
 > Setup recorded. First digest fires `<HH:MM>` `<TZ>` on the next matching day. The digest reads `news-preferences` every run — if you change interests, sources, or exclusions in that file, the next morning's digest reflects them automatically; you don't need to re-run this command.
 >
-> If you also set up `morning-briefing` and want them bundled into one scheduled task instead of two separate ones, use `/personal-coach:setup-morning-briefing` and answer "yes" when it asks whether to include news-digest.
+> If the `personal-coach` plugin is also installed and you want the digest bundled into the same scheduled task as your `morning-briefing`, use `/personal-coach:setup-morning-briefing` and answer "yes" when it asks whether to include news-digest.
 
 ## Privacy note (mention briefly)
 

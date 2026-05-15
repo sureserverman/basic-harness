@@ -29,16 +29,15 @@ Routines execute in Anthropic's cloud. That means:
 
 **personal-coach skills generally safe to wrap in a Routine:**
 
-- `news-digest` — search queries already touch the public web; the digest itself is a synthesis of public information.
 - `morning-briefing` — modulo the user's comfort with the briefing scaffold transiting cloud (the briefing reads profile / journal / decisions metadata).
 - `business-mentoring` — only for the **decision-grading scan** half of the workflow (which Decisions/ files are past deadline). Actual grading is interactive, not routinable.
-- `fintech-legal-triage` — only when the contract source is itself already cloud-stored (Drive / DocuSign). If the contract is local-only, the privacy posture is asymmetric — local privacy wasted for cloud convenience.
+
+**Routines for companion plugins** (now live in their own plugin trees, not this doc):
+
+- `news-digest` — see `plugins/news-digest/docs/routines/`.
+- `fintech-legal-triage` — see `plugins/fintech-legal-advisor/docs/routines/`. The Cowork-Routine + Drive-folder watch is the **primary** deployment surface for that plugin and has its own setup command (`/fintech-legal-advisor:setup-legal-triage-routine`).
 
 ## Templates
-
-### `news-digest-routine.md`
-
-Runs the daily news digest. Recommended Routine for users who want the digest to land regardless of whether their laptop is open.
 
 ### `morning-briefing-routine.md`
 
@@ -48,9 +47,10 @@ Runs the briefing scaffold (with five fields as prompts, not answers). The user 
 
 Weekly scan for decisions past deadline. Surfaces them; does not grade.
 
-### `legal-triage-on-drive-routine.md`
+### Companion-plugin routines (moved out of personal-coach)
 
-Event-triggered: when a new file lands in a designated Drive folder, run `fintech-legal-triage` against it and write the issue list back to a paired Drive folder. **Read the privacy header in this template carefully before installing — sensitive contracts should not be triaged via Routine.**
+- News-digest Routine — `plugins/news-digest/docs/routines/news-digest-routine.md`.
+- Legal-triage-on-Drive Routine — `plugins/fintech-legal-advisor/docs/routines/legal-triage-on-drive-routine.md`.
 
 ## How to install a Routine in Cowork
 

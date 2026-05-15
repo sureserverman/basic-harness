@@ -1,0 +1,11 @@
+{
+  "name": "news-digest",
+  "version": "0.1.0",
+  "description": "Personalized daily news digest for Claude Cowork. Two skills (news-preferences + news-digest) and one setup command. Captures topics, sources, exclusions, language, format, and a watchlist; produces a dated digest filtered strictly against those preferences. Refuses generic headlines — without preferences, the digest does not run. Works standalone; integrates with vault-librarian or personal-coach if installed.",
+  "author": {
+    "name": "basic-harness",
+    "url": "https://github.com/"
+  },
+  "keywords": ["news", "digest", "daily", "rss", "personalization", "watchlist", "cowork"],
+  "license": "MIT"
+}

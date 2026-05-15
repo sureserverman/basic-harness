@@ -2,7 +2,7 @@
 
 [![Latest release](https://img.shields.io/github/v/release/sureserverman/basic-harness?label=latest&color=blue)](https://github.com/sureserverman/basic-harness/releases/latest)
 
-Starter scaffolding for **Claude Cowork**. Process discipline, knowledge management, delegation patterns, and a personal-companion track — for any kind of structured work, not only coding.
+Starter scaffolding for **Claude Cowork**. Process discipline, knowledge management, delegation patterns, a personal-companion track, a personalized daily news digest, and a fintech regulatory issue-spotter — for any kind of structured work, not only coding.
 
 **Cowork-first.** The plugins target Cowork on macOS / Windows desktop. Distributed as zips attached to GitHub releases, installed via Cowork's Customize → Browse plugins → upload custom plugin file UI. No external infrastructure required.
 
@@ -13,14 +13,14 @@ Four personas drive the design:
 - **Researchers and analysts** — read, take notes, write briefs, run multi-week investigations.
 - **Writers and journalists** — long-form work with sources, drafting, editing.
 - **Project leads and consultants** — engagements with deliverables, planning, stakeholder updates.
-- **Personal users / fintech operators** — Claude as personal assistant, business mentor, reflective listener, and fintech legal-issue spotter, with a profile that compounds across sessions instead of starting from zero every chat.
+- **Personal users / fintech operators** — Claude as personal assistant, business mentor, reflective listener, and (via the companion `fintech-legal-advisor` plugin) fintech legal-issue spotter, with a profile that compounds across sessions instead of starting from zero every chat. A separate companion plugin (`news-digest`) produces a personalized daily news digest tailored to topics you actually care about.
 
 If you write software all day, the parent project [`coder-plugins`](https://github.com/sureserverman/coder-plugins) is the better starting point.
 
 ## Install
 
 1. Open the [latest release](https://github.com/sureserverman/basic-harness/releases/latest) on GitHub. Each release attaches **one** zip — `basic-harness-vX.Y.Z.zip` — which contains one inner zip per plugin.
-2. Download `basic-harness-vX.Y.Z.zip` and unzip it on your machine. You'll get five inner zips: `welcome-vX.Y.Z.zip`, `personal-coach-vX.Y.Z.zip`, `process-skills-vX.Y.Z.zip`, `delegation-agents-vX.Y.Z.zip`, `vault-librarian-vX.Y.Z.zip`.
+2. Download `basic-harness-vX.Y.Z.zip` and unzip it on your machine. You'll get seven inner zips: `welcome-vX.Y.Z.zip`, `personal-coach-vX.Y.Z.zip`, `process-skills-vX.Y.Z.zip`, `delegation-agents-vX.Y.Z.zip`, `vault-librarian-vX.Y.Z.zip`, `news-digest-vX.Y.Z.zip`, `fintech-legal-advisor-vX.Y.Z.zip`.
 3. In Cowork: click **Customize** in the sidebar → **Browse plugins** → **upload custom plugin file** → select an inner zip → repeat for each plugin you want. Recommended starter set: `welcome` + `personal-coach`.
 4. Restart Cowork (`Cmd+Q` and reopen) so the skills register.
 5. In any Cowork chat, ask "show me what you do" — or type `/welcome:tour` — and the orientation flow starts.
@@ -74,25 +74,51 @@ After bootstrap, run upstream commands as documented: `/obsidian-wiki:ingest`, `
 
 ### `personal-coach` plugin
 
-Optional personal-use companion. Five skills + three model-pinned subagents that turn Claude Code into a structured personal assistant / business mentor / reflective listener / fintech legal-issue spotter, with a persistent profile of you that compounds across sessions.
+Optional personal-use companion. Five skills + two model-pinned subagents that turn Claude Code into a structured personal assistant / business mentor / reflective listener, with a persistent profile of you that compounds across sessions.
 
 Skills:
 
 - **`personal-profile`** — builds and maintains the persistent profile (values, goals, voice, stakeholders, sensitivities, do-not-do list). The substrate every other skill in this plugin reads from. Never edits silently — every write is shown and confirmed.
 - **`reflection-session`** — structured CBT-style reflection: emotion labelling → thought record → distortion check → reframe → committed action. Safety-gated: redirects to a real human on any crisis content.
 - **`business-mentoring`** — strategic-decision sparring partner. Picks an appropriate framework (JTBD, Cynefin, OKR, ICE/RICE, pre-mortem, 2x2), works it, and writes a decision-journal entry that can be graded 90 days later.
-- **`fintech-legal-triage`** — issue-spotter for fintech work in EU / UK / US / RU / SG / UAE: KYC/AML, payment licensing, MiCA, GDPR, customer T&Cs, marketing claims. Outputs an issue list with named regulations and questions for a real lawyer. Every output ends with "take this to a licensed lawyer in <jurisdiction>".
-- **`morning-briefing`** — five-field daily standup with yourself; surfaces decisions whose 90-day grading deadline has arrived.
+- **`morning-briefing`** — five-field daily standup with yourself; surfaces decisions whose 90-day grading deadline has arrived. Folds in the news-digest output if the companion plugin is installed.
+- **`onboarding`** — the value-first first-run flow.
 
 Subagents (read by the parent session through normal Claude Code dispatch):
 
 - **`psychologist-listener`** (Sonnet) — reflective listening only. One question per turn, no advice, no diagnosis.
 - **`business-mentor`** (Sonnet) — strategic-decision sparring partner; pushes back on premises; produces decision-journal entries.
-- **`fintech-legal-analyst`** (Opus) — careful regulatory issue-spotter; jurisdiction-first, issue-list-only, take-to-counsel block on every output.
 
-The plugin pairs naturally with the `personal` vault schema in `vault-librarian` (option D in `bootstrap-vault`) — that's where Profile, Journal, Goals, Decisions, Legal, People all live on disk.
+The plugin pairs naturally with the `personal` vault schema in `vault-librarian` (option D in `bootstrap-vault`) — that's where Profile, Journal, Goals, Decisions, People all live on disk. Companion plugins share the same vault when installed (`<vault>/News`, `<vault>/Legal`).
 
-**Hard limits.** The plugin will refuse to: diagnose anything medical or psychological, give legal advice, surrogate a business decision the user is trying to make, or send any of the user's content anywhere off-machine. It is a structured thinking partner, not a therapist or a lawyer.
+**Hard limits.** The plugin will refuse to: diagnose anything medical or psychological, surrogate a business decision the user is trying to make, or send any of its content anywhere off-machine. It is a structured thinking partner, not a therapist.
+
+### `news-digest` plugin
+
+Optional companion to `personal-coach`. Personalized daily news digest:
+
+- **`news-preferences`** — capture and maintain topics, sources, exclusions, language, format, cadence, and an open-questions watchlist. Never edits silently — every write is proposed and confirmed.
+- **`news-digest`** — produce a dated digest filtered strictly against the saved preferences. Hard exclusions are absolute; cites every item; refuses to fabricate. Refuses to run without preferences ("generic headlines aren't the point").
+- **`/news-digest:setup-news-digest`** — schedule the daily digest as a Cowork Scheduled Task. Gates on `news-preferences` existing first.
+
+### `fintech-legal-advisor` plugin
+
+Optional companion to `personal-coach`. Fintech regulatory issue-spotter (EU / UK / US / RU / SG / UAE): KYC/AML, payment licensing, MiCA, GDPR, customer T&Cs, marketing claims.
+
+**Relationship to Anthropic's Claude for Legal** (launched 2026-05-12): a fintech-specific complement. Claude for Legal ships 12 practice-area plugins (commercial, corporate, employment, privacy, IP, litigation, plus tools for law students and legal clinics) — none of them is fintech, and a generic commercial-law plugin doesn't know the difference between an EMI authorisation under EMD2 and a money-transmitter licence under FinCEN MSB rules. This plugin ships those checklists. When Claude for Legal MCP connectors are granted to the Cowork session, the plugin prefers them:
+
+- **Primary-law verification** — Westlaw / Practical Law / CoCounsel for live regulation text. Citation grounding is a hard rule: every named regulation is verified against a live source this run, or flagged `confidence: low pending verification`.
+- **Contract sources** — Box / iManage / NetDocuments / Docusign alongside Google Drive. The setup command accepts any of them as the watched source.
+- **Output** — optional Microsoft Word tracked-change pass alongside the canonical Markdown issue list. Redlines stay as tracked changes for attorney review, never auto-accepted.
+
+The plugin runs fine without Claude for Legal — falls back to `WebFetch` against EUR-Lex, FCA, FinCEN, MAS, CBR, DFSA, FSRA, VARA — but the citation-grounding discipline is the most important part for fintech work, where a stale citation produces a confidently wrong issue list.
+
+Two surfaces, same engine:
+
+- **Cowork Routine surface** — `/fintech-legal-advisor:setup-legal-triage-routine` wires the analyst into a Cowork Routine that watches a designated inbound source (Drive / Box / iManage / NetDocuments / Docusign envelopes) for new contracts and writes an issue list (and optionally a Word redline) per file to a paired output folder. **The primary deployment surface** for high-volume non-sensitive triage. Mandatory privacy gate before setup.
+- **Interactive skill** — `fintech-legal-triage` fires on questions like "review this contract" / "is this GDPR-compliant" / "what regs apply to <feature>". Grant the relevant document connector ad-hoc to pull a specific file in. The safety valve for confidential documents — you decide doc-by-doc whether the cloud posture is acceptable.
+
+One Opus-pinned subagent (`fintech-legal-analyst`) powers both surfaces. Every output ends with a non-negotiable take-to-counsel block. **Not legal advice.**
 
 ### `delegation-agents` plugin
 
@@ -166,33 +192,35 @@ The vault is most useful here for cross-engagement memory — patterns, gotchas,
 You're using Claude as a personal companion: you want it to remember who you are across sessions, help you reflect, spar on hard business calls, flag fintech regulatory questions before they bite, and have a personalized news digest land every morning.
 
 ```text
-0. /welcome:tour                               → (optional, ~2 min) marketplace map. Helps you confirm personal-coach is the right track.
-1. /vault-librarian:bootstrap-vault            → (optional but recommended) pick "personal" schema (D); vault at ~/dev/personal
-2. (install personal-coach zip)                → download from releases, upload via Cowork's Customize → Browse plugins
-3. /personal-coach:onboard                     → ★ start here. Five short phases, ~5 minutes, in your preferred language. Bootstraps profile, produces one tangible artifact, leaves you with a calm map of what's next.
-4. news-preferences                            → (if onboarding didn't set them) topics, sources, exclusions, cadence
-5. /personal-coach:setup-morning-briefing      → wire daily briefing into Cowork's Scheduled Tasks; optionally bundles news-digest
-6. /personal-coach:setup-news-digest           → wire the daily news digest separately, if not bundled with briefing
-7. /personal-coach:setup-decision-grading      → wire the weekly grading scan
-8. morning-briefing                            → daily five-field standup with yourself; surfaces decisions due for grading
-9. reflection-session                          → structured CBT-style journaling on whatever's stuck; safety-gated
-10. business-mentoring                         → frame a hard decision; pick a framework; record it for 90-day grading
-11. fintech-legal-triage                       → issue-list for any fintech feature/contract/partner change before counsel call
-12. news-digest                                → run the digest manually whenever, or let scheduled tasks fire it
-13. (subagent) psychologist-listener           → reflective-listening-only worker; called automatically when reflection-session needs the listening seat
-14. (subagent) business-mentor                 → strategic-decision worker; called automatically when business-mentoring needs deep analysis
-15. (subagent) fintech-legal-analyst           → Opus-tier regulatory issue-spotter; called automatically when fintech-legal-triage hits the cell-matching phase
+ 0. /welcome:tour                                       → (optional, ~2 min) marketplace map. Helps you confirm personal-coach is the right track.
+ 1. /vault-librarian:bootstrap-vault                    → (optional but recommended) pick "personal" schema (D); vault at ~/dev/personal
+ 2. (install personal-coach zip)                        → download from releases, upload via Cowork's Customize → Browse plugins
+ 3. (install news-digest zip)                           → optional companion; install if you want a daily digest
+ 4. (install fintech-legal-advisor zip)                 → optional companion; install if you want fintech triage
+ 5. /personal-coach:onboard                             → ★ start here. Short opening, ~1-2 minutes, in your preferred language. Bootstraps profile, engages a real situation, hands off to companion plugins when relevant.
+ 6. /news-digest:setup-news-digest                      → (companion) capture preferences if needed, then schedule the daily digest
+ 7. /personal-coach:setup-morning-briefing              → wire daily briefing into Cowork's Scheduled Tasks; optionally bundles news-digest
+ 8. /personal-coach:setup-decision-grading              → wire the weekly grading scan
+ 9. /fintech-legal-advisor:setup-legal-triage-routine   → (companion) wire the Cowork Routine that watches a Drive folder for new contracts
+10. morning-briefing                                    → daily five-field standup with yourself; surfaces decisions due for grading
+11. reflection-session                                  → structured CBT-style journaling on whatever's stuck; safety-gated
+12. business-mentoring                                  → frame a hard decision; pick a framework; record it for 90-day grading
+13. fintech-legal-triage                                → (companion) issue-list for any fintech feature/contract/partner change before counsel call
+14. news-digest                                         → (companion) run the digest manually whenever, or let scheduled tasks fire it
+15. (subagent) psychologist-listener                    → reflective-listening-only worker; called automatically when reflection-session needs the listening seat
+16. (subagent) business-mentor                          → strategic-decision worker; called automatically when business-mentoring needs deep analysis
+17. (subagent) fintech-legal-analyst                    → (companion) Opus-tier regulatory issue-spotter; called automatically when fintech-legal-triage hits the cell-matching phase
 ```
 
 The onboarding flow is **language-aware**: write to it in Russian / English / Spanish / German / French / Mandarin / Hindi / Arabic / etc. and the entire flow runs in that language. The plugin's reference text is in English (read by Claude); the user-facing conversation is yours.
 
 Without the vault, profile / journal / decisions / legal logs / news digests all live under `~/.claude/` instead — same skills, same flow, just less queryable later. **None of this leaves your machine** — except where you explicitly enable Cowork Routines, which run in Anthropic's cloud (see `docs/personal-coach-routines/README.md` for the privacy tradeoffs). Profile and reflection content are never routinable by design.
 
-In Cowork specifically, the personal-coach plugin gains:
+In Cowork specifically, the personal-coach plugin and its companions gain:
 
 - **Calendar / Gmail / Drive / DocuSign connectors** that enrich the existing skills — never required, never silent. Each skill's `## In Cowork (connector-aware enrichment)` section documents the specifics.
-- **Scheduled Tasks** for the morning-briefing / news-digest / decision-grading rhythms, wired up by the three setup commands above.
-- **Routines** (cloud, optional) for the same rhythms when you want them to fire with the laptop closed — privacy-tradeoff documented per template.
+- **Scheduled Tasks** for the morning-briefing / news-digest / decision-grading rhythms, wired up by their setup commands.
+- **Routines** (cloud, optional) for the rhythms when you want them to fire with the laptop closed — privacy-tradeoff documented per template. The `fintech-legal-advisor` plugin treats its Drive-folder-watch Routine as the **primary deployment surface** rather than an optional add-on, and ships a setup command with a mandatory privacy gate.
 
 ## How the pieces connect
 

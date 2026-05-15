@@ -1,5 +1,5 @@
 ---
-description: Start (or restart) the personal-coach onboarding — a value-first, language-aware opening that asks what's on the user's mind right now and engages it directly (decision frame / reflection / fintech triage / news digest), with one tangible artifact in turn 2-3. Detects whether the user has been onboarded before and offers resume / re-run / cancel.
+description: Start (or restart) the personal-coach onboarding — a value-first, language-aware opening that asks what's on the user's mind right now and engages it directly (decision frame / reflection), with one tangible artifact in turn 2-3. Detects whether the user has been onboarded before and offers resume / re-run / cancel.
 ---
 
 # Onboard
@@ -32,7 +32,7 @@ Tell the user:
 >
 > 1. Add to my profile (some new context)
 > 2. Re-run onboarding from scratch (replaces the saved state)
-> 3. Set up something specific (news digest / morning briefing / decision-grading)
+> 3. Set up something specific (morning briefing / decision-grading)
 > 4. Just continue the conversation — no setup
 >
 > Pick a number, or tell me what you want.
@@ -56,7 +56,7 @@ Tell the user:
 
 Branches per answer:
 
-- **(1)** → read the partial state from disk (whatever was saved up to that point — profile draft, news preferences draft, etc.) and invoke **onboarding** at the appropriate step.
+- **(1)** → read the partial state from disk (whatever was saved up to that point — profile draft, etc.) and invoke **onboarding** at the appropriate step.
 - **(2)** → invoke **onboarding** at Phase 1.
 - **(3)** → exit cleanly.
 

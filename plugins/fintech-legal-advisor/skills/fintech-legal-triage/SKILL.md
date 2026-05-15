@@ -17,6 +17,10 @@ Phase 0 (jurisdiction) is mandatory. Without jurisdiction, regulatory analysis i
 Every output ends with the **take-to-counsel** block (Phase 5). No exceptions, even for trivial-seeming questions. The pattern is what makes the skill safe to use.
 </HARD-GATE>
 
+<HARD-GATE>
+**Citation grounding.** Every named regulation in the issue list must be either (a) verified live against a primary-law source during this run — Westlaw / Practical Law (via Claude for Legal MCP connector when granted), EUR-Lex / FCA / FinCEN / MAS / CBR / DFSA / FSRA / VARA (via `WebFetch`), or the regulator's official text the user uploaded — or (b) flagged `confidence: low pending verification` in the issue block. Never assert a citation purely from training-data recall. Fintech regulation changes too often; stale references produce confidently wrong issue lists.
+</HARD-GATE>
+
 ## Phase 0 — Jurisdiction (mandatory)
 
 Ask, in order:
@@ -208,19 +212,47 @@ Do not omit this block to be terse. Do not soften it. The block is the skill's s
 - Not a compliance management system. It does not track obligations over time, schedule renewals, or replace a GRC tool.
 - Not a sanctions screening tool. It can flag that screening is required; it does not perform it.
 
-## In Cowork (connector-aware enrichment)
+## In Cowork (connector-aware enrichment, Claude for Legal preferred)
 
-This is the skill that benefits most from Cowork's document-handling surface. A contract or T&Cs doc is a much better triage input than a verbal summary.
+This is the skill that benefits most from Cowork's document-handling surface and most from Anthropic's **Claude for Legal** offering (launched 2026-05-12). When Claude for Legal MCP connectors are granted to the session, the plugin prefers them over generic `WebFetch` for both primary-law lookups and contract sources. The plugin runs fine without them; it just leans harder on `WebFetch` and lower confidence values.
 
-- **Google Drive** — read the contract / T&Cs / partnership agreement / data processing agreement directly from Drive when the user names the file. The skill then walks the issue checklist against the actual clauses, not against a description of them. Confidence values rise accordingly.
-- **DocuSign** — if a contract is in flight, read the template / latest version. Surface the issue list **before** signing, not after.
+### Primary-law connectors (verify the regulation, not just name it)
+
+These are the connectors that make the Phase 1 (cell match) → Phase 3 (issue list) pipeline citation-grounded rather than recall-grounded:
+
+- **Westlaw** (Claude for Legal) — primary US, UK, and EU regulation text. Use to verify every named regulation in the issue list. If a regulation in the plugin's anchor list has been superseded (e.g., 5AMLD/6AMLD now folded into the EU AML Package's AMLR/AMLD6/AMLA — confirm against Westlaw), the issue list cites the live current version, not the anchor list's snapshot.
+- **Practical Law** (Claude for Legal) — practice notes on PSD2, MiCA, MLRs, FCA Consumer Duty. Useful for confirming the **question for counsel** line in each issue block is current.
+- **CoCounsel Legal** (Claude for Legal) — Thomson Reuters' AI-research surface. Use sparingly; the plugin's job is to surface questions for the user's counsel, not delegate the analysis to another AI tool. Prefer Westlaw / Practical Law as primary sources.
+- **CourtListener / Free Law Project** (Claude for Legal) — case law. The plugin does **not** interpret case law (hard rule), but the user's counsel will, so cite the relevant case names in the open-jurisdictional-gaps section when Phase 1 surfaces a question that only case law can resolve.
+- **`WebFetch`** (fallback, no Claude for Legal) — official regulator sites: EUR-Lex for EU directives/regulations, FCA Handbook online, FinCEN regulations, MAS notices, CBR, DFSA / FSRA / VARA / CBUAE. Always cite the URL the user can verify.
+
+When a Claude for Legal primary-law connector is granted, **use it before falling back to `WebFetch`**. Conflict between connector text and the plugin's anchor list: the connector wins; append a one-line flag to the issue block: "anchor list reflects pre-`<YYYY-MM-DD>` version of `<regulation>`; current text per Westlaw cited inline."
+
+### Contract / document sources
+
+A contract or T&Cs doc is a much better triage input than a verbal summary. Any of these connectors can be the source for a single triage; the Routine setup command (`/fintech-legal-advisor:setup-legal-triage-routine`) accepts any one of them as the watched-folder source for high-volume work.
+
+- **Box** (Claude for Legal) — common for M&A and transactional contracts.
+- **iManage / NetDocuments** (Claude for Legal) — document-management systems used by law firms and corporate legal teams. If the user's contracts already live in one of these, prefer it over Drive.
+- **Docusign** (Claude for Legal) — if a contract is in flight, read the template / latest version from the envelope. Surface the issue list **before** signing, not after.
+- **Google Drive** (Cowork native connector) — the default for users without a managed legal-document system.
 - **PDF / file uploads** — Cowork accepts PDF uploads natively. The user can drag a regulator's guidance PDF into the chat and the skill will cite specific paragraphs in the issue list.
-- **Web** — `WebFetch` works in both Code and Cowork. Useful for reading current text of named regulations (e.g., the latest consolidated MiCA text on EUR-Lex). Always cite the URL the user can verify.
 - **Gmail** — generally avoid. Lawyer–client correspondence in inbox is privileged and should not be consulted as routine context.
 
-The take-to-counsel block at the end is **non-negotiable regardless of how grounded the analysis is**. Reading the actual contract makes the issues higher-confidence; it does not turn the assistant into a lawyer.
+### Output
 
-In a cloud Routine: a `legal-triage-on-drive-update.md` Routine watches a designated Drive folder; when a new contract lands, it produces the issue list automatically and pings the user to review with counsel before signing. **Privacy tradeoff: the document text passes through Anthropic's cloud during Routine execution.** If the contract is highly sensitive, run the triage as a desktop Scheduled Task or interactive session instead.
+- **Markdown issue list** (always) — saved per Phase 4. The canonical artifact.
+- **Microsoft Word tracked-change pass** (optional, Claude for Legal) — if the Microsoft connector is granted and the source contract is a Word doc, **additionally** produce a Word file with the issue list surfaced as in-line comments and proposed redlines, saved next to the source as `<original>-redline-<YYYY-MM-DD>.docx`. All edits are tracked changes for attorney review before acceptance — never silent accepts, never auto-applied.
+
+The take-to-counsel block at the end is **non-negotiable regardless of how grounded the analysis is**. Reading the actual contract against live primary-law sources makes the issues higher-confidence; it does not turn the assistant into a lawyer.
+
+### Routine privacy posture
+
+In a cloud Routine: `legal-triage-on-drive-routine.md` (and its Box / iManage / NetDocuments / Docusign variants — same prompt, different connector) watches a designated folder; when a new contract lands, it produces the issue list automatically and pings the user to review with counsel before signing. **Privacy tradeoff: the document text passes through Anthropic's cloud during Routine execution.** If the contract is highly sensitive, run the triage as a desktop Scheduled Task or interactive session instead. The `/fintech-legal-advisor:setup-legal-triage-routine` command refuses to wire a Routine without explicit non-sensitive-only confirmation.
+
+### Where Claude for Legal does NOT do the plugin's job
+
+Claude for Legal ships 12 practice-area plugins; the six named are commercial, corporate, employment, privacy, IP, litigation. **None of those is fintech.** A commercial-law plugin will not know the difference between an EMI authorisation under EMD2 and a money-transmitter licence under FinCEN MSB rules, or the right threshold for Travel Rule data under TFR. `fintech-legal-advisor` ships those issue-checklists; Claude for Legal supplies the citation-verified primary law underneath them. The two are complementary, not redundant.
 
 ## Sources and rationale
 

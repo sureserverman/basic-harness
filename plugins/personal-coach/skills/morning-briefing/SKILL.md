@@ -94,7 +94,7 @@ When connectors are granted:
 
 - **Google Calendar** — Phase 2 field 3 ("the blocker most likely to derail #2") gains a real input: the meetings on today's calendar. The skill surfaces the most disruptive one rather than asking the user to remember.
 - **Gmail** — the skill may surface 1–3 unread threads marked urgent (starred, important-tagged, from a small allowlist of senders the user names). Strict cap: never more than three; never paste the email body into the briefing.
-- **News digest pairing** — if `news-digest` has fired earlier the same morning, surface the link to today's digest at the top of the briefing for context. Do not duplicate the digest content into the briefing.
+- **News digest pairing** — if the `news-digest` companion plugin is installed and its skill has fired earlier the same morning, surface the link to today's digest at the top of the briefing for context. Do not duplicate the digest content into the briefing. Skip this when the companion plugin is not present.
 
 If running as a Scheduled Task without an interactive user:
 

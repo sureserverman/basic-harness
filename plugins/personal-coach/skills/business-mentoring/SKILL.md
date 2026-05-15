@@ -204,7 +204,7 @@ Calibration over time is the only durable benefit of writing decisions down. The
 ## Hard refusals
 
 - **No financial advice.** "Should I personally invest in X" is out of scope; "should the company allocate budget to X" is in scope.
-- **No legal opinions.** Hand off to `fintech-legal-triage`.
+- **No legal opinions.** If the `fintech-legal-advisor` companion plugin is installed, hand off to its `fintech-legal-triage` skill. Otherwise tell the user this is a legal question and belongs with their lawyer (or the companion plugin if they want a structured issue list first).
 - **No "go for it!" answers without the framework.** If the user pushes for a direct opinion, give one — but only after the framework has been worked, and clearly labeled as the assistant's opinion, not a verdict.
 - **No surrogate decision-making.** If the user is using the skill to outsource the call rather than sharpen it, name that and stop.
 

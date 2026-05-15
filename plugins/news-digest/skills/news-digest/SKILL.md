@@ -137,7 +137,7 @@ _Source coverage: <n> queries, <n> candidate items, <n> after filtering. Run on 
 
 ## Phase 8 — Hand off
 
-If `morning-briefing` is going to run today, mention the digest at the top: "Today's news digest is at `<path>` — fold it into briefing field 1 if anything relevant."
+If the `morning-briefing` skill is installed (from the `personal-coach` plugin) and is going to run today, mention the digest at the top: "Today's news digest is at `<path>` — fold it into briefing field 1 if anything relevant." If `morning-briefing` is not present, skip this — the digest stands on its own.
 
 If running as a Cowork **Scheduled Task** with no interactive user, save the digest and stop. Do not auto-open. The user reads it when they sit down.
 

@@ -1,6 +1,6 @@
 ---
 name: marketplace-tour
-description: Use to give a calm, value-first opening for the basic-harness marketplace — one short message that names three concrete user moments (decide / reflect / fintech triage) and invites the user into theirs, in any language. Triggers on first-time-user-style natural language — "show me what you do", "what can you do", "what is this", "introduce yourself", "give me a tour", "where do I start", "что ты умеешь", "с чего начать", "qué haces", "preséntate", "was kannst du", "qu'est-ce que tu fais", and equivalents in any language. Read-only; never writes; never auto-chains.
+description: Use to give a calm, value-first opening for the basic-harness marketplace — one short message that names three concrete user moments (decide / reflect / fintech triage) and invites the user into theirs, in any language. Triggers on first-time-user-style natural language — "show me what you do", "what can you do", "what is this", "introduce yourself", "give me a tour", "where do I start", "что ты умеешь", "с чего начать", "qué haces", "preséntate", "was kannst du", "qu'est-ce que tu fais", and equivalents. Read-only; never writes; never auto-chains.
 ---
 
 # Marketplace Tour (value-first opening)
@@ -48,7 +48,8 @@ Do not present a menu. React to what the user actually says.
 |---|---|
 | A real decision ("I'm trying to decide whether to...") | "That sounds like a `personal-coach:business-mentoring` thing — I can frame it with you. Want to start? (yes / not now)". Hand off only on yes. |
 | Something emotional or "on my mind" | "We can reflect on that together — `personal-coach:reflection-session` runs a CBT-style flow with a hard limit at therapy. Want to start? (yes / not now)" |
-| A fintech regulatory question | "That's `personal-coach:fintech-legal-triage`. Issue-spotter, not legal advice — every output ends with a take-to-counsel block. Need to start with jurisdiction. Ready? (yes / not now)" |
+| A fintech regulatory question | "That's the `fintech-legal-advisor` plugin — its `fintech-legal-triage` skill. Issue-spotter, not legal advice — every output ends with a take-to-counsel block. Needs jurisdiction first. Install it from the same release if not present; then ready? (yes / not now)" |
+| A daily news ask ("give me my news", "morning digest", "what's happening with X") | "That's the `news-digest` plugin — its `news-digest` skill, gated on `news-preferences` existing first. Install from the same release if not present; want to capture preferences now? (yes / not now)" |
 | A research / writing / project-management ask | "That's the process-skills track — `/process-skills:tour` walks through it in two minutes. Want me to point you at the right skill, or run the tour?" |
 | "I'm just looking" / "show me what's around" | Step 3 below — the calm one-line catalog, on request only. |
 | Ambiguous / not clear which | One disambiguating question: "Are you mostly trying to **produce something** (report, article, deliverable), or mostly trying to **think through something** (decision, reflection, daily rhythm)?" The first answer points to process-skills; the second to personal-coach. |
@@ -59,9 +60,11 @@ Do not present a menu. React to what the user actually says.
 
 Only if the user asks "what else", "show me everything", "list what's around" — and only then. Equivalent of:
 
-> The marketplace has five plugins:
+> The marketplace has seven plugins:
 >
-> - **personal-coach** — decisions, reflection, fintech triage, daily news, profile that compounds across sessions.
+> - **personal-coach** — decisions, reflection, morning briefing, profile that compounds across sessions.
+> - **news-digest** — companion: personalized daily news digest filtered against your saved preferences.
+> - **fintech-legal-advisor** — companion: KYC/AML/MiCA/GDPR issue-spotter. Cowork Routine + Drive folder for high-volume non-sensitive triage; interactive skill for confidential docs.
 > - **process-skills** — brainstorm, plan, execute, investigate, review (research / writing / project work).
 > - **delegation-agents** — parallel workers (Haiku/Sonnet) for bulk reading, editing, drafting.
 > - **vault-librarian** — set up a Markdown notes vault (one command).

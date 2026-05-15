@@ -10,7 +10,7 @@ The substrate for `news-digest`. Captures **what kind of news the user wants** s
 **Announce at start:** "Using the news-preferences skill to <read | update | initialize> your news preferences."
 
 <HARD-GATE>
-Never write or modify preferences without showing the exact change to the user and getting an explicit "yes". Same discipline as personal-profile — silent drift is the failure mode this skill exists to prevent.
+Never write or modify preferences without showing the exact change to the user and getting an explicit "yes". Silent drift is the failure mode this skill exists to prevent.
 </HARD-GATE>
 
 ## Where the file lives
@@ -101,7 +101,7 @@ Listen for signal in normal conversation:
 - "<source> is the only one I trust on this" → candidate for **Preferred sources**.
 - "I keep wondering about <X>" → candidate for **Open questions on watch**.
 
-When you spot signal, **propose** the edit using the same format as `personal-profile`:
+When you spot signal, **propose** the edit using this format:
 
 ```
 I'd like to add to your news preferences:
@@ -120,10 +120,12 @@ Save? (yes / no / edit)
 
 ## Phase 4 — Read on demand
 
-When `news-digest` runs, it reads this file. Other skills may consult it in narrow ways:
+When `news-digest` runs, it reads this file. If the `personal-coach` plugin is also installed, its skills may consult this file in narrow ways:
 
 - `personal-profile` may suggest adding a topic to news preferences when a goal is added (e.g., "you set a goal around <X>; want to track news on that?").
 - `business-mentoring` may suggest adding a topic when a decision touches an ongoing market situation.
+
+Both integrations are soft — if `personal-coach` is not installed, `news-preferences` and `news-digest` work fine on their own.
 
 ## Hard rules
 
@@ -160,7 +162,7 @@ Right reaction: do **not** silently add "anti-fintech-hype" to preferences. Ask:
 
 ## Sources and rationale
 
-- **Confirm-before-write** — same discipline as `personal-profile`; same reasoning.
+- **Confirm-before-write** — silent edits to a preferences file produce drift the user cannot audit; explicit confirmation prevents it.
 - **Open-questions watchlist** — adapted from intelligence-analysis "Indicators and Warnings" practice (Heuer, *Psychology of Intelligence Analysis*, 1999, Ch. 10): cheap-to-track signals that beat retrospective surprise.
 - **Hard exclusions are strict** — Tversky & Kahneman's anchoring effect (1974): "just one mention" of an excluded topic still reshapes the user's day. Strict filtering is the only filter that works.
 - **Source-weighting over inclusion-only** — Tetlock & Gardner, *Superforecasting* (2015), Ch. 6: source quality dominates volume in forecasting accuracy; news consumption follows the same logic.

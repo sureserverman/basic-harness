@@ -1,5 +1,27 @@
 # Changelog
 
+## v0.5.0 — 2026-05-14
+
+Split `personal-coach` into three plugins: a slimmer `personal-coach` plus two new companions.
+
+### Added
+- **`news-digest`** plugin (new). Skills `news-preferences` + `news-digest`, command `/news-digest:setup-news-digest`, and the news-digest Cowork Routine template at `plugins/news-digest/docs/routines/`. Standalone — works fine without `personal-coach`; integrates softly with `morning-briefing` (briefing pairs with the digest) and `personal-profile` (profile may propose news-preferences edits) when both are present.
+- **`fintech-legal-advisor`** plugin (new, v0.2.0). Skill `fintech-legal-triage`, Opus-pinned subagent `fintech-legal-analyst`, command `/fintech-legal-advisor:setup-legal-triage-routine`, and the document-source-watch Routine template at `plugins/fintech-legal-advisor/docs/routines/`. The plugin treats Cowork Routines as the primary deployment surface for non-sensitive triage volume; the interactive skill remains the safety valve for confidential documents. The setup command has a mandatory privacy gate (Step 0) and refuses to wire a Routine for sensitive-content folders.
+
+  **Claude for Legal integration** (Anthropic launched Claude for Legal 2026-05-12, [TechCrunch](https://techcrunch.com/2026/05/12/the-ai-legal-services-industry-is-heating-up-anthropic-is-getting-in-on-the-action/) / [ABA Journal](https://www.abajournal.com/news/article/anthropic-launches-claude-for-legal-giving-lawyers-20-new-program-integrations-and-12-practice-area-plugins)): the plugin positions as a fintech-specific complement to Claude for Legal's general practice-area plugins (commercial / corporate / employment / privacy / IP / litigation — none of them fintech). When the user has Claude for Legal MCP connectors granted, the plugin prefers them: Westlaw / Practical Law / CoCounsel for live primary-law verification (Phase 1 cell-match → Phase 3 issue list); Box / iManage / NetDocuments / Docusign as contract sources alongside Drive (interactive skill + Routine setup command both accept any of them); Microsoft Word for optional tracked-change output. **Citation grounding is hardened into a non-negotiable hard rule** in the skill, the agent, and the Routine prompt: every named regulation must be verified live this run, or be flagged `confidence: low pending verification`. The plugin runs fine without Claude for Legal, falling back to `WebFetch` against EUR-Lex / FCA / FinCEN / MAS / CBR / DFSA / FSRA / VARA / CBUAE.
+
+### Changed
+- **`personal-coach` slimmed.** The `news-digest`, `news-preferences`, and `fintech-legal-triage` skills, the `fintech-legal-analyst` agent, and the `setup-news-digest` command moved out into the two new companion plugins. The personal-coach onboarding opening message drops the news + fintech moments; Tracks C and D now hand off to the companion plugins instead of running internally. Profile, business-mentoring, and morning-briefing soft-reference the companions where applicable but never hard-depend.
+- **Plugin versions:** `personal-coach` 0.2.0 → 0.3.0; `news-digest` and `fintech-legal-advisor` debut at 0.1.0.
+- **Marketplace version:** 0.4.0 → 0.5.0; added two plugin entries; trimmed `personal-coach` description.
+- **Welcome marketplace-tour** updated to surface seven plugins (was five), with explicit branches for "give me my news" → `news-digest` and "review this contract" → `fintech-legal-advisor`.
+- **Docs reshuffle.** The two Routine templates moved out of `docs/personal-coach-routines/` into their respective plugin trees. `docs/personal-coach-routines/README.md` updated to reflect what stayed (morning-briefing, decision-grading) and where the moved ones went.
+
+### Rationale
+News digest and fintech legal triage were always plugin-shaped: each has its own substrate (preferences file, jurisdiction profile), its own deployment surface (digest schedule, Drive-folder watch), and its own hard limits. Bundling them inside `personal-coach` forced users who only wanted one of the four faces to install all four. The split also lets `fintech-legal-advisor` lean fully into the Cowork-Routine + Drive surface as a first-class deployment path, rather than tucking it away as an optional add-on.
+
+---
+
 ## v0.4.0 — 2026-05-09
 
 Three fixes shipped together because they share the personal-coach artifact and a re-validation pass.

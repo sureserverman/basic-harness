@@ -10,9 +10,9 @@ Wire the `morning-briefing` skill into Cowork's Scheduled Tasks so it fires auto
 
 1. "What time should the briefing fire? (24-hour, e.g., `08:00`)"
 2. "Which days? (`weekdays` / `daily` / `mon,wed,fri` / custom)"
-3. "Should I include `news-digest` ahead of the briefing in the same scheduled task, so news lands first and the briefing can reference it? (yes / no)"
+3. "If you have the `news-digest` plugin installed and want the digest bundled into this same scheduled task (news lands first, briefing references it), say yes — otherwise no. (yes / no / not-installed)"
 
-Resolve relative terms ("morning") to a concrete time before proceeding. If the user's timezone is in their personal profile or news-preferences file, mention it explicitly: "I'll schedule this in `Europe/Tallinn` based on your news preferences — confirm or override."
+Resolve relative terms ("morning") to a concrete time before proceeding. If the user's timezone is in their personal profile or news-preferences file, mention it explicitly: "I'll schedule this in `Europe/Tallinn` based on your saved timezone — confirm or override."
 
 ## Step 2 — Build the scheduled-task prompt
 
@@ -21,8 +21,9 @@ Build the prompt and present it to the user:
 ```text
 Run my morning routine for today.
 
-1. If the news-digest skill is available and my news preferences exist, run it first.
-   Save the digest to its standard path. Note the path for the briefing.
+1. If the news-digest skill (from the news-digest plugin) is available and my
+   news preferences exist, run it first. Save the digest to its standard path.
+   Note the path for the briefing. If news-digest is not installed, skip this step.
 2. Run the morning-briefing skill. Pull from my personal profile, recent journal,
    any decisions whose deadline has landed, and the news-digest if produced above.
 3. If I'm here interactively, walk me through the five briefing fields.
@@ -65,7 +66,7 @@ This file is local-only and is never committed.
 
 Tell the user:
 
-> Setup recorded. The first scheduled run is tomorrow at `<HH:MM>` `<TZ>`. If you want to set up the news-digest as a standalone scheduled task instead of bundling it, run `/personal-coach:setup-news-digest`. If you want decision-grading on a weekly cadence, run `/personal-coach:setup-decision-grading`.
+> Setup recorded. The first scheduled run is tomorrow at `<HH:MM>` `<TZ>`. If you want a standalone daily news digest (separate plugin), install `news-digest` and run `/news-digest:setup-news-digest`. If you want decision-grading on a weekly cadence, run `/personal-coach:setup-decision-grading`.
 
 ## What this command will NOT do
 

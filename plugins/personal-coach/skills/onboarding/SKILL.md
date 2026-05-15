@@ -1,6 +1,6 @@
 ---
 name: onboarding
-description: Use to onboard a new user to personal-coach with one short opening — three concrete user moments (decide / reflect / fintech triage), one open question, language-aware, time-to-first-value under 60 seconds. Does NOT walk through phases or list skills. Triggers on "onboard me", "set me up", "I'm new here", "where do I start", "help me get started", "introduce yourself", "what can you do", "познакомь меня", "помоги начать", "как начать", "comencemos", "empezar", "anfangen", "commençons", or whenever the user appears to be a first-time user. Never auto-fires; the user opts in.
+description: Use to onboard a new user to personal-coach with one short opening — two concrete user moments (decide / reflect), one open question, language-aware, time-to-first-value under 60 seconds. Does NOT walk through phases or list skills. Triggers on "onboard me", "set me up", "I'm new here", "where do I start", "help me get started", "introduce yourself", "what can you do", "познакомь меня", "помоги начать", "как начать", "comencemos", "empezar", "anfangen", "commençons", or whenever the user appears to be a first-time user. Never auto-fires; the user opts in.
 ---
 
 # Onboarding (value-first)
@@ -43,11 +43,13 @@ Read the user's invocation message.
 
 Send something equivalent to (in the user's language):
 
-> Hi. I'm here as a thinking partner across sessions — quiet, calm, and structured around a few things people actually use me for: a decision they're stuck on, something on their mind they want to reflect on, or a fintech regulatory question they need triaged before talking to a lawyer. There's also a daily news digest tailored to what you actually care about.
+> Hi. I'm here as a thinking partner across sessions — quiet, calm, and structured around a couple of things people actually use me for: a decision they're stuck on, or something on their mind they want to reflect on.
 >
 > **What's on your mind right now?**
 
-Three sentences plus one question. **No skill names. No slash commands. No phase numbering. No bullet list.** This is the only opening message; don't add a "here's what I can do" appendix.
+Two sentences plus one question. **No skill names. No slash commands. No phase numbering. No bullet list.** This is the only opening message; don't add a "here's what I can do" appendix.
+
+If the user mentions news, fintech regulation, or contracts, they're describing a companion-plugin use case — see Tracks C and D below for the hand-off pattern.
 
 If the user answers in a way that doesn't match any track ("I'm just looking", "show me what's around"), see Step 4. Otherwise jump to Step 2.
 
@@ -86,25 +88,21 @@ Summarize the frame and offer to save it as a decision-journal entry. Mention th
 
 ### Track C — News digest (user said "give me daily news", "what's happening with X", "I want a digest")
 
-Three questions:
+This is a **companion-plugin** track. The news digest lives in the `news-digest` plugin, not personal-coach. Check whether it's installed (look for `~/.claude/plugins/news-digest/` or for the `/news-digest:setup-news-digest` command being available; if you can't determine, ask the user).
 
-1. "Three to five topics you want me to track. Topic names — examples: 'EU fintech regulation', 'AI policy', 'crypto enforcement', 'my company: <name>'."
-2. "Anything you specifically don't want to see? Examples: 'no celebrity', 'no sports', 'no US partisan politics'."
-3. "What time of day, what days, what timezone?"
+- **If installed:** "Daily news digest lives in the `news-digest` plugin — install separately if you haven't. To set it up, run `/news-digest:setup-news-digest`; it'll capture topics, sources, exclusions, and cadence, then wire the schedule. Want me to drop out of onboarding and hand you over, or finish here first?" Per answer, either hand off or note the pointer and continue.
+- **If not installed (or you can't tell):** "Daily news digest is a companion plugin (`news-digest`) — install it from the same basic-harness release page, then run `/news-digest:setup-news-digest`. Want to come back to personal-coach for something else, or stop here?"
 
-Save to `news-preferences.md`. Then offer: "Want a sample one-topic digest right now? About a minute." On yes → run the **vault-setup** sub-step if needed, then invoke `news-digest` for a single-topic sample.
+Do **not** run a news flow inside personal-coach; the substrate (preferences file, digest format) belongs to the other plugin.
 
 ### Track D — Fintech regulation (user said "is this legal", "what regs", "do we need a license", "review this contract")
 
-Run only Phase 0 of `fintech-legal-triage`:
+This is also a **companion-plugin** track. Fintech legal triage lives in the `fintech-legal-advisor` plugin.
 
-1. "Where is the company incorporated?"
-2. "Where do customers sit?"
-3. "What's the activity?" (the eight-option list from the skill)
+- **If installed:** "Fintech legal triage lives in the `fintech-legal-advisor` plugin. For a real question, say so and the `fintech-legal-triage` skill picks it up — it'll ask jurisdiction first and produce an issue list for your lawyer. For watching a Drive folder of inbound contracts and auto-triaging them via Cowork Routine, run `/fintech-legal-advisor:setup-legal-triage-routine`. Want me to hand you over, or finish here first?"
+- **If not installed:** "Fintech legal triage is a companion plugin (`fintech-legal-advisor`) — install it from the same basic-harness release page. The plugin is built around two surfaces: an interactive issue-spotter you invoke ad-hoc, and a Cowork Routine that watches a Drive folder of contracts. Want to come back to personal-coach for something else, or stop here?"
 
-Show the matched cell — the regulation list and the issue-checklist categories — without running the full triage. Tell the user: "When you're ready to run the full triage on a real question, say so or invoke `fintech-legal-triage` directly. The matched cell for your context is `<jurisdiction × activity>`, which lives in regulations like `<3-5 named regs>`."
-
-If a profile exists or is being created, save the (jurisdiction × activity) tuple to it.
+If the user proceeds with this track and a profile exists or is being created, save the (jurisdiction × activity) tuple to the profile when the user names it — the companion plugin will read it from there.
 
 ### Track E — Multiple at once
 
@@ -148,9 +146,8 @@ If the user opened with "show me what's around" / "what can you do" / "I'm just 
 >
 > - Working through a decision you're stuck on (a frame, a pre-mortem, a saved decision-journal entry to grade later).
 > - Reflecting on something on your mind (CBT-style structure, a saved journal entry).
-> - Triaging a fintech regulatory question (issue list for a real lawyer, never advice).
-> - A daily news digest tailored to topics you actually care about.
 > - A persistent profile that means you don't start from zero next session.
+> - Companion plugins in the same basic-harness release: `news-digest` for a personalized daily digest; `fintech-legal-advisor` for KYC/AML/MiCA/GDPR issue-spotting and contract triage.
 >
 > Anything in particular pulling at you right now? Or want a wider read of the marketplace? (`/welcome:tour` covers the whole thing in about a minute.)
 
@@ -166,13 +163,13 @@ When a track has produced an artifact, close calmly:
 
 If the artifact was a reflection or a decision frame and the user might want a daily rhythm:
 
-> Some of this works on a daily rhythm if you want — a morning briefing or the news digest. Not now is fine; whenever you're ready, just say so.
+> Some of this works on a daily rhythm if you want — a morning briefing here, or a separate news digest if you install the `news-digest` plugin. Not now is fine; whenever you're ready, just say so.
 
 After the close, **append a one-line entry** to `~/.claude/personal-coach.local.md`:
 
 ```markdown
 ## Onboarding history
-- <YYYY-MM-DD> onboarded — language: <lang>, track: <A/B/C/D>, vault: <path-or-none>, saved: <yes/no>
+- <YYYY-MM-DD> onboarded — language: <lang>, track: <A/B/C-handoff/D-handoff/E>, vault: <path-or-none>, saved: <yes/no>
 ```
 
 This is what `/personal-coach:onboard` reads on subsequent runs to know whether the user is new or returning.
@@ -204,7 +201,7 @@ Stop. Do not chain. The user opens the next conversation when they're ready.
 - **User abandons mid-flow.** Save state at every save point. Next session: read `personal-coach.local.md`, see partial state, ask "do you want to pick up from where we stopped, or start fresh?". Default to picking up.
 - **User goes very fast / very slow.** Match their pace; don't push or stall.
 - **Crisis content during Track A.** Use the `reflection-session` crisis redirect immediately. Stop the onboarding flow. Save what was captured so far. The user can resume later or never; both are fine.
-- **User wants to do all four tracks.** Pick the most relevant for now; the others are one short message away.
+- **User wants to do multiple tracks.** Pick the most relevant for now; the others (or companion-plugin hand-offs) are one short message away.
 - **No vault, no `~/.claude` write access.** Tell the user where files would have gone, capture preferences in working memory for the session, and tell them they can re-run onboarding once writability is sorted.
 - **User declines to save anything.** Honor it. The flow still ran; nothing on disk. Some users want to look around before committing files.
 
