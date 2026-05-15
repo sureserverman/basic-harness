@@ -114,25 +114,14 @@ If the user says they want more than one thing, pick the one most clearly stated
 
 Triggered the first time any track wants to save a real artifact. Do not run preemptively.
 
-Read `~/.config/obsidian-wiki/config.json` (Linux/macOS) or `%APPDATA%\obsidian-wiki\config.json` (Windows). If the file is present and the vault path it points at exists on disk, use it — no prompt.
+**Delegate to `vault-companion-ensure`** (a sub-skill of `vault-librarian`). It is the single source of truth for vault bootstrapping across basic-harness:
 
-If missing, ask once, in line:
+1. Invoke `vault-companion-ensure`. It silently returns an existing vault-handle if one is configured (no prompt). If none is configured, it asks the user **exactly one question** with a Cowork branch (Drive folder) or CLI branch (`~/dev/knowledge` default with custom-path override), and writes the personal-schema vault files itself.
+2. Read the result from `~/.claude/vault-companion.local.md`:
+   - If `vault-handle` resolves to a real path → onboarding's track resumes and saves the in-flight artifact via `vault-companion-append` (the track skill — reflection-session, business-mentoring, news-digest, fintech-legal-triage — handles its own Phase N append).
+   - If `vault-handle: null` (user declined a vault) → onboarding's track falls back to `~/.claude/personal-coach/<artifact>.md` via the track's own `Write`-tool fallback.
 
-> I'd like to save this somewhere durable. Three options:
->
-> 1. Set up a small notes folder at `~/Notes/personal-coach` (recommended).
-> 2. I'll give you a different path.
-> 3. Just save in `~/.claude/personal-coach/` — no vault, fewer features later.
->
-> Which? (1 / 2 / 3)
-
-Per choice:
-
-- **(1)** → Write `~/Notes/personal-coach/CLAUDE.md` from `assets/vault-CLAUDE-personal.md`, `~/Notes/personal-coach/log.md` from `assets/log-template.md`, `~/Notes/personal-coach/Home.md` from `assets/home-template.md`, and `~/.config/obsidian-wiki/config.json` (or the Windows equivalent) pointing at the vault path. Show the file paths before writing; confirm with one "save?".
-- **(2)** → Take the path. Do the same writes there.
-- **(3)** → Skip vault setup entirely. Write the artifact to `~/.claude/personal-coach/<artifact>.md` instead.
-
-Update `~/.claude/personal-coach.local.md` with the chosen path so subsequent skill invocations know where to write.
+Onboarding does **not** ask the vault question itself anymore — that lived here in v0.4.0, was extracted to `vault-companion-ensure` in v0.7.0 so all four basic-harness substantive skills share one bootstrap surface.
 
 After vault setup, return to whatever track was running and complete the save.
 
