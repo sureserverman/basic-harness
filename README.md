@@ -2,7 +2,7 @@
 
 [![Latest release](https://img.shields.io/github/v/release/sureserverman/basic-harness?label=latest&color=blue)](https://github.com/sureserverman/basic-harness/releases/latest)
 
-Starter scaffolding for **Claude Cowork**. Process discipline, knowledge management, delegation patterns, a personal-companion track, a personalized daily news digest, and a fintech regulatory issue-spotter — for any kind of structured work, not only coding.
+Starter scaffolding for **Claude Cowork**. Process discipline, knowledge management, delegation patterns, a personal-companion track, a personalized daily news digest, a fintech regulatory issue-spotter, and an app-development IP issue-spotter — for any kind of structured work, not only coding.
 
 **Cowork-first.** The plugins target Cowork on macOS / Windows desktop. Distributed as zips attached to GitHub releases, installed via Cowork's Customize → Browse plugins → upload custom plugin file UI. No external infrastructure required.
 
@@ -13,14 +13,14 @@ Four personas drive the design:
 - **Researchers and analysts** — read, take notes, write briefs, run multi-week investigations.
 - **Writers and journalists** — long-form work with sources, drafting, editing.
 - **Project leads and consultants** — engagements with deliverables, planning, stakeholder updates.
-- **Personal users / fintech operators** — Claude as personal assistant, business mentor, reflective listener, and (via the companion `fintech-legal-advisor` plugin) fintech legal-issue spotter, with a profile that compounds across sessions instead of starting from zero every chat. A separate companion plugin (`news-digest`) produces a personalized daily news digest tailored to topics you actually care about.
+- **Personal users / fintech operators / app developers** — Claude as personal assistant, business mentor, reflective listener, fintech legal-issue spotter (via the `fintech-legal-advisor` plugin), and app-development IP issue-spotter (via the `appdev-ip-advisor` plugin — brand names, UI mimicry, OSS licences, AI content, App Store / Play Store rules), with a profile that compounds across sessions instead of starting from zero every chat. A separate companion plugin (`news-digest`) produces a personalized daily news digest tailored to topics you actually care about.
 
 If you write software all day, the parent project [`coder-plugins`](https://github.com/sureserverman/coder-plugins) is the better starting point.
 
 ## Install
 
 1. Open the [latest release](https://github.com/sureserverman/basic-harness/releases/latest) on GitHub. Each release attaches **one** zip — `basic-harness-vX.Y.Z.zip` — which contains one inner zip per plugin.
-2. Download `basic-harness-vX.Y.Z.zip` and unzip it on your machine. You'll get seven inner zips: `welcome-vX.Y.Z.zip`, `personal-coach-vX.Y.Z.zip`, `process-skills-vX.Y.Z.zip`, `delegation-agents-vX.Y.Z.zip`, `vault-librarian-vX.Y.Z.zip`, `news-digest-vX.Y.Z.zip`, `fintech-legal-advisor-vX.Y.Z.zip`.
+2. Download `basic-harness-vX.Y.Z.zip` and unzip it on your machine. You'll get eight inner zips: `welcome-vX.Y.Z.zip`, `personal-coach-vX.Y.Z.zip`, `process-skills-vX.Y.Z.zip`, `delegation-agents-vX.Y.Z.zip`, `vault-librarian-vX.Y.Z.zip`, `news-digest-vX.Y.Z.zip`, `fintech-legal-advisor-vX.Y.Z.zip`, `appdev-ip-advisor-vX.Y.Z.zip`.
 3. In Cowork: click **Customize** in the sidebar → **Browse plugins** → **upload custom plugin file** → select an inner zip → repeat for each plugin you want. Recommended starter set: `welcome` + `personal-coach`.
 4. Restart Cowork (`Cmd+Q` and reopen) so the skills register.
 5. In any Cowork chat, ask "show me what you do" — or type `/welcome:tour` — and the orientation flow starts.
@@ -120,6 +120,25 @@ Two surfaces, same engine:
 
 One Opus-pinned subagent (`fintech-legal-analyst`) powers both surfaces. Every output ends with a non-negotiable take-to-counsel block. **Not legal advice.**
 
+### `appdev-ip-advisor` plugin
+
+Optional companion to `personal-coach`. App-development IP issue-spotter (US / EU / UK / RU / SG / UAE): trademark / brand naming, trade dress and visual-style mimicry (including UI elements copied from physical products — film-camera dials, console controllers, watchfaces), copyright (icons, fonts, music, photography, code, AI-generated content), open-source licence compliance (GPL/AGPL contagion, LGPL static-vs-dynamic, Apache attribution, "source-available" non-OSS like BSL/SSPL/Elastic License), right of publicity / likeness / voice cloning, App Store / Play Store IP rules, AI Act Art. 50 disclosure.
+
+**Relationship to Anthropic's Claude for Legal** (launched 2026-05-12): an app-developer complement. Claude for Legal's `intellectual-property` practice-area plugin covers general IP work (filings, opposition, M&A diligence) but doesn't ship the app-dev-specific checklists — App Store Review Guideline 5.2, OSS-licence contagion at static-link time, sound-effect chain-of-title in a `.caf` bundle, AI-content disclosure architecture, in-app Acknowledgements-screen attribution surfaces, voice-cloning right-of-publicity stacks. This plugin ships those checklists. When Claude for Legal MCP connectors are granted to the Cowork session, the plugin prefers them:
+
+- **Primary-law verification** — Westlaw / Practical Law / CoCounsel for live statute + filing text; CourtListener for case-name lookups (the analyst names cases for counsel; it does not interpret them). Citation grounding is a hard rule: every named statute / guideline / licence is verified against a live source this run, or flagged `confidence: low pending verification`.
+- **Asset / document sources** — Box / iManage / NetDocuments / Docusign alongside Google Drive for asset bundles, font / icon-pack EULAs, OSS-licence ledger exports, and marketing / T&Cs drafts. The setup command accepts any as the watched source.
+- **Output** — optional Microsoft Word tracked-change pass for `.docx` inputs (draft marketing copy / T&Cs / Acknowledgements). Redlines stay as tracked changes for attorney review, never auto-accepted.
+
+The plugin runs fine without Claude for Legal — falls back to `WebFetch` against USPTO / EUIPO / WIPO / UKIPO / Rospatent / IPOS / MOEM for trademark filings, developer.apple.com / play.google.com for app-store policy, opensource.org / gnu.org for OSS licences — but the citation-grounding discipline matters most where app-store policy sections renumber, OSS licences get patched, and AI-content policy is moving fast (AI Act Art. 50 in force 2026-08-02).
+
+Two surfaces, same engine:
+
+- **Cowork Routine surface** — `/appdev-ip-advisor:setup-ip-triage-routine` wires the analyst into a Cowork Routine that watches a designated inbound source (Drive / Box / iManage / NetDocuments / Docusign envelopes) for new asset bundles / EULAs / OSS-licence ledgers / marketing drafts / App Store listing drafts and writes an issue list (and optionally a Word redline for `.docx` inputs) per file to a paired output folder. **The primary deployment surface** for high-volume non-sensitive triage. Mandatory privacy gate before setup.
+- **Interactive skill** — `appdev-ip-triage` fires on questions like "is this app name safe", "review this icon-pack licence", "did we just clone Halide's UI", "is this AI splash image OK to use", "is our GPL-bundled SDK safe in a closed-source app", "can we use this celebrity voice". Grant the relevant document connector ad-hoc to pull a specific file in. The safety valve for pre-launch / confidential assets — you decide doc-by-doc whether the cloud posture is acceptable.
+
+One Opus-pinned subagent (`appdev-ip-analyst`) powers both surfaces. **Software patents are out of scope** — the plugin refuses and routes to a registered patent attorney rather than improvising patent-adjacent analysis. Every output ends with a non-negotiable take-to-counsel block. **Not legal advice.**
+
 ### `delegation-agents` plugin
 
 Three model-pinned worker subagents and one dispatching skill that let a parent session on Opus offload bulk reading, editing, and drafting to cheaper tiers:
@@ -187,7 +206,7 @@ You're running an engagement: a kickoff document, weekly status updates, deliver
 
 The vault is most useful here for cross-engagement memory — patterns, gotchas, prior client briefs you reference across projects. For a one-off engagement, it's optional and you can skip step 1.
 
-### Personal user / fintech operator
+### Personal user / fintech operator / app developer
 
 You're using Claude as a personal companion: you want it to remember who you are across sessions, help you reflect, spar on hard business calls, flag fintech regulatory questions before they bite, and have a personalized news digest land every morning.
 
@@ -197,19 +216,23 @@ You're using Claude as a personal companion: you want it to remember who you are
  2. (install personal-coach zip)                        → download from releases, upload via Cowork's Customize → Browse plugins
  3. (install news-digest zip)                           → optional companion; install if you want a daily digest
  4. (install fintech-legal-advisor zip)                 → optional companion; install if you want fintech triage
- 5. /personal-coach:onboard                             → ★ start here. Short opening, ~1-2 minutes, in your preferred language. Bootstraps profile, engages a real situation, hands off to companion plugins when relevant.
- 6. /news-digest:setup-news-digest                      → (companion) capture preferences if needed, then schedule the daily digest
- 7. /personal-coach:setup-morning-briefing              → wire daily briefing into Cowork's Scheduled Tasks; optionally bundles news-digest
- 8. /personal-coach:setup-decision-grading              → wire the weekly grading scan
- 9. /fintech-legal-advisor:setup-legal-triage-routine   → (companion) wire the Cowork Routine that watches a Drive folder for new contracts
-10. morning-briefing                                    → daily five-field standup with yourself; surfaces decisions due for grading
-11. reflection-session                                  → structured CBT-style journaling on whatever's stuck; safety-gated
-12. business-mentoring                                  → frame a hard decision; pick a framework; record it for 90-day grading
-13. fintech-legal-triage                                → (companion) issue-list for any fintech feature/contract/partner change before counsel call
-14. news-digest                                         → (companion) run the digest manually whenever, or let scheduled tasks fire it
-15. (subagent) psychologist-listener                    → reflective-listening-only worker; called automatically when reflection-session needs the listening seat
-16. (subagent) business-mentor                          → strategic-decision worker; called automatically when business-mentoring needs deep analysis
-17. (subagent) fintech-legal-analyst                    → (companion) Opus-tier regulatory issue-spotter; called automatically when fintech-legal-triage hits the cell-matching phase
+ 5. (install appdev-ip-advisor zip)                     → optional companion; install if you want app-development IP triage
+ 6. /personal-coach:onboard                             → ★ start here. Short opening, ~1-2 minutes, in your preferred language. Bootstraps profile, engages a real situation, hands off to companion plugins when relevant.
+ 7. /news-digest:setup-news-digest                      → (companion) capture preferences if needed, then schedule the daily digest
+ 8. /personal-coach:setup-morning-briefing              → wire daily briefing into Cowork's Scheduled Tasks; optionally bundles news-digest
+ 9. /personal-coach:setup-decision-grading              → wire the weekly grading scan
+10. /fintech-legal-advisor:setup-legal-triage-routine   → (companion) wire the Cowork Routine that watches a Drive folder for new contracts
+11. /appdev-ip-advisor:setup-ip-triage-routine          → (companion) wire the Cowork Routine that watches a Drive folder for new asset bundles / EULAs / OSS-licence ledgers / marketing drafts
+12. morning-briefing                                    → daily five-field standup with yourself; surfaces decisions due for grading
+13. reflection-session                                  → structured CBT-style journaling on whatever's stuck; safety-gated
+14. business-mentoring                                  → frame a hard decision; pick a framework; record it for 90-day grading
+15. fintech-legal-triage                                → (companion) issue-list for any fintech feature/contract/partner change before counsel call
+16. appdev-ip-triage                                    → (companion) issue-list for any app name / UI mimicry / asset licence / AI content / OSS-licence question before App Store submission
+17. news-digest                                         → (companion) run the digest manually whenever, or let scheduled tasks fire it
+18. (subagent) psychologist-listener                    → reflective-listening-only worker; called automatically when reflection-session needs the listening seat
+19. (subagent) business-mentor                          → strategic-decision worker; called automatically when business-mentoring needs deep analysis
+20. (subagent) fintech-legal-analyst                    → (companion) Opus-tier regulatory issue-spotter; called automatically when fintech-legal-triage hits the cell-matching phase
+21. (subagent) appdev-ip-analyst                        → (companion) Opus-tier IP issue-spotter; called automatically when appdev-ip-triage hits the cell-matching phase
 ```
 
 The onboarding flow is **language-aware**: write to it in Russian / English / Spanish / German / French / Mandarin / Hindi / Arabic / etc. and the entire flow runs in that language. The plugin's reference text is in English (read by Claude); the user-facing conversation is yours.

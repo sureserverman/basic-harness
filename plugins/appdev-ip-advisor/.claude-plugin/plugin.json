@@ -1,0 +1,17 @@
+{
+  "name": "appdev-ip-advisor",
+  "version": "0.1.0",
+  "description": "App-development IP issue-spotter for Claude Cowork — trademark / brand-name clearance, trade dress and visual-style mimicry (including UI elements copied from physical products like film-camera dials, rangefinder controls, hardware bezels), copyright (icons, fonts, music, sound effects, photography, code, AI-generated content), open-source license compliance (GPL/AGPL/MIT/Apache/BSL contagion), right of publicity / likeness / voice cloning, App Store and Play Store IP rules, AI Act labeling. App-development-specific complement to Anthropic's Claude for Legal `intellectual-property` plugin (which covers general IP practice but not the app-store / mobile / UI-mimicry / OSS-license / AI-content checklists app developers hit). Strongly recommends installing Claude for Legal alongside (Cowork → Customize → Browse plugins → Legal) so the plugin can prefer its MCP connectors: Westlaw / Practical Law for live trademark + copyright + AI-Act primary law; CourtListener for case-name lookups in open-jurisdictional-gaps; Box / iManage / NetDocuments / Docusign / Google Drive as asset and license-bundle sources; Microsoft Word for tracked-change output on draft marketing copy or T&Cs. Declares `intellectual-property` as a soft dependency. One Opus-pinned subagent, one skill, one setup command that wires a Cowork Routine on the user's asset / spec / license-bundle inbound folder to triage new uploads. Refuses to opine on software patents — those need a registered patent attorney. Produces issue lists, never verdicts. Every output ends with a non-negotiable take-to-counsel block. Not legal advice.",
+  "author": {
+    "name": "basic-harness",
+    "url": "https://github.com/"
+  },
+  "keywords": ["ip", "intellectual-property", "trademark", "trade-dress", "copyright", "open-source-license", "app-store", "play-store", "right-of-publicity", "ai-content", "ai-act", "issue-spotting", "cowork", "claude-for-legal", "westlaw", "courtlistener", "box", "docusign", "imanage", "drive", "routine", "appdev", "mobile"],
+  "license": "MIT",
+  "dependencies": [
+    {
+      "name": "intellectual-property",
+      "marketplace": "claude-for-legal"
+    }
+  ]
+}

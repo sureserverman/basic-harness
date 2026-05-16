@@ -5,8 +5,8 @@
     "email": "holyfiremin@gmail.com"
   },
   "metadata": {
-    "description": "Cowork-first starter scaffolding: process discipline, knowledge management, delegation patterns, a personal-companion track, a personalized daily news digest, and a fintech regulatory issue-spotter — all sitting on top of a shared notes-vault substrate that auto-bootstraps on first need and grows from every conversation. Distributed as zips attached to GitHub releases — install via Cowork's Customize → Browse plugins → upload custom plugin file. Works for any kind of structured work, not just coding.",
-    "version": "0.7.0"
+    "description": "Cowork-first starter scaffolding: process discipline, knowledge management, delegation patterns, a personal-companion track, a personalized daily news digest, a fintech regulatory issue-spotter, and an app-development IP issue-spotter — all sitting on top of a shared notes-vault substrate that auto-bootstraps on first need and grows from every conversation. Distributed as zips attached to GitHub releases — install via Cowork's Customize → Browse plugins → upload custom plugin file. Works for any kind of structured work, not just coding.",
+    "version": "0.8.0"
   },
   "allowCrossMarketplaceDependenciesOn": ["claude-for-legal"],
   "plugins": [
@@ -71,6 +71,15 @@
       "version": "0.4.0",
       "category": "personal",
       "tags": ["fintech", "legal", "regulatory", "kyc", "aml", "mica", "gdpr", "psd2", "issue-spotting", "cowork", "claude-for-legal", "westlaw", "box", "imanage", "docusign", "drive", "routine"],
+      "strict": false
+    },
+    {
+      "name": "appdev-ip-advisor",
+      "source": "./plugins/appdev-ip-advisor",
+      "description": "App-development IP issue-spotter for Claude Cowork — trademark / brand-name clearance, trade dress and visual-style mimicry (including UI elements copied from physical products like film-camera dials, rangefinder controls, console-controller bezels, watchfaces), copyright (icons, fonts, music, sound effects, photography, code, AI-generated content), open-source licence compliance (GPL/AGPL/LGPL/MIT/Apache/BSL/SSPL/Elastic License contagion), right of publicity / likeness / voice cloning, App Store Review Guideline 5.2 and Google Play Impersonation / IP / Deceptive Behavior policies, EU AI Act Art. 50 disclosure. App-development-specific complement to Anthropic's Claude for Legal intellectual-property plugin. Strongly recommends installing Claude for Legal alongside (Cowork → Customize → Browse plugins → Legal) and declares intellectual-property as a soft dependency. With Claude for Legal MCP connectors granted, the plugin prefers them: Westlaw / Practical Law for live primary-law verification; CourtListener for case-name lookups (analyst names cases, does not interpret); Box / iManage / NetDocuments / Docusign / Google Drive as asset / EULA / licence-bundle sources; Microsoft Word for tracked-change output on .docx inputs (draft marketing copy / T&Cs / Acknowledgements). Phase 0.5 vault recall surfaces prior IP triages on the same (jurisdiction × asset-type) cell, so a recurring US/app-store-listing triage builds up [[Lanham Act §43(a)]] / [[App Store Review Guideline 5.2]] / [[GPL-3.0]] / [[AI Act Art. 50]] backlinks across <vault>/Legal/ over time. Citation grounding is a hard rule. Setup command wires a Cowork Routine on the chosen source for high-volume non-sensitive triage. Refuses to opine on software patents — routes to a registered patent attorney without analysis. Issue lists, never verdicts. Take-to-counsel block on every output. Not legal advice.",
+      "version": "0.1.0",
+      "category": "personal",
+      "tags": ["ip", "intellectual-property", "trademark", "trade-dress", "copyright", "open-source-license", "app-store", "play-store", "right-of-publicity", "ai-content", "ai-act", "issue-spotting", "cowork", "claude-for-legal", "westlaw", "courtlistener", "box", "imanage", "docusign", "drive", "routine", "appdev", "mobile"],
       "strict": false
     }
   ]
